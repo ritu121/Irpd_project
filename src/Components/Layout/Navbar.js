@@ -78,7 +78,7 @@ const Navbar = () => {
         },
       },
       closed: {
-        width: "2rem",
+        width: "1.5rem",
         transition: {
           damping: 40,
         },
@@ -105,6 +105,7 @@ const Navbar = () => {
         className={`md:hidden fixed inset-0 max-h-screen z-[998] bg-black/50 ${open ? "block" : "hidden"
           } `}
       ></div>
+
       <motion.div
         ref={sidebarRef}
         variants={Nav_animation}
@@ -114,52 +115,6 @@ const Navbar = () => {
             overflow-hidden md:relative fixed
          h-screen "
       >
-        <div className="flex items-center gap-2.5 border-b py-3 border-slate-300  mx-3">
-          <img
-            src={logo}
-            width={45}
-            alt=""
-          />
-          <span className="text-xl whitespace-pre font-black">IRPD</span>
-        </div>
-
-        <div className="flex flex-col  h-full">
-          
-          <div className="p-4 space-y-4">
-            <NavLink to={"/dashboard"} className="link">
-              <div
-                className={`relative px-4 py-3 space-x-4 flex  rounded-lg text-black ${window.location.pathname === '/dashboard' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
-
-                <IoHome size={23} />
-                <span>Home</span>
-
-              </div>
-            </NavLink>
-            <NavLink to={"/newRequest"} className="link ">
-              <div className={`px-4 py-3 space-x-4 flex rounded-md text-black-500 group ${window.location.pathname === '/newRequest' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
-
-                <FaAddressCard size={23} className="min-w-max" />
-                <span>New Request</span>
-
-              </div>
-            </NavLink>
-            <NavLink to={"/candidates"} className="link ">
-              <div className={`px-4 py-3 space-x-4 flex rounded-md text-black-500 group ${window.location.pathname === '/candidates' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
-
-                <BsPerson size={23} className="min-w-max" />
-                <span>Candidates</span>
-
-              </div>
-            </NavLink>
-            {/* <NavLink to={"/storage"} className="link">
-              <div className={`px-4 py-3 space-x-4 flex rounded-md text-black-500 group ${window.location.pathname === '/storage' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
-                <HiOutlineDatabase size={23} className="min-w-max" />
-                <span>Storage</span>
-              </div>
-            </NavLink> */}
-          </div>
-        </div>
-
         <motion.div
           onClick={() => {
             setOpen(!open);
@@ -167,21 +122,78 @@ const Navbar = () => {
           animate={
             open
               ? {
-                x: 0,
-                y: 0,
+                x: -2,
+                y: -3,
                 rotate: 0,
               }
               : {
-                x: -10,
-                y: -200,
+                x: 0,
+                y: 0,
                 rotate: 180,
               }
           }
           transition={{ duration: 0 }}
-          className="absolute w-fit h-fit md:block z-50 hidden right-0.5 bottom-3 cursor-pointer"
+          className="w-fit h-fit md:block z-50 hidden right-0.5 top-2 cursor-pointer"
         >
           <IoIosArrowBack size={25} />
         </motion.div>
+
+        {
+          open === true &&
+          <div className="flex items-center gap-2.5 border-b py-3 border-slate-300  mx-3">
+            <img
+              src={logo}
+              width={45}
+              alt=""
+            />
+            <span className="text-xl whitespace-pre font-black">IRPD</span>
+          </div>
+        }
+
+
+        <div className="flex flex-col  h-full">
+          {
+            open === true &&
+
+            <div className="p-4 space-y-4">
+              <NavLink to={"/dashboard"} className="link">
+                <div
+                  className={`relative px-4 py-3 space-x-4 flex  rounded-lg text-black ${window.location.pathname === '/dashboard' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
+
+                  <IoHome size={23} />
+                  <span>Home</span>
+
+                </div>
+              </NavLink>
+              <NavLink to={"/newRequest"} className="link ">
+                <div className={`px-4 py-3 space-x-4 flex rounded-md text-black-500 group ${window.location.pathname === '/newRequest' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
+
+                  <FaAddressCard size={23} className="min-w-max" />
+                  <span>New Request</span>
+
+                </div>
+              </NavLink>
+              <NavLink to={"/candidates"} className="link ">
+                <div className={`px-4 py-3 space-x-4 flex rounded-md text-black-500 group ${window.location.pathname === '/candidates' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
+
+                  <BsPerson size={23} className="min-w-max" />
+                  <span>Candidates</span>
+
+                </div>
+              </NavLink>
+              {/* <NavLink to={"/storage"} className="link">
+              <div className={`px-4 py-3 space-x-4 flex rounded-md text-black-500 group ${window.location.pathname === '/storage' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
+                <HiOutlineDatabase size={23} className="min-w-max" />
+                <span>Storage</span>
+              </div>
+            </NavLink> */}
+            </div>
+
+          }
+
+
+        </div>
+
       </motion.div>
       <div className="m-3 md:hidden  " onClick={() => setOpen(true)}>
         <MdMenu size={25} />
