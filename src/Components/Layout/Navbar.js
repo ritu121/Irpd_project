@@ -15,6 +15,8 @@ import { useMediaQuery } from "react-responsive";
 import { MdMenu } from "react-icons/md";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from '../../assets/logo.jpg'
+import logo2 from '../../assets/logo2.png'
+
 
 const Navbar = () => {
   let isTabletMid = useMediaQuery({ query: "(max-width: 768px)" });
@@ -78,9 +80,10 @@ const Navbar = () => {
         },
       },
       closed: {
-        width: "1.5rem",
+        width: "4rem",
+        padding:'2px',
         transition: {
-          damping: 40,
+          damping: 50,
         },
       },
     };
@@ -102,9 +105,7 @@ const Navbar = () => {
     <div>
       <div
         onClick={() => setOpen(false)}
-        className={`md:hidden fixed inset-0 max-h-screen z-[998] bg-black/50 ${open ? "block" : "hidden"
-          } `}
-      ></div>
+        className={`md:hidden fixed inset-0  z-[998] bg-black/50 ${open ? "block" : "hidden"} `}></div>
 
       <motion.div
         ref={sidebarRef}
@@ -112,10 +113,8 @@ const Navbar = () => {
         initial={{ x: isTabletMid ? -250 : 0 }}
         animate={open ? "open" : "closed"}
         className=" bg-white text-gray shadow-xl z-[999] max-w-[13rem]  w-[13rem] 
-            overflow-hidden md:relative fixed
-         h-screen "
-      >
-        <motion.div
+            overflow-hidden md:relative fixed h-screen">
+        {/* <motion.div
           onClick={() => {
             setOpen(!open);
           }}
@@ -133,52 +132,62 @@ const Navbar = () => {
               }
           }
           transition={{ duration: 0 }}
-          className="w-fit h-fit md:block z-50 hidden right-0.5 top-2 cursor-pointer"
+          className="w-fit h-fit md:block z-50 hidden top-2 cursor-pointer"
         >
           <IoIosArrowBack size={25} />
-        </motion.div>
+        </motion.div> */}
 
         {
           open === true &&
-          <div className="flex items-center gap-2.5 border-b py-3 border-slate-300  mx-3">
+          <div className="flex items-center justify-center gap-2.5 border-b py-3 border-slate-300  mx-3">
+            <img
+              src={logo2}
+              width={75}
+              alt=""
+              onClick={() => {
+                setOpen(!open);
+              }}
+            />
+            {/* <span className="text-xl whitespace-pre font-black">IRPD</span> */}
+          </div>
+        }
+         {
+          open === false &&
+          <div className="flex items-center justify-center gap-2.5  py-3 border-slate-300  ">
             <img
               src={logo}
-              width={45}
+              width={75}
               alt=""
+              onClick={() => {
+                setOpen(!open);
+              }}
             />
-            <span className="text-xl whitespace-pre font-black">IRPD</span>
+            {/* <span className="text-xl whitespace-pre font-black">IRPD</span> */}
           </div>
         }
 
 
-        <div className="flex flex-col  h-full">
-          {
-            open === true &&
+        <div className="flex flex-col h-full">
+          
 
-            <div className="p-4 space-y-4">
+            <div className=" space-y-4">
               <NavLink to={"/dashboard"} className="link">
                 <div
-                  className={`relative px-4 py-3 space-x-4 flex  rounded-lg text-black ${window.location.pathname === '/dashboard' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
-
-                  <IoHome size={23} />
+                  className={`relative px-4 py-3 mx-2 space-x-4 flex rounded-lg text-black-500 ${window.location.pathname === '/dashboard' ? 'bg-[#152C4F] text-white' : ''}`}>
+                  <IoHome size={23}  className="min-w-max" />
                   <span>Home</span>
-
                 </div>
               </NavLink>
               <NavLink to={"/newRequest"} className="link ">
-                <div className={`px-4 py-3 space-x-4 flex rounded-md text-black-500 group ${window.location.pathname === '/newRequest' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
-
+                <div className={`px-4 py-3 space-x-4 mx-2 flex rounded-md text-black-500 group ${window.location.pathname === '/newRequest' ? 'bg-[#152C4F] text-white' : ''}`}>
                   <FaAddressCard size={23} className="min-w-max" />
-                  <span>New Request</span>
-
+                  <span>NewRequest</span>
                 </div>
               </NavLink>
               <NavLink to={"/candidates"} className="link ">
-                <div className={`px-4 py-3 space-x-4 flex rounded-md text-black-500 group ${window.location.pathname === '/candidates' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
-
+                <div className={`px-4 py-3 space-x-4  mx-2 flex rounded-md text-black-500 group ${window.location.pathname === '/candidates' ? 'bg-[#152C4F] text-white' : ''}`}>
                   <BsPerson size={23} className="min-w-max" />
                   <span>Candidates</span>
-
                 </div>
               </NavLink>
               {/* <NavLink to={"/storage"} className="link">
@@ -189,7 +198,7 @@ const Navbar = () => {
             </NavLink> */}
             </div>
 
-          }
+          
 
 
         </div>

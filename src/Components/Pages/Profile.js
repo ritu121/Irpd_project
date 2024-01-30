@@ -7,7 +7,7 @@ function Profile() {
         <RootLayout>
             <Header />
             <div className='flex justify-center min-h-full p-5 '>
-                <div className='w-11/12 border-sky-500 shadow-md rounded-lg '>
+                <div className='lg:w-[80%] border-sky-500 shadow-md rounded-lg z-1 bottom-14 relative bg-white'>
                     <p className='text-zinc-950 text-2xl p-5  font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>Personal Details</p>
                     <div className='grid grid-cols-2 gap-2 divide-x m-2 p-5'>
                         <div className='w-50'>

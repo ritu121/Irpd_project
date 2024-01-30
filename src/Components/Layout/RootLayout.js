@@ -1,10 +1,11 @@
 import Sidebar from "./Navbar.js";
+import Header from '../Layout/Header';
 
 function RootLayout({ children }) {
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-1 h-fit">
       <Sidebar />
-      <main className="max-w-7xl flex-1 mx-auto pb-2 mr-2">{children}</main>
+      <main className="flex-1 mx-auto pb-2">{children}</main>
     </div>
   );
 }

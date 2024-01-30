@@ -1,0 +1,51 @@
+
+    [
+        {
+            "title":"Sql Developer",
+            "Descriptions":"2+ year of experience in software development in Java,Python,or similar programming language,Strong problem-solving skills, Excellent communication skills,",
+            "Budject":"500000",
+            "Skills":"c language, Java core, React js, My Sq,c language, Java core, React js, My Sql",
+            "Experience":"2+ year",
+            "Positions":"5",
+            "Status":"Active",
+            "Qualification":"Bachelor's degree in Computer Science or related field.",
+            "Certification":"Certified on Sap ABAP module, Workshop on machine learning."
+            
+        },
+        {
+            "title":"Python Developer",
+            "Descriptions":"5+ year of experience in software development in Java,Python,or similar programming language,Strong problem-solving skills, Excellent communication skills,",
+            "Budject":"600000",
+            "Skills":"python,c language, Java core, React js, My Sq,c language, Java core, React js, My Sql",
+            "Year of Experience":"5+ year",
+            "No of Positions":"5",
+            "Status":"Active",
+            "Qualification":"Bachelor's degree in Computer Science or related field.",
+            "Certification":"Certified on Sap ABAP module, Workshop on machine learning."
+            
+        },
+        {
+            "title":"Azure Developer",
+            "Descriptions":"6+ year of experience in software development in Java,Python,or similar programming language,Strong problem-solving skills, Excellent communication skills,",
+            "Budject":"500000",
+            "Skills":"Azure,c language, Java core, React js, My Sq,c language, Java core, React js, My Sql",
+            "Year of Experience":"6+ year",
+            "No of Positions":"2",
+            "Status":"On Hold",
+            "Qualification":"Bachelor's degree in Computer Science or related field.",
+            "Certification":"Certified on Azure module, Workshop on machine learning."
+            
+        },
+        {
+            "title":".Net Developer",
+            "Descriptions":"3+ year of experience in software .net development in Java,Python,or similar programming language,Strong problem-solving skills, Excellent communication skills,",
+            "Budject":"900000",
+            "Skills":".net ,C# ,language, Java core, React js, My Sq,c language, Java core, React js, My Sql",
+            "Year of Experience":"3+ year",
+            "No of Positions":"4",
+            "Status":"InActive",
+            "Qualification":"Bachelor's degree in Computer Science or related field.",
+            "Certification":"Certified on Sap ABAP module, Workshop on machine learning."
+            
+        }
+    ]
