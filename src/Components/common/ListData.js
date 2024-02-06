@@ -3,7 +3,8 @@ import Modal from "../Pages/Modal";
 import ViewModal from "../Pages/ViewModal";
 import { getAPI } from "../network/index";
 import Searchbar from "../common/Searchbar.js";
-import { MdEditSquare,MdPreview  } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
+import { MdEditSquare, MdPreview } from "react-icons/md";
 
 
 
@@ -46,13 +47,28 @@ function ListData() {
             setJobData(Data)
         }
     }
+    
+    const SearchJob=async(e)=>{
+        
+        const input=e.target.value
+
+        let Data = await getAPI(`/search?name=${input}`)
+        if (Data) {
+             setJobData(Data.data)
+        }
+    }
 
     return (
         <>
-        <Searchbar />
-            
+            <div className="bg-white rounded-full border-none p-3 m-4 shadow-md  z-1 ">
+                <div className="flex items-center ">
+                    <FaSearch />
+                    <input type="text" placeholder="Search..." className="ml-3 focus:outline-none w-full"  onChange={(e)=>{SearchJob(e)}}/>
+                </div>
+            </div>
+
             <div className="flex flex-col gap-4 items-stretch p-4 text-base sm:text-sm mt-4">
-            {
+                {
                     jobData?.map((item, i) => (
 
                         <div className="bg-white m-0 p-6  font-normal rounded-lg border border-gray-200 mb-4 shadow-md lg:w-[80%] md:w-[80%] sm:w-[100%]">
@@ -74,7 +90,7 @@ function ListData() {
 
                                             <MdEditSquare className="mr-2 cursor-pointer" onClick={() => openModal(item)} />
 
-                                            <MdPreview  className="mr-2 cursor-pointer" onClick={() => openViewModal(item)} />
+                                            <MdPreview className="mr-2 cursor-pointer" onClick={() => openViewModal(item)} />
                                         </div>
                                     </div>
 
