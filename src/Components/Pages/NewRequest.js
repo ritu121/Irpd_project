@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import RootLayout from '../Layout/RootLayout';
 import Header from '../Layout/Header';
-
+import {toast } from 'react-toastify';
+import { postAPI } from '../network';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css'; // Import the CSS file
 import Button from '../common/Button';
@@ -28,9 +29,8 @@ function NewRequest() {
         client: '',
         sDate: '',
         eDate: ''
-
-
     })
+
 
     const handleInputChange = (e) => {
         const { name, value, type } = e.target;
@@ -43,11 +43,60 @@ function NewRequest() {
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log('Form submitted:', value);
-        // You can add your form submission logic here
+        if (!datepickerRef1.current.value || !datepickerRef2.current.value) {
+            // Handle the case where the date is not selected
+            toast.error('Please select a date');
+            return;
+        }  
+
+        const formdata={
+                "job_title": value?.title,
+                "job_description": value?.description,
+                "edu_qualification" : value?.qualification,
+                "budget" : value?.buget,
+                "skills":value?.skills,
+                "year_of_experience":value?.yexp,
+                "certifications":value?.certification,
+                "status": value?.status,
+                "no_of_positions": value?.position,
+                "hire_type" : value?.hiretype,
+                "start_date" :datepickerRef1?.current?.value,
+                "target_date":"2024-01-26",
+                "closed_date":datepickerRef1?.current?.value,
+                "client_name":value?.client,
+                "location":value?.location
+            }
+        console.log('Form submitted:', formdata);
+
+        let data = await  postAPI('/addJob',formdata);
+        if(data){
+            clearAll()
+        }
+
+        // You can add your form submission logic here  
     };
+    const clearAll=()=>{
+        setValue({
+            title: "",
+            description: '',
+            skills: '',
+            certification: '',
+            yexp: '',
+            position: '',
+            gender: '',
+            buget: '',
+            qualification: '',
+            location: '',
+            status: '',
+            hiretype: '',
+            client: '',
+            sDate: '',
+            eDate: ''
+        } )
+        
+    }
 
     useEffect(() => {
 
@@ -66,11 +115,9 @@ function NewRequest() {
     }, []);
     return (
         <RootLayout>
-            <Header />
-
-            <div className='flex justify-center min-h-full p-5 '>
-                <div className='w-11/12 border-sky-500 shadow-md rounded-lg bottom-14 relative bg-white'>
-                    <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>Register New Request</p>
+            <div className='flex justify-center min-h-full p-5 mt-4 '>
+                <div className='w-11/12 border-sky-500 shadow-md rounded-lg  bg-white'>
+                    <p className='text-zinc-950 text-2xl p-4 mt-4 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>Register New Request</p>
                     <form className='grid m-2 p-5' onSubmit={handleSubmit}>
                         <label for="JobTitle" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Job Title</label>
                         <input
@@ -83,7 +130,8 @@ function NewRequest() {
                             name='title'
                             placeholder="Enter job title"
                             value={value.title}
-                            onChange={handleInputChange} />
+                            onChange={handleInputChange} 
+                            required/>
 
                         <label for="Description" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Job Description</label>
                         <textarea
@@ -94,7 +142,8 @@ function NewRequest() {
                             placeholder="Please Enter Job Description"
                             name='description'
                             value={value.description}
-                            onChange={handleInputChange}>
+                            onChange={handleInputChange}
+                            required>
                         </textarea>
                         <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Skills</label>
                         <textarea
@@ -105,6 +154,7 @@ function NewRequest() {
                             placeholder="Please Enter all Require Skills"
                             name='skills'
                             value={value.skills}
+                            required
                             onChange={handleInputChange}></textarea>
 
                         <label for="certification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Certification</label>
@@ -116,7 +166,7 @@ function NewRequest() {
                             placeholder="Please Enter Certification Name"
                             name='certification'
                             value={value.certification}
-                            onChange={handleInputChange} ></textarea>
+                            onChange={handleInputChange} required ></textarea>
 
                         <div className='grid grid-cols-2 gap-2 divide-x '>
                             <div className='w-50'>
@@ -127,7 +177,8 @@ function NewRequest() {
                                     placeholder="Year of Experience"
                                     name='yexp'
                                     value={value.yexp}
-                                    onChange={handleInputChange}>
+                                    onChange={handleInputChange} required>
+                                    <option value="" disabled>Select Experience</option>
                                     <option>Fresher</option>
                                     <option>1+</option>
                                     <option>2+</option>
@@ -146,7 +197,7 @@ function NewRequest() {
                                     placeholder="Number of Position"
                                     name='position'
                                     value={value.position}
-                                    onChange={handleInputChange} />
+                                    onChange={handleInputChange} required/>
                             </div>
                         </div>
 
@@ -159,8 +210,9 @@ function NewRequest() {
                                     placeholder="Gender"
                                     name='gender'
                                     value={value.gender}
-                                    onChange={handleInputChange}>
-                                    <option>Any</option>
+                                    onChange={handleInputChange} required>
+                                    <option value="" disabled>Select Gender</option>
+                                    <option value="">Any</option>
                                     <option>Male</option>
                                     <option>Female</option>
                                 </select>
@@ -177,10 +229,11 @@ function NewRequest() {
                                         placeholder="0.00"
                                         name="buget"
                                         value={value.buget}
-                                        onChange={handleInputChange} />
+                                        onChange={handleInputChange} required/>
                                     <div class="absolute inset-y-0 right-0 flex items-center">
                                         <label for="currency" className="sr-only">Currency</label>
-                                        <select id="currency" name="currency" className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
+                                        <select id="currency" name="currency" className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" required>
+                                        <option value="" disabled>Select Currency</option>
                                             <option>RUP</option>
                                             <option>USD</option>
                                             <option>CAD</option>
@@ -204,7 +257,7 @@ function NewRequest() {
                                     placeholder="Enter Qualification"
                                     name='qualification'
                                     value={value.qualification}
-                                    onChange={handleInputChange} />
+                                    onChange={handleInputChange} required/>
                             </div>
                             <div className='w-50'>
                                 <label for="noOfposition" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">No Of Position</label>
@@ -215,7 +268,7 @@ function NewRequest() {
                                     placeholder="Number of Position"
                                     name="position"
                                     value={value.position}
-                                    onChange={handleInputChange} />
+                                    onChange={handleInputChange} required/>
                             </div>
                         </div>
 
@@ -231,7 +284,7 @@ function NewRequest() {
                                     placeholder="Location"
                                     name='location'
                                     value={value.location}
-                                    onChange={handleInputChange} />
+                                    onChange={handleInputChange} required/>
                             </div>
                             <div className='w-50'>
                                 <label for="client" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Client</label>
@@ -242,7 +295,7 @@ function NewRequest() {
                                     placeholder="Client Name"
                                     value={value.client}
                                     name='client'
-                                    onChange={handleInputChange} />
+                                    onChange={handleInputChange} required/>
                             </div>
                         </div>
 
@@ -254,7 +307,8 @@ function NewRequest() {
                                     placeholder="hireType"
                                     name='hiretype'
                                     value={value.hiretype}
-                                    onChange={handleInputChange}>
+                                    onChange={handleInputChange} required >
+                                    <option value='' disabled>Select Option</option>
                                     <option>Online</option>
                                     <option>Ofline</option>
                                 </select>
@@ -267,7 +321,8 @@ function NewRequest() {
                                     placeholder="Status"
                                     value={value.status}
                                     name='status'
-                                    onChange={handleInputChange}>
+                                    onChange={handleInputChange} required >
+                                    <option value='' disabled >Select Option</option>
                                     <option>Active</option>
                                     <option>Inactive</option>
                                     <option>On Hold</option>
@@ -281,7 +336,7 @@ function NewRequest() {
                                     Pick a Start Date:
                                 </label>
                                 <input
-                                    type="text"
+                                    type="date" 
                                     id="datepicker"
                                     name="datepicker1"
                                     value={value.sDate}
@@ -291,25 +346,27 @@ function NewRequest() {
                                     ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                     text-base sm:text-sm"
                                     ref={datepickerRef1}
+                                    required
                                 />
                             </div>
-                            <div className='w-50'>
-                                <label htmlFor="datepicker" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
-                                    Pick a Close Date:
-                                </label>
-                                <input
-                                    type="text"
-                                    id="datepicker"
-                                    name="datepicker2"
-                                    value={value.eDate}
-                                    placeholder="Select a date"
-                                    className="form-control shadow-md block  w-full px-3 py-1.5  
-                                    text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
-                                    ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                    text-base sm:text-sm"
-                                    ref={datepickerRef2}
-                                />
-                            </div>
+                                <div className='w-50'>
+                                    <label htmlFor="datepicker" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
+                                        Pick a Close Date:
+                                    </label>
+                                    <input
+                                        type="date" 
+                                        id="datepicker"
+                                        name="datepicker2"
+                                        value={value.eDate}
+                                        placeholder="Select a date"
+                                        className="form-control shadow-md block  w-full px-3 py-1.5  
+                                        text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                                        ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                        text-base sm:text-sm"
+                                        ref={datepickerRef2}
+                                        required
+                                    />
+                                </div>
                         </div>
                         <div className='flex justify-center mt-3'>
                             <div className='w-5/12'> <Button title={'Submit'} type="submit"></Button></div>

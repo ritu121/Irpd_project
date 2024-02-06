@@ -5,8 +5,7 @@ import Header from '../Layout/Header';
 function Candidates() {
   return (
     <RootLayout>
-    <Header />
-    <div>Candidates</div>
+    <div className='mt-5'>Candidates</div>
     </RootLayout>
   )
 }

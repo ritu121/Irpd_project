@@ -1,37 +1,48 @@
-import React, { useState } from "react";
-import Button from "../common/Button";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom"
-import Google from "../../assets/images/g_search.png"
+import { axiosInstance } from "../../utils/axiosSetup";
 
 
 const Login = () => {
 
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        console.log('i am signin')
-        e.preventDefault();
-        navigate("/dashboard");
-        // try {
-        //   const res = await axiosInstance.post("/user/signin", { username, password });
-        //   if (res.data.success) {
-        //     localStorage.setItem("token", JSON.stringify(res.data.data.token));
-        //     localStorage.setItem("user", JSON.stringify(res.data.data));
-        //     console.log(res.data)
-        //     toast.success("Login Successfully")
-        //       navigate("/");
-        //   } else {
-        //     toast.error(res.data.message)
-        //   }
-        // } catch (error) {
-        //   toast.error("something went wrong")
-        //   console.log(error);
-        // }
-    };
+   
+    
 
+    const handleSubmit = async (e) => {
+
+        e.preventDefault();
+        try {
+            localStorage.clear();
+            const res = await axiosInstance.post("/userLogin", { email, password });
+            // console.log('====================================');
+            // console.log(res.data.token, "res token");
+            // console.log(res.data.data.user_id, "res data");
+            // console.log('====================================');
+
+            if (res.status === 200) {
+                toast.success("Login Successful");
+
+                localStorage.setItem("token", JSON.stringify(res.data.token));
+                localStorage.setItem("user_id", JSON.stringify(res.data.data.user_id));
+                setTimeout(() => {
+                    navigate("/dashboard");
+                }, 1000);
+
+            } else {
+                toast.error(res.data.message)
+            }
+        } catch (error) {
+            toast.error("Please Provide Valid Credential")
+            console.log(error, "err");
+        }
+
+    }
 
     return (
         <>
@@ -58,8 +69,8 @@ const Login = () => {
                     <div className="border-2 border-sky-300 shadow-md rounded-lg ">
                         <form onSubmit={handleSubmit}>
                             <div className="form-group m-2 p-3">
-                                <label for="exampleInputName" className="form-label inline-block mb-2 text-gray-700 text-[14px]">UserName or Email </label><span style={{ color: "red" }}> &nbsp; *</span>
-                                <input type="text" className="shadow-md form-control block text-[16px] w-full px-3 py-1.5 text-base  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Enter Name or Email" onChange={(e) => setUsername(e.target.value)} />
+                                <label for="exampleInputName" className="form-label inline-block mb-2 text-gray-700 text-[14px]">Your Email </label><span style={{ color: "red" }}> &nbsp; *</span>
+                                <input type="text" className="shadow-md form-control block text-[16px] w-full px-3 py-1.5 text-base  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Enter Name or Email" onChange={(e) => setEmail(e.target.value)} />
                             </div>
                             <div className="form-group m-2 p-3">
                                 <label for="exampleInputPassword2" className="form-label inline-block mb-2 text-gray-700 text-[14px]">Password</label><span style={{ color: "red" }}> &nbsp; *</span>
@@ -93,6 +104,7 @@ const Login = () => {
                     />
                 </div> */}
             </div>
+            <ToastContainer />
         </>
     )
 }
