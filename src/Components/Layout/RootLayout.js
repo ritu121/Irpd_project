@@ -24,7 +24,8 @@ import { BsPerson } from "react-icons/bs";
 import { FaAddressCard } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
-import logo from '../../assets/logo.jpg'
+import logo from '../../assets/logo2.png'
+import logo2 from '../../assets/logo3.jpg'
 
 const drawerWidth = 240;
 
@@ -56,26 +57,26 @@ function RootLayout(props) {
   const drawer = (
     <div>
       <div className={'flex justify-center'}>
-        <img src={logo} alt="logo" className="h-20 w-20 " />
+        <img src={logo} alt="logo" className="h-6 w-26 m-5 " />
       </div>
 
       <Divider />
       <div className=" space-y-4">
         <NavLink to={"/dashboard"} className="link">
           <div
-            className={`relative px-4 py-3 mx-2 space-x-4 flex rounded-lg text-black-500 ${location.pathname === '/dashboard' ? 'bg-[#152C4F] text-white' : ''}`}>
+            className={`relative px-4 py-3 mx-2 space-x-4 flex rounded-lg text-black-500 ${location.pathname === '/dashboard' ? 'bg-[#0a1c38] text-white' : ''}`}>
             <IoHome size={23} className="min-w-max" />
             <span>Home</span>
           </div>
         </NavLink>
         <NavLink to={"/newRequest"} className="link ">
-          <div className={`px-4 py-3 space-x-4 mx-2 flex rounded-md text-black-500 group ${location.pathname === '/newRequest' ? 'bg-[#152C4F] text-white' : ''} `}>
+          <div className={`px-4 py-3 space-x-4 mx-2 flex rounded-md text-black-500 group ${location.pathname === '/newRequest' ? 'bg-[#0a1c38] text-white' : ''} `}>
             <FaAddressCard size={23} className="min-w-max" />
             <span>NewRequest</span>
           </div>
         </NavLink>
         <NavLink to={"/candidates"} className="link ">
-          <div className={`px-4 py-3 space-x-4  mx-2 flex rounded-md text-black-500 group ${location.pathname === '/candidates' ? 'bg-[#152C4F] text-white' : ''} `}>
+          <div className={`px-4 py-3 space-x-4  mx-2 flex rounded-md text-black-500 group ${location.pathname === '/candidates' ? 'bg-[#0a1c38] text-white' : ''} `}>
             <BsPerson size={23} className="min-w-max" />
             <span>Candidates</span>
           </div>
@@ -102,7 +103,7 @@ function RootLayout(props) {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          backgroundColor: '#152C4F',
+          backgroundColor: '#0a1c38',
           height: "6rem",
           borderBottomRightRadius: '80px',
           zIndex: 0,
@@ -119,12 +120,12 @@ function RootLayout(props) {
           aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: 'none' } }}
+          sx={{  display: { sm: 'none' },padding:3 }}
         >
           <MenuIcon />
         </IconButton>
         <div class="ml-5">
-          <h2 className='text-white cursor-pointer'>IRPD</h2>
+        <span><img src={logo2} alt="logo" className="h-12 w-12 " /></span><span className='text-white cursor-pointer text-xl font-medium'>IRPD</span>
         </div>
        <Header/>
        </div>

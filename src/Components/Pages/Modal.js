@@ -16,7 +16,6 @@ function Modal({ data, closeModal }) {
         certifications: data?.certifications || '',
         year_of_experience: data?.year_of_experience || 'Fresher',
         no_of_positions: data?.no_of_positions || '',
-        gender: data?.gender || '',
         budget: data?.budget || '',
         edu_qualification: data?.edu_qualification || '',
         location: data?.location || '',
@@ -131,8 +130,8 @@ function Modal({ data, closeModal }) {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
-                            <div className='w-50'>
+                        {/* <div className='grid grid-cols-2 gap-2 divide-x '> */}
+                            {/* <div className='w-50'>
                                 <label for="Gender" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Gender</label>
                                 <select value={formData?.gender || ""} className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                     placeholder="Gender" name='gender' onChange={handleChange}>
@@ -140,30 +139,9 @@ function Modal({ data, closeModal }) {
                                     <option>Male</option>
                                     <option>Female</option>
                                 </select>
-                            </div>
-                            <div className='w-50'>
-                                <label for="budget" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Budget</label>
-                                <div class="relative  rounded-md shadow-sm">
-                                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                        <span class="text-gray-500 sm:text-sm">LPA</span>
-                                    </div>
-                                    <input type="text" name="budget" id="price" class="block w-full rounded-md border-0 py-1.5 pl-10 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 
-                                    placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        placeholder="0.00"
-                                        value={data?.budget || ""}
-                                        onChange={handleChange} />
-                                    <div class="absolute inset-y-0 right-0 flex items-center">
-                                        <label for="currency" class="sr-only">Currency</label>
-                                        <select id="currency" name="currency" class="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
-                                            <option>RUP</option>
-                                            <option>USD</option>
-                                            <option>CAD</option>
-                                            <option>EUR</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            </div> */}
+                            
+                        {/* </div> */}
 
                         <div className='grid grid-cols-2 gap-2 divide-x '>
                             <div className='w-50'>
@@ -176,14 +154,28 @@ function Modal({ data, closeModal }) {
                                     value={formData?.edu_qualification || ""}
                                     onChange={handleChange} />
                             </div>
-                            {/* <div className='w-50'>
-                                <label for="noOfposition" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">No Of Position</label>
-                                <input type="number" className="form-control shadow-md block  w-full px-3 py-1.5  
-                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
-                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " id="noPosition"
-                                    placeholder="Number of Position" />
-                            </div> */}
+                            <div className='w-50'>
+                                <label for="budget" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Budget</label>
+                                <div class="relative  rounded-md shadow-sm">
+                                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                        <span class="text-gray-500 sm:text-sm">LPA</span>
+                                    </div>
+                                    <input type="text" name="budget" id="price" class="block w-full rounded-md border-0 py-1.5 pl-10 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 
+                                    placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        placeholder="0.00"
+                                        value={data?.budget || ""}
+                                        onChange={handleChange} />
+                                    {/* <div class="absolute inset-y-0 right-0 flex items-center">
+                                        <label for="currency" class="sr-only">Currency</label>
+                                        <select id="currency" name="currency" class="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
+                                            <option>RUP</option>
+                                            <option>USD</option>
+                                            <option>CAD</option>
+                                            <option>EUR</option>
+                                        </select>
+                                    </div> */}
+                                </div>
+                            </div> 
                         </div>
 
                         <div className='grid grid-cols-2 gap-2 divide-x '>

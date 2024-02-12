@@ -2,9 +2,9 @@ import { React, useEffect, useState } from 'react';
 import Modal from "../Pages/Modal";
 import ViewModal from "../Pages/ViewModal";
 import { getAPI } from "../network/index";
-import Searchbar from "../common/Searchbar.js";
 import { FaSearch } from "react-icons/fa";
 import { MdEditSquare, MdPreview } from "react-icons/md";
+
 
 
 
@@ -14,6 +14,8 @@ function ListData() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+    const userId =localStorage.getItem("user_id")
+   
 
     const openModal = (data) => {
         setSelectedData(data);
@@ -38,6 +40,8 @@ function ListData() {
     useEffect(() => {
 
         getJobData()
+        
+        console.log('UserId',JSON.parse(userId))
 
     }, []);
 
@@ -70,7 +74,7 @@ function ListData() {
             <div className="flex flex-col gap-4 items-stretch p-4 text-base sm:text-sm mt-4">
                 {
                     jobData?.map((item, i) => (
-
+                       
                         <div className="bg-white m-0 p-6  font-normal rounded-lg border border-gray-200 mb-4 shadow-md lg:w-[80%] md:w-[80%] sm:w-[100%]">
 
                             <div className="flex items-center space-x-5 ">
@@ -88,9 +92,15 @@ function ListData() {
                                         <div className=" flex flex-row ml-auto">
 
 
-                                            <MdEditSquare className="mr-2 cursor-pointer" onClick={() => openModal(item)} />
 
+                                            {
+                                               
+                                                userId == item.user_id &&
+                                                <MdEditSquare className="mr-2 cursor-pointer" onClick={() => openModal(item)} />
+                                            }
                                             <MdPreview className="mr-2 cursor-pointer" onClick={() => openViewModal(item)} />
+
+                                            
                                         </div>
                                     </div>
 

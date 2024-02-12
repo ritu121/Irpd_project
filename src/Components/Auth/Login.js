@@ -17,6 +17,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
+        
         try {
             localStorage.clear();
             const res = await axiosInstance.post("/userLogin", { email, password });

@@ -94,11 +94,8 @@ export  const getExportAPI = async(url) => {
 
 export  const getAPI = async(url) => {
     try {
-        console.log('====================================');
-        console.log(userToken,"userToken");
-        console.log('====================================');
         const response = await axiosInstance.get(url);
-        console.log('GET',response.data)
+        console.log('response.status',response.status)
         if(responseCheck(response)){
             return response.data;
             

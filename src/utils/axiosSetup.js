@@ -5,8 +5,9 @@ import {BASE_URL} from "../constant";
 
 const userToken = localStorage.getItem("token");
 const userId =localStorage.getItem("user_id")
+
 console.log('AXIOS TOKEN',userToken)
-console.log('UserId',JSON.parse(userId))
+
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,

@@ -3,41 +3,41 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Button from '../common/Button';
 
-function ViewModal({ data,closeModal }) {
-  const datepickerRef1 = useRef(null);
-  const datepickerRef2 = useRef(null);
+function ViewModal({ data, closeModal }) {
+    const datepickerRef1 = useRef(null);
+    const datepickerRef2 = useRef(null);
 
-  useEffect(() => {
+    useEffect(() => {
 
 
-    const datepicker1 = flatpickr(datepickerRef1.current, {
-      dateFormat: 'Y-m-d',
-    });
-    const datepicker2 = flatpickr(datepickerRef2.current, {
-      dateFormat: 'Y-m-d',
-    });
-    return () => {
-      datepicker1.destroy();
-      datepicker2.destroy();
+        const datepicker1 = flatpickr(datepickerRef1.current, {
+            dateFormat: 'Y-m-d',
+        });
+        const datepicker2 = flatpickr(datepickerRef2.current, {
+            dateFormat: 'Y-m-d',
+        });
+        return () => {
+            datepicker1.destroy();
+            datepicker2.destroy();
+        };
+
+
+    }, []);
+
+    const handleOutsideClick = (event) => {
+        if (event.target.classList.contains('modal-overlay')) {
+            closeModal();
+        }
     };
-
-   
-  }, []);
-
-  const handleOutsideClick = (event) => {
-    if (event.target.classList.contains('modal-overlay')) {
-      closeModal();
-    }
-  };
-  const handleCancelClick = () => {
-    closeModal();
-  };
-  return ( 
-    <div
-      className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
-      onClick={handleOutsideClick}
-    >     
-          <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 w-4/6 overflow-y-auto bg-white rounded-md'>
+    const handleCancelClick = () => {
+        closeModal();
+    };
+    return (
+        <div
+            className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
+            onClick={handleOutsideClick}
+        >
+            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 w-4/6 overflow-y-auto bg-white rounded-md'>
                 <div className='w-full border-sky-500 w-5/6 rounded-lg'>
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>View Job Request</p>
                     <div className='grid m-2 p-5'>
@@ -50,18 +50,18 @@ function ViewModal({ data,closeModal }) {
                             value={data?.job_title || ""} disabled />
 
                         <label for="Description" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Job Description</label>
-                        <textarea  className="form-control shadow-md block  w-full px-3 py-1.5  
+                        <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                              text-base sm:text-sm " disabled placeholder="Please Enter Job Description" rows={5} value={data?.job_description || ""} ></textarea>
                         <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Skills</label>
-                        <textarea  className="form-control shadow-md block  w-full px-3 py-1.5  
+                        <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " placeholder="Please Enter all Require Skills" value={data?.skills || "" } disabled ></textarea>
+                            text-base sm:text-sm " placeholder="Please Enter all Require Skills" value={data?.skills || ""} disabled ></textarea>
 
                         <label for="certification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Certification</label>
-                        <textarea  className="form-control shadow-md block  w-full px-3 py-1.5  
+                        <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                              text-base sm:text-sm " placeholder="Please Enter Certification Name" value={data?.certifications || ""} disabled></textarea>
@@ -85,18 +85,18 @@ function ViewModal({ data,closeModal }) {
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             text-base sm:text-sm " id="noPosition"
-                                    placeholder="Number of Position" value = {data?.no_of_positions || ""} disabled/>
+                                    placeholder="Number of Position" value={data?.no_of_positions || ""} disabled />
                             </div>
                         </div>
 
                         <div className='grid grid-cols-2 gap-2 divide-x'>
                             <div className='w-50'>
-                                <label for={'Gender'} className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Gender</label>
-                                <select value={data?.gender} disabled className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Gender">
-                                    <option>Any</option>
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                </select>
+                                <label for="qualification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Qualification</label>
+                                <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
+                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                            text-base sm:text-sm " id="qualification"
+                                    placeholder="Enter Qualification" value={data?.edu_qualification || ""} disabled />
                             </div>
                             <div className='w-50'>
                                 <label for="buget" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Budget</label>
@@ -105,9 +105,9 @@ function ViewModal({ data,closeModal }) {
                                         <span className="text-gray-500 sm:text-sm" >LPA</span>
                                     </div>
                                     <input type="text" name="price" id="price" className="block w-full rounded-md border-0 py-1.5 pl-10 pr-20 text-gray-900 ring-1 
-                                    ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
-                                    placeholder="0.00" value = {data?.budget || ""}  disabled/>
-                                    <div class="absolute inset-y-0 right-0 flex items-center">
+                                    ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        placeholder="0.00" value={data?.budget || ""} disabled />
+                                    {/* <div class="absolute inset-y-0 right-0 flex items-center">
                                         <label for="currency" className="sr-only">Currency</label>
                                         <select id="currency" name="currency" className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
                                             <option>RUP</option>
@@ -115,29 +115,12 @@ function ViewModal({ data,closeModal }) {
                                             <option>CAD</option>
                                             <option>EUR</option>
                                         </select>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
-                            <div className='w-50'>
-                                <label for="qualification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Qualification</label>
-                                <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
-                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
-                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " id="qualification"
-                                    placeholder="Enter Qualification" value ={data?.edu_qualification || ""} disabled/>
-                            </div>
-                            {/* <div className='w-50'>
-                                <label for="noOfposition" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">No Of Position</label>
-                                <input type="number" className="form-control shadow-md block  w-full px-3 py-1.5  
-                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
-                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " id="noPosition" value ={data?.position || ""}
-                                    placeholder="Number of Position" />
-                            </div> */}
-                        </div>
+
 
                         <div className='grid grid-cols-2 gap-2 divide-x '>
                             <div className='w-50'>
@@ -145,15 +128,15 @@ function ViewModal({ data,closeModal }) {
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " id="location"  value ={data?.location || ""}
-                                    placeholder="Location" disabled/>
+                            text-base sm:text-sm " id="location" value={data?.location || ""}
+                                    placeholder="Location" disabled />
                             </div>
                             <div className='w-50'>
                                 <label for="client" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Client</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " id="cilent" value ={data?.client_name|| ""} disabled
+                            text-base sm:text-sm " id="cilent" value={data?.client_name || ""} disabled
                                     placeholder="Client Name" />
                             </div>
                         </div>
@@ -162,8 +145,8 @@ function ViewModal({ data,closeModal }) {
                             <div className='w-50'>
                                 <label for="hireType" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Hire Type</label>
                                 <select className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid 
-                                border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="hireType" 
-                                value ={data?.hire_type || ""} disabled> 
+                                border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="hireType"
+                                    value={data?.hire_type || ""} disabled>
                                     <option>Online</option>
                                     <option>Ofline</option>
                                 </select>
@@ -172,7 +155,7 @@ function ViewModal({ data,closeModal }) {
                                 <label for="status" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Status</label>
                                 <select className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid 
                                 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Status"
-                                value ={data?.status || ""} disabled>
+                                    value={data?.status || ""} disabled>
                                     <option>Active</option>
                                     <option>Inactive</option>
                                     <option>On Hold</option>
@@ -191,7 +174,7 @@ function ViewModal({ data,closeModal }) {
                                     name="datepicker"
                                     placeholder="Select a date"
                                     disabled
-                                    value ={data?.start_date || ""}
+                                    value={data?.start_date || ""}
                                     className="form-control shadow-md block  w-full px-3 py-1.5  
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
@@ -208,7 +191,7 @@ function ViewModal({ data,closeModal }) {
                                     id="datepicker"
                                     name="datepicker"
                                     disabled
-                                    value ={data?.target_date || ""}
+                                    value={data?.target_date || ""}
                                     placeholder="Select a date"
                                     className="form-control shadow-md block  w-full px-3 py-1.5  
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
@@ -222,10 +205,10 @@ function ViewModal({ data,closeModal }) {
                            <div className='w-5/12'> <Button title={'Submit'}></Button></div>
                         </div> */}
                         <div className='flex justify-center mt-3'>
-                           <div className='w-5/12' onClick = {handleCancelClick}> <Button title={'Cancel'} ></Button></div>
+                            <div className='w-5/12' onClick={handleCancelClick}> <Button title={'Cancel'} ></Button></div>
                         </div>
-                        
-                      
+
+
 
                         {/* <label for="Email" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm">Email</label>
                         <input type="email" value="irpd@email.com" className="form-control shadow-md block text-base sm:text-sm w-full px-3 py-1.5  text-base  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="email"
@@ -237,10 +220,10 @@ function ViewModal({ data,closeModal }) {
             </div>
 
         </div>
-       
-      
-    
-  );
+
+
+
+    );
 }
 
 export default ViewModal;
