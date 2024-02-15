@@ -74,7 +74,7 @@ function Modal({ data, closeModal }) {
         >
             <div className='flex justify-center min-w-screen p-4 h-[90%] w-4/6  overflow-y-auto bg-white rounded-md'>
                 <div className='w-full border-sky-500 w-5/6  rounded-lg'>
-                    <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>Update Request</p>
+                    <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Update Job Request</p>
                     <form className='grid m-2 p-5' onSubmit={handleSubmit}> 
 
                         <label for="JobTitle" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Job Title</label>

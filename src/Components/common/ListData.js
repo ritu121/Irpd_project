@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
-import Modal from "../Pages/Modal";
-import ViewModal from "../Pages/ViewModal";
+import Modal from "../ModalBox/Modal";
+import ViewModal from "../ModalBox/ViewModal";
 import { getAPI } from "../network/index";
 import { FaSearch } from "react-icons/fa";
 import { MdEditSquare, MdPreview } from "react-icons/md";
@@ -38,11 +38,7 @@ function ListData() {
     };
 
     useEffect(() => {
-
         getJobData()
-        
-        console.log('UserId',JSON.parse(userId))
-
     }, []);
 
     const getJobData = async () => {
@@ -70,8 +66,10 @@ function ListData() {
                     <input type="text" placeholder="Search..." className="ml-3 focus:outline-none w-full"  onChange={(e)=>{SearchJob(e)}}/>
                 </div>
             </div>
+             <p className='text-zinc-950 text-2xl p-4 mt-4 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>Current Openings</p>
 
             <div className="flex flex-col gap-4 items-stretch p-4 text-base sm:text-sm mt-4">
+           
                 {
                     jobData?.map((item, i) => (
                        
