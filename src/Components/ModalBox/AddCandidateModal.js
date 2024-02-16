@@ -9,11 +9,13 @@ function AddCandidateModal({ closeModal }) {
     const datepickerRef1 = useRef(null);
     const datepickerRef2 = useRef(null);
     const userId = localStorage.getItem("user_id")
-
+    const [prevExperience, setPrevExperience]=useState([])
+    const [temp, settemp]=useState([])
     const [resume, setResume] = useState(null);
-
     const [value, setValue] = useState({
-        name: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
         keySkills: '',
         otherSkills: '',
         experience: '',
@@ -30,8 +32,10 @@ function AddCandidateModal({ closeModal }) {
         user_id: userId,
     })
 
+    
+
     useEffect(() => {
-        console.log(value, "values");
+        console.log(prevExperience,"prevExperience");
         const datepicker1 = flatpickr(datepickerRef1.current, {
             dateFormat: 'Y-m-d',
         });
@@ -43,12 +47,26 @@ function AddCandidateModal({ closeModal }) {
             datepicker2.destroy();
         };
 
-
+        
     }, [value]);
+
+
+    const AddExperience=(e)=>{
+        e.preventDefault();
+        setPrevExperience.push({
+            company:'',
+            designation:'',
+            year_of_experience:'',
+            roles_and_responsibilities:'',
+            start_date:'',
+            last_work_date:''
+          })
+
+    }
+
 
     const handleInputChange = (e) => {
         const { name, value, type } = e.target;
-
 
         // Use a callback to update the state based on the input type
         setValue((prevData) => ({
@@ -95,20 +113,23 @@ function AddCandidateModal({ closeModal }) {
         const formData = new FormData();
 
         formData.append('resume', resume);
-        formData.append('name', value.name);
-        formData.append('keySkills', value.keySkills);
-        formData.append('otherSkills', value?.otherSkills);
-        formData.append('experience', value?.experience);
-        formData.append('qualification', value?.qualification);
-        formData.append('pAddress', value?.pAddress);
-        formData.append('cAddress', value?.cAddress);
-        formData.append('noticePeriod', value?.noticePeriod);
-        formData.append('expectedCTC', value?.expectedCTC);
-        formData.append('cCompany', value?.cCompany);
+        formData.append('first_name', value.firstName);
+        formData.append('middle_name', value.middleName);
+        formData.append('last_name', value.lastName);
+        formData.append('key_skills', value.keySkills);
+        formData.append('other_skills', value?.otherSkills);
+        formData.append('year_of_experience', value?.experience);
+        formData.append('qualifications', value?.qualification);
+        formData.append('permanent_address', value?.pAddress);
+        formData.append('current_address', value?.cAddress);
+        formData.append('notice_period', value?.noticePeriod);
+        formData.append('current_ctc', value?.currentCtc);
+        formData.append('expected_ctc', value?.expectedCTC);
+        formData.append('current_company', value?.cCompany);
         formData.append('designation', value?.designation);
-        formData.append('startDate', datepickerRef1?.current?.value);
-        formData.append('lastWorkingDate', datepickerRef2?.current?.value);
-        formData.append('roleResponsibility', value?.roleResponsibility);
+        formData.append('start_date', datepickerRef1?.current?.value);
+        formData.append('last_work_date', datepickerRef2?.current?.value);
+        formData.append('roles_and_responsibilities', value?.roleResponsibility);
         formData.append('user_id', userId);
 
         // let data = await postAPI('/addJob', formdata);
@@ -154,56 +175,51 @@ function AddCandidateModal({ closeModal }) {
                             placeholder="Select a Resume" />
 
 
-
-
-
                         <div className='grid grid-cols-3 gap-2 divide-x'>
                             <div>
-                                <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Candidate Name</label>
+                                <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">First Name</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             text-base sm:text-sm "
                                     id="name"
-                                    name='name'
+                                    name='firstName'
                                     placeholder="First Name"
-                                    value={value.name}
+                                    value={value.firstName}
                                     onChange={handleInputChange}
                                     required
                                 />
                             </div>
                             <div>
-                                <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Candidate Name</label>
+                                <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Middle Name</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             text-base sm:text-sm "
                                     id="name"
-                                    name='name'
+                                    name='middleName'
                                     placeholder="Middle Name"
-                                    value={value.name}
+                                    value={value.middleName}
                                     onChange={handleInputChange}
                                     required
                                 />
                             </div>
                             <div>
-                                <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Candidate Name</label>
+                                <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Last Name</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             text-base sm:text-sm "
                                     id="name"
-                                    name='name'
+                                    name='lastName'
                                     placeholder="Last Name"
-                                    value={value.name}
+                                    value={value.lastName}
                                     onChange={handleInputChange}
                                     required
                                 />
                             </div>
 
                         </div>
-
-
 
                         <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Key Skills</label>
                         <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -212,7 +228,7 @@ function AddCandidateModal({ closeModal }) {
                             text-base sm:text-sm "
                             placeholder="Please Enter all key Skills"
                             value={value.keySkills}
-                            name='keySkills'
+                            name='key_skills'
                             onChange={handleInputChange}
                             required
                         ></textarea>
@@ -225,7 +241,7 @@ function AddCandidateModal({ closeModal }) {
                             text-base sm:text-sm "
                             placeholder="Please Enter Other Skills"
                             value={value.otherSkills}
-                            name='otherSkills'
+                            name='other_skills'
                             onChange={handleInputChange}
                             required ></textarea>
 
@@ -399,8 +415,9 @@ function AddCandidateModal({ closeModal }) {
                                 />
                             </div>
                         </div>
-
-
+                        <div >
+                            <Button title={'Add Experience'} onClick={(e)=>AddExperience(e)}></Button>
+                        </div>
 
                         <div className='flex justify-center mt-3'>
                             <div className='w-5/12'> <Button title={'Add Candidate'} type="submit"></Button></div>
