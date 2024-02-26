@@ -45,50 +45,51 @@ const responseCheck = (res) => {
     }
 }
 
-export  const getExportAPI = async(url) => {
+export const getExportAPI = async (url) => {
     try {
-        console.log('HREF',url)
+        console.log('HREF', url);
         const response = await axios({
-         url : url,
-         method : 'get',
-         responseType : 'blob',
-         headers: !!userToken ? { Authorization: `Bearer ${userToken}` } : null,
-         
+            url: url,
+            method: 'get',
+            responseType: 'arraybuffer',
+            headers: !!userToken ? { Authorization: `Bearer ${userToken}` } : null,
         });
-        console.log('BLOB', response)
-        const url2 = window.URL.createObjectURL(new Blob([response.data]));
+        console.log('BUFFER', response);
+        
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url2 = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url2;
-        link.setAttribute('download', `${Date.now()}.xlsx`);
+        link.setAttribute('download', `exported.pdf`);
         document.body.appendChild(link);
         link.click();
-        
-        if(responseCheck(response)){
+
+        if (responseCheck(response)) {
             return response.data.data;
-            
         }
-        if(response.status === 401){
-            toast.error('Unauthorized User!',toastObj);
+        if (response.status === 401) {
+            toast.error('Unauthorized User!', toastObj);
             return false;
-        }
-        else{
-            toast.error(response.data.message,toastObj);
+        } else {
+            toast.error(response.data.message, toastObj);
             return false;
         }
     } catch (err) {
-        console.log('ERROR',err)
-        toast.error(err.message, toastObj)
-        // if(err.response.status === 500 || err.response.status === 401){
-        //     toast.error(err.response.data.message, toastObj)
-        //  }
-        //  else{
-        //      let errs = err.response.data.errors;
-        //      apiErrors(errs)
-        //  }
-         
-         return false;
+        console.log('ERROR', err);
+        if (err.response) {
+            console.log('Error Response:', err.response.data);
+            console.log('Error Status:', err.response.status);
+        } else if (err.request) {
+            console.log('Request Error:', err.request);
+        } else {
+            console.log('Error Message:', err.message);
+        }
+        toast.error('Error downloading PDF. Please try again later.', toastObj);
+        return false;
     }
-}
+};
+
+
 
 
 
@@ -138,7 +139,6 @@ export  const postAPI = async(url,data) => {
     } catch (err) {
 
         console.log('ERRROR', err)
-     
         if(err.response.data.code === 500){
            toast.error(err.response.data.message, toastObj)
         }

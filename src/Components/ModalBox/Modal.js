@@ -59,8 +59,12 @@ function Modal({ data, closeModal }) {
     
 
     const handleSubmit=async(e)=>{
-        
         e.preventDefault(); 
+        console.log('====================================');
+        console.log(formData,"fomrData");
+        console.log('====================================');
+        
+        
         let data = await  patchAPI('/updateJob',formData);
         if(data){
             closeModal();

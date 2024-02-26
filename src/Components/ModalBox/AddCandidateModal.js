@@ -3,15 +3,37 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Button from '../common/Button';
 import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import {BASE_URL} from "../../constant/index";
+import { postAPI } from '../network';
 
+
+const toastObj = {position: "top-right"};
 
 function AddCandidateModal({ closeModal }) {
-    const datepickerRef1 = useRef(null);
-    const datepickerRef2 = useRef(null);
+   
+    // const datepickerRef11 = useRef(null);
+    // const datepickerRef22 = useRef(null);
+
     const userId = localStorage.getItem("user_id")
-    const [prevExperience, setPrevExperience]=useState([])
-    const [temp, settemp]=useState([])
-    const [resume, setResume] = useState(null);
+
+    const [prevExperience, setPrevExperience] = useState([
+        {
+            company: '',
+            designation: '',
+            year_of_experience: '',
+            roles_and_responsibilities: '',
+            start_date: '',
+            last_work_date: ''
+        },
+    ])
+
+
+
+
+    const [file, setFile] = useState(null);
+    
     const [value, setValue] = useState({
         firstName: "",
         middleName: "",
@@ -23,52 +45,64 @@ function AddCandidateModal({ closeModal }) {
         pAddress: '',
         cAddress: '',
         noticePeriod: '',
+        currentCTC: '',
         expectedCTC: '',
         cCompany: '',
         designation: '',
         startDate: '',
-        lastWorkingDate: '',
+        last_work_date: '',
         roleResponsibility: '',
         user_id: userId,
     })
 
-    
+
 
     useEffect(() => {
-        console.log(prevExperience,"prevExperience");
-        const datepicker1 = flatpickr(datepickerRef1.current, {
-            dateFormat: 'Y-m-d',
-        });
-        const datepicker2 = flatpickr(datepickerRef2.current, {
-            dateFormat: 'Y-m-d',
-        });
-        return () => {
-            datepicker1.destroy();
-            datepicker2.destroy();
-        };
 
-        
-    }, [value]);
+       
+    }, []);
 
+    const handleExpChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...prevExperience];
+        list[index][name] = value;
+        setPrevExperience(list);
 
-    const AddExperience=(e)=>{
-        e.preventDefault();
-        setPrevExperience.push({
-            company:'',
-            designation:'',
-            year_of_experience:'',
-            roles_and_responsibilities:'',
-            start_date:'',
-            last_work_date:''
-          })
 
     }
+    const handleremove = index => {
+        const list = [...prevExperience];
+        list.splice(index, 1);
+        setPrevExperience(list);
+    }
+
+    const AddExperience = () => {
+
+        setPrevExperience([...prevExperience,
+        {
+            company: '',
+            designation: '',
+            year_of_experience: '',
+            roles_and_responsibilities: '',
+            start_date: null,
+            last_work_date: null
+        }]);
+    }
+
+    // const handleExpChange = (e) => {
+    //     const { name, value, type } = e.target;
+
+    //     settemp((prevData) => ({
+    //         ...prevData,
+    //         [name]: type === 'checkbox' ? e.target.checked : value,
+    //     }));
+
+    //     console.log(temp, "prevExperience");
+    // };
 
 
     const handleInputChange = (e) => {
         const { name, value, type } = e.target;
-
-        // Use a callback to update the state based on the input type
         setValue((prevData) => ({
             ...prevData,
             [name]: type === 'checkbox' ? e.target.checked : value,
@@ -77,67 +111,83 @@ function AddCandidateModal({ closeModal }) {
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        setResume(file);
+        setFile(file);
     };
 
 
     // Handle form submission
     const handleSubmit = async (e) => {
-
         e.preventDefault();
-        if (!datepickerRef1.current.value || !datepickerRef2.current.value) {
-            // Handle the case where the date is not selected
-            toast.error('Please select a date');
-            return;
+        console.log(prevExperience[0], "prevExperience");
+
+        const formdata = {
+            "first_name": value?.firstName,
+            "middle_name": value?.middleName,
+            "last_name": value?.lastName,
+            "key_skills": value.keySkills,
+            "other_skills": value?.otherSkills,
+            "year_of_experience": value?.experience,
+            "qualification": value?.qualification,
+            "permanent_address": value?.pAddress,
+            "current_address": value?.cAddress,
+            "notice_period": value?.noticePeriod,
+            "current_ctc": value?.currentCTC,
+            "expected_ctc": value?.expectedCTC,
+            "current_company": value?.cCompany,
+            "designation": value?.designation,
+            "start_date": value?.startDate,
+            "last_work_date": value?.last_work_date,
+            "roles_and_responsibilities": value?.roleResponsibility,
+            'user_id': userId,
+            "previous_experience": prevExperience
         }
 
-        // const formdata = {
-        //     "name": value?.name,
-        //     "keySkills": value.keySkills,
-        //     "otherSkills": value?.otherSkills,
-        //     "experience": value?.experience,
-        //     "qualification": value?.qualification,
-        //     "pAddress": value?.pAddress,
-        //     "cAddress": value?.cAddress,
-        //     "noticePeriod": value?.noticePeriod,
-        //     "expectedCTC": value?.expectedCTC,
-        //     "cCompany": value?.cCompany,
-        //     "designation": value?.designation,
-        //     "startDate": datepickerRef1?.current?.value,
-        //     "lastWorkingDate": datepickerRef2?.current?.value,
-        //     "roleResponsibility": value?.roleResponsibility,
-        //     "resume": value?.resume,
-        //     'user_id': userId
-        // }
+        
+        // formData.append('first_name', value.firstName);
+        // formData.append('middle_name', value.middleName);
+        // formData.append('last_name', value.lastName);
+        // formData.append('key_skills', value.keySkills);
+        // formData.append('other_skills', value?.otherSkills);
+        // formData.append('year_of_experience', value?.experience);
+        // formData.append('qualifications', value?.qualification);
+        // formData.append('permanent_address', value?.pAddress);
+        // formData.append('current_address', value?.cAddress);
+        // formData.append('notice_period', value?.noticePeriod);
+        // formData.append('current_ctc', value?.currentCTC);
+        // formData.append('expected_ctc', value?.expectedCTC);
+        // formData.append('current_company', value?.cCompany);
+        // formData.append('designation', value?.designation);
+        // formData.append('start_date', value?.startDate);
+        // formData.append('last_work_date',value?.last_work_date);
+        // formData.append('roles_and_responsibilities', value?.roleResponsibility);
+        // // formData.append('previous_experience',prevExperience)
+        // formData.append('user_id', userId);
 
-        const formData = new FormData();
+        try {
 
-        formData.append('resume', resume);
-        formData.append('first_name', value.firstName);
-        formData.append('middle_name', value.middleName);
-        formData.append('last_name', value.lastName);
-        formData.append('key_skills', value.keySkills);
-        formData.append('other_skills', value?.otherSkills);
-        formData.append('year_of_experience', value?.experience);
-        formData.append('qualifications', value?.qualification);
-        formData.append('permanent_address', value?.pAddress);
-        formData.append('current_address', value?.cAddress);
-        formData.append('notice_period', value?.noticePeriod);
-        formData.append('current_ctc', value?.currentCtc);
-        formData.append('expected_ctc', value?.expectedCTC);
-        formData.append('current_company', value?.cCompany);
-        formData.append('designation', value?.designation);
-        formData.append('start_date', datepickerRef1?.current?.value);
-        formData.append('last_work_date', datepickerRef2?.current?.value);
-        formData.append('roles_and_responsibilities', value?.roleResponsibility);
-        formData.append('user_id', userId);
+             let Data = await postAPI('/addCandidates',formdata)
+                if (Data) {
+                    const formData = new FormData();
 
-        // let data = await postAPI('/addJob', formdata);
-        // if (data) {
-        //     clearAll()
-        // }
+                    formData.append('file', file);
+                    formData.append('candidate_id', Data.data.result.insertId);
 
-        console.log('Form submitted:', formData);
+                    const response = await axios.post(`${BASE_URL}/addCandidatesResume`, formData, {
+                      headers: {
+                        'Content-Type': 'multipart/form-data'
+                      }
+                    });
+                    closeModal();
+                }
+
+            
+           
+            
+          } catch (error) {
+            toast.error("Please Try Again",toastObj);
+          }
+
+        // console.log('Form submitted:', formdata);
     };
 
     const handleOutsideClick = (event) => {
@@ -228,7 +278,7 @@ function AddCandidateModal({ closeModal }) {
                             text-base sm:text-sm "
                             placeholder="Please Enter all key Skills"
                             value={value.keySkills}
-                            name='key_skills'
+                            name='keySkills'
                             onChange={handleInputChange}
                             required
                         ></textarea>
@@ -241,7 +291,7 @@ function AddCandidateModal({ closeModal }) {
                             text-base sm:text-sm "
                             placeholder="Please Enter Other Skills"
                             value={value.otherSkills}
-                            name='other_skills'
+                            name='otherSkills'
                             onChange={handleInputChange}
                             required ></textarea>
 
@@ -308,36 +358,6 @@ function AddCandidateModal({ closeModal }) {
                             </div>
                         </div>
 
-
-
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
-                            <div className='w-50'>
-                                <label for="noticePeriod" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Notice Period</label>
-                                <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
-                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
-                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm "
-                                    id="noticPeriod"
-                                    name='noticePeriod'
-                                    value={value.noticePeriod}
-                                    placeholder="Notice Period"
-                                    onChange={handleInputChange}
-                                    required />
-                            </div>
-                            <div className='w-50'>
-                                <label for="ExpCTC" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Expected CTC</label>
-                                <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
-                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
-                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " id="cilent"
-                                    value={value.expectedCTC}
-                                    name='expectedCTC'
-                                    placeholder="Expected CTC"
-                                    onChange={handleInputChange}
-                                    required />
-                            </div>
-                        </div>
-
                         <div className='grid grid-cols-2 gap-2 divide-x '>
                             <div className='w-50'>
                                 <label for="cCompany" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Current Company</label>
@@ -364,16 +384,67 @@ function AddCandidateModal({ closeModal }) {
                                     required />
                             </div>
                         </div>
-                        <label for="Role&Responsibilities" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Role & Responsibilities</label>
-                        <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
+
+                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                            <div className='w-50'>
+                                <label for="Role&Responsibilities" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Role & Responsibilities</label>
+                                <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             text-base sm:text-sm "
-                            placeholder="role & Responsibility"
-                            name='roleResponsibility'
-                            value={value.roleResponsibility}
-                            onChange={handleInputChange}
-                            required ></textarea>
+                                    placeholder="role & Responsibility"
+                                    name='roleResponsibility'
+                                    value={value.roleResponsibility}
+                                    onChange={handleInputChange}
+                                    required ></textarea></div>
+                            <div className='w-50'>
+                                <div className='w-50'>
+                                    <label for="noticePeriod" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Notice Period</label>
+                                    <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
+                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                            text-base sm:text-sm "
+                                        id="noticPeriod"
+                                        name='noticePeriod'
+                                        value={value.noticePeriod}
+                                        placeholder="Notice Period"
+                                        onChange={handleInputChange}
+                                        required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='grid grid-cols-2 gap-2 divide-x '>
+
+                            <div className='w-50'>
+                                <label for="currentctc" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Current CTC</label>
+                                <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
+                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                            text-base sm:text-sm "
+                                    id="currentctc"
+                                    name='currentCTC'
+                                    value={value.currentCTC}
+                                    placeholder="Current CTC"
+                                    onChange={handleInputChange}
+                                    required />
+                            </div>
+                            <div className='w-50'>
+                                <label for="ExpCTC" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Expected CTC</label>
+                                <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
+                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                            text-base sm:text-sm " id="cilent"
+                                    value={value.expectedCTC}
+                                    name='expectedCTC'
+                                    placeholder="Expected CTC"
+                                    onChange={handleInputChange}
+                                    required />
+                            </div>
+                        </div>
+
+
+
 
                         <div className='grid grid-cols-2 gap-2 divide-x '>
                             <div className='w-50'>
@@ -381,7 +452,7 @@ function AddCandidateModal({ closeModal }) {
                                     Start Date:
                                 </label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="startDate"
                                     name="startDate"
                                     placeholder="Select a date"
@@ -392,7 +463,6 @@ function AddCandidateModal({ closeModal }) {
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 text-base sm:text-sm"
-                                    ref={datepickerRef1}
                                 />
                             </div>
                             <div className='w-50'>
@@ -400,7 +470,7 @@ function AddCandidateModal({ closeModal }) {
                                     Last Working Date:
                                 </label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="lastWorkingDate"
                                     name="lastWorkingDate"
                                     value={value.lastWorkingDate}
@@ -411,13 +481,137 @@ function AddCandidateModal({ closeModal }) {
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 text-base sm:text-sm"
-                                    ref={datepickerRef2}
                                 />
                             </div>
                         </div>
-                        <div >
-                            <Button title={'Add Experience'} onClick={(e)=>AddExperience(e)}></Button>
+
+
+                        <div className='m-5'>
+
+                            <div className='flex mt-3'  >
+                                <h6>Other Experience</h6>
+                                {/* <button title={'Add Experience'} onClick={AddExperience}>Addmore</button> */}
+                            </div>
+                            {
+                                prevExperience.map((x, i) => (
+
+                                    <div className='border-2  p-5 mt-2'>
+
+                                        <div className='flex justify-between'>
+                                            <p>Experience {i + 1}</p>
+                                            {
+                                                prevExperience.length !== 1 &&
+                                                <button className="shadow-md rounded-lg text-white bg-[#152C4F] w-50 px-6 py-2.5 
+                                            text-white  text-xs text-[14px]  leading-tight uppercase rounded shadow-md hover:bg-[#3D5890] hover:shadow-lg focus:bg-[#3D5890]
+                                             focus:shadow-lg focus:outline-none focus:ring-0  active:bg-[#3D5890] active:shadow-lg  transition  duration-150 ease-in-out mt-2" onClick={() => handleremove(i)}>Remove</button>
+                                            }
+                                        </div>
+
+                                        <div className='grid grid-cols-2 gap-2 divide-x'>
+                                            <div className='w-50'>
+                                                <label for="pAddress" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Company Name</label>
+                                                <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
+                                                        text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                                                        ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                                        text-base sm:text-sm "
+                                                    placeholder="Permanent Address"
+                                                    name='company'
+                                                    onChange={e => handleExpChange(e, i)}
+                                                ></textarea>
+                                            </div>
+                                            <div className='w-50'>
+                                                <label for="cAddress" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Designation</label>
+                                                <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
+                                                        text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                                                        ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                                        text-base sm:text-sm "
+                                                    placeholder="Current Address"
+                                                    name='designation'
+                                                    onChange={e => handleExpChange(e, i)}
+                                                     ></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div className='grid grid-cols-2 gap-2 divide-x'>
+                                            <div className='w-50'>
+                                                <label for="pAddress" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Year of Experience</label>
+                                                <select className="form-control block text-base sm:text-sm w-full px-3 shadow-md text-base py-1.5  
+                                                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 
+                                                            focus:text-gray-700 focus:bg-white focus:border-blue-600  focus:outline-none"
+                                                    name="year_of_experience"
+                                                    placeholder="Year of Experience"
+                                                    onChange={e => handleExpChange(e, i)}>
+                                                    <option value='' disabled>Select Option</option>
+                                                    <option>Fresher</option>
+                                                    <option>1+</option>
+                                                    <option>2+</option>
+                                                    <option>3+</option>
+                                                    <option>4+</option>
+                                                </select>
+                                            </div>
+                                            <div className='w-50'>
+                                                <label for="Role&Responsibilities" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Role & Responsibilities</label>
+                                                <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
+                                                    text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                                                    ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                                    text-base sm:text-sm "
+                                                    placeholder="role & Responsibility"
+                                                    name='roles_and_responsibilities'
+                                                    onChange={e => handleExpChange(e, i)}
+                                                    ></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                                            <div className='w-50'>
+                                                <label htmlFor="startDate" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
+                                                    Start Date:
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    id="startDate"
+                                                    name="start_date"
+                                                    placeholder="Select a date"
+                                                    onChange={e => handleExpChange(e, i)}
+                                                    className="form-control shadow-md block  w-full px-3 py-1.5  
+                                                                text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                                                                ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                                                text-base sm:text-sm"
+                                                // ref={datepickerRef11}
+                                                />
+                                            </div>
+                                            <div className='w-50'>
+                                                <label htmlFor="lastWorkingDate" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
+                                                    Last Working Date:
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    id="lastWorkingDate"
+                                                    name="last_work_date"
+                                                    onChange={e => handleExpChange(e, i)}
+                                                    placeholder="Select a date"
+                                                    className="form-control shadow-md block  w-full px-3 py-1.5  
+                                                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                                                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                                            text-base sm:text-sm"
+                                                // ref={datepickerRef22}
+                                                />
+
+                                            </div>
+                                        </div>
+
+                                        {prevExperience.length - 1 === i &&
+                                            <button className="shadow-md rounded-lg text-white bg-[#152C4F] w-50 px-6 py-2.5
+                                            text-white  text-xs text-[14px]  leading-tight uppercase rounded shadow-md hover:bg-[#3D5890] hover:shadow-lg focus:bg-[#3D5890]
+                                            focus:shadow-lg focus:outline-none focus:ring-0  active:bg-[#3D5890] active:shadow-lg  transition  duration-150 ease-in-out mt-2" onClick={AddExperience}>Add More</button>
+                                        }
+                                    </div>
+                                ))
+                            }
+
                         </div>
+
+
 
                         <div className='flex justify-center mt-3'>
                             <div className='w-5/12'> <Button title={'Add Candidate'} type="submit"></Button></div>
