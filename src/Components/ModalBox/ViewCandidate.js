@@ -178,7 +178,7 @@ function ViewModal({ data, closeModal }) {
                             text-base sm:text-sm " placeholder="role & Responsibility" value={data?.roles_and_responsibilities || ""} disabled ></textarea>
                             </div>
                             <div className='w-50'>
-                                <label for="ExpCTC" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Current CTC</label>
+                                <label for="currentCTC" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Current CTC</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
@@ -359,7 +359,6 @@ function ViewModal({ data, closeModal }) {
                                                                 text-base sm:text-sm"
                                                     // ref={datepickerRef22}
                                                     />
-
                                                 </div>
                                             </div>
                                         </div>

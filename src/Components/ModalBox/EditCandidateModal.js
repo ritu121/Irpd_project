@@ -7,8 +7,6 @@ import {BASE_URL} from "../../constant/index";
 import axios from "axios";
 
 function EditCandidateModal({ data, closeModal }) {
-    const datepickerRef1 = useRef(null);
-    const datepickerRef2 = useRef(null);
     const [prevExperience, setPrevExperience] = useState([])
     const [candidate_id, setCandidate_id] = useState(data?.candidate_id);
     const [file, setFile] = useState(null);
@@ -33,8 +31,11 @@ function EditCandidateModal({ data, closeModal }) {
         current_ctc: data?.current_ctc || '',
         expected_ctc: data?.expected_ctc || '',
         notice_period: data?.notice_period || '',
-        start_date: data?.start_date || '',
-        last_work_date: data?.last_work_date || '',
+        last_work_date: data?.last_work_date? data.last_work_date.substring(0, 10) : '',
+        start_date: data?.start_date? data.start_date.substring(0, 10) : '',
+        // last_work_date: data?.last_work_date || '',
+        user_id:data?.user_id || '',
+        previous_experience:prevExperience
     });
 
 
@@ -42,24 +43,11 @@ function EditCandidateModal({ data, closeModal }) {
 
     useEffect(() => {
 
-        console.log('====================================');
-        console.log(data, 'data');
-        console.log('====================================');
         setCandidate_id(data?.candidate_id)
-
-        const datepicker1 = flatpickr(datepickerRef1.current, {
-            dateFormat: 'Y-m-d',
-        });
-        const datepicker2 = flatpickr(datepickerRef2.current, {
-            dateFormat: 'Y-m-d',
-        });
 
         GetPrevExperience()
 
-        return () => {
-            datepicker1.destroy();
-            datepicker2.destroy();
-        };
+        console.log(data,'data');
 
     }, [data]);
 
@@ -92,6 +80,8 @@ function EditCandidateModal({ data, closeModal }) {
         const list = [...prevExperience];
         list[index][name] = value;
         setPrevExperience(list);
+
+       
     }
 
     const AddExperience = () => {
@@ -105,6 +95,8 @@ function EditCandidateModal({ data, closeModal }) {
             last_work_date: null,
             candidate_id: candidate_id
         }]);
+
+        
     }
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -123,22 +115,49 @@ function EditCandidateModal({ data, closeModal }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log('====================================');
-        // console.log(value, "fomrData");
-        // console.log('====================================');
 
-        let Data = await patchAPI('/updateCandidates', value);
+        const data = {
+        'candidate_id':candidate_id,
+        'first_name': value?.first_name ,
+        'middle_name': value?.middle_name ,
+        'last_name': value?.last_name,
+        'key_skills': value?.key_skills,
+        'other_skills': value?.other_skills,
+        'year_of_experience': value?.year_of_experience,
+        'qualifications': value?.qualifications,
+        'permanent_address': value?.permanent_address,
+        'current_address': value?.current_address,
+        'current_company': value?.current_company,
+        'path':value?.path ||'',
+        'filename':value?.filename ||'',
+        'originalname':value?.originalname ||'',
+        'designation': value?.designation,
+        'roles_and_responsibilities': value?.roles_and_responsibilities,
+        'current_ctc': value?.current_ctc,
+        'expected_ctc': value?.expected_ctc,
+        'notice_period': value?.notice_period,
+        'start_date': value?.start_date,
+        'last_work_date': value?.last_work_date,
+        'user_id':value?.user_id,
+        'previous_experience':prevExperience
+        }
+
+       
+       
+        let Data = await patchAPI('/updateCandidates', data);
         if (Data) {
-            const formData = new FormData();
-
-            value.append('file', file);
-
-            const response = await axios.post(`${BASE_URL}/updateCandidatesResume/${value?.filename}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            closeModal();
+            if(value?.filename && file){
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('candidate_id', value.candidate_id);
+                const response = await axios.patch(`${BASE_URL}/updateCandidatesResume/${data?.filename}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            }
+           
+            // closeModal();
         }
     }
 
@@ -164,7 +183,6 @@ function EditCandidateModal({ data, closeModal }) {
                                     text-base sm:text-sm"
                             id="resume"
                             onChange={handleFileChange}
-                            required
                             placeholder="Select a Resume"/>
                             {
                                 data?.originalname &&
@@ -186,11 +204,6 @@ function EditCandidateModal({ data, closeModal }) {
                                     placeholder="First Name"
                                     value={value?.first_name}
                                     onChange={handleChange}
-
-
-
-
-
                                 />
                             </div>
                             <div>
@@ -222,11 +235,7 @@ function EditCandidateModal({ data, closeModal }) {
 
                                 />
                             </div>
-
                         </div>
-
-
-
 
                         <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Key Skills</label>
                         <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -349,17 +358,17 @@ function EditCandidateModal({ data, closeModal }) {
                                     Start Date:
                                 </label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="datepicker"
-                                    name="datepicker"
+                                    name="start_date"
                                     placeholder="Select a date"
-                                    value={data?.start_date ? data.start_date.substring(0, 10) : null}
+                                    value={value?.start_date?value.start_date.substring(0, 10) : null}
                                     onChange={handleChange}
                                     className="form-control shadow-md block  w-full px-3 py-1.5  
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 text-base sm:text-sm"
-                                    ref={datepickerRef1}
+                                   
                                 />
                             </div>
                             <div className='w-50'>
@@ -367,22 +376,26 @@ function EditCandidateModal({ data, closeModal }) {
                                     Last Working Date:
                                 </label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="datepicker"
-                                    name="datepicker"
-                                    value={data?.last_work_date ? data.last_work_date.substring(0, 10) : null}
+                                    name="last_work_date"
+                                    value={value?.last_work_date? value.last_work_date.substring(0, 10) : null}
                                     onChange={handleChange}
                                     placeholder="Select a date"
                                     className="form-control shadow-md block  w-full px-3 py-1.5  
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 text-base sm:text-sm"
-                                    ref={datepickerRef2}
+                                  
                                 />
                             </div>
                         </div>
+                        {
+                          prevExperience.length === 0 &&
+                          <button  className='text-gray-700 ' onClick={AddExperience}>Add Previous Experience</button>
+                        }
 
-
+                    
                         {prevExperience.length > 0 &&
 
                             <div className='m-5'>

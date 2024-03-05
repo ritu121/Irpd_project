@@ -7,7 +7,7 @@ import Modal from "../ModalBox/Modal";
 import ViewCadidateModal from "../ModalBox/ViewCandidate";
 import AddCandidateModal from '../ModalBox/AddCandidateModal';
 import EditCandidateModal from '../ModalBox/EditCandidateModal';
-import { getAPI ,getExportAPI} from "../network/index";
+import { deleteAPI, getAPI ,getExportAPI} from "../network/index";
 import { BASE_URL } from '../../constant';
 import { FaCloudDownloadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -25,6 +25,7 @@ function Candidates() {
   const [candidates, setCandidates] = useState([]);
   const [candidate, setCandidate] = useState({});
   const [message, setmessage] = useState("");
+  const [action, setAction] = useState("");
 
 
   const userId = localStorage.getItem("user_id")
@@ -56,6 +57,7 @@ function Candidates() {
     setIsModalOpen(true);
     setIsViewModalOpen(false);
     setIsAddCModalOpen(false);
+    getCandidateData()
   };
 
 
@@ -63,6 +65,7 @@ function Candidates() {
     setIsModalOpen(false);
     setSelectedData(null);
     setIsAddCModalOpen(false);
+    getCandidateData()
   };
 
   const closeViewModal = () => {
@@ -75,26 +78,33 @@ function Candidates() {
     getCandidateData()
   }
 
-  const OpenAlert = (item,action) => {
-   
-    if(action=='download'){
+
+
+  const OpenAlert = (item,txt) => {
+     setAction(txt)
+    if(action==='download'){
       setmessage('Do you want to Download Resume ?')
     }else{
       setmessage('Are you sure, you want to Delete Candidate ?')
     }
-
     setAlertOpen(true);
     setCandidate(item)
   };
+
+
 
   const closeAlert = () => {
     setAlertOpen(false);
   };
 
+
   const handleConfirm = () => {
     closeAlert();
-    downloadResume(candidate.filename,candidate.first_name+''+candidate.last_name+''+ candidate.filename.substr(candidate.filename.indexOf('.')))
-  
+    if(action === 'download'){
+      downloadResume(candidate.filename,candidate.first_name+''+candidate.last_name+''+ candidate.filename.substr(candidate.filename.indexOf('.')))
+    }else{
+      deleteCandidate(candidate.candidate_id)
+    }
   };
 
  
@@ -119,7 +129,7 @@ function Candidates() {
       'download',
       candidate_name,
     );
-
+    
     // Append to html link element page
     document.body.appendChild(link);
 
@@ -130,6 +140,13 @@ function Candidates() {
     link.parentNode.removeChild(link);
   });
     
+  }
+
+  const deleteCandidate=async(id)=>{
+    let Data = await deleteAPI(`/deleteCandidates/${id}`,)
+    if (Data) {
+      getCandidateData()
+    } 
   }
 
   const getCandidateData = async () => {

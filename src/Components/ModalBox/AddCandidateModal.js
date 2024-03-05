@@ -118,7 +118,6 @@ function AddCandidateModal({ closeModal }) {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(prevExperience[0], "prevExperience");
 
         const formdata = {
             "first_name": value?.firstName,
@@ -179,9 +178,6 @@ function AddCandidateModal({ closeModal }) {
                     });
                     closeModal();
                 }
-
-            
-           
             
           } catch (error) {
             toast.error("Please Try Again",toastObj);
@@ -472,8 +468,8 @@ function AddCandidateModal({ closeModal }) {
                                 <input
                                     type="date"
                                     id="lastWorkingDate"
-                                    name="lastWorkingDate"
-                                    value={value.lastWorkingDate}
+                                    name="last_work_date"
+                                    value={value.last_work_date}
                                     onChange={handleInputChange}
                                     required
                                     placeholder="Select a date"
