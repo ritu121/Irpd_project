@@ -111,7 +111,7 @@ function ListData() {
                                         </tr>
                                         <hr></hr>
                                         <tr>
-                                            <td>Budject: </td>
+                                            <td>Budget: </td>
                                             <td className='p-2'>{item?.budget}LPA</td>
                                         </tr>
                                         <hr></hr>
