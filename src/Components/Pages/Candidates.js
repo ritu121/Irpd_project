@@ -13,6 +13,7 @@ import { FaCloudDownloadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import ConfirmationModal from '../common/ConfirmationModal';
 
+
 import { color } from 'framer-motion';
 
 
@@ -185,10 +186,10 @@ function Candidates() {
                 <div className=" flex flex-row ml-auto">
                   {
                     userId == item.user_id &&
-                    <MdEditSquare style={{color:'#04ad3c'}} className="mr-2 cursor-pointer" onClick={() => openEditModal(item)} />
+                    <MdEditSquare style={{color:'#04ad3c'}} className="mr-2 cursor-pointer sm:text-xl" onClick={() => openEditModal(item)} />
                   }
-                  <FaCloudDownloadAlt style={{color:'#0370c9'}} className="mr-2 cursor-pointer" onClick={()=>OpenAlert(item,'download')} />
-                  <MdDelete style={{color:'#b70303'}} onClick={()=>OpenAlert(item,'delete')} />
+                  <FaCloudDownloadAlt style={{color:'#0370c9'}} className="mr-2 cursor-pointer sm:text-xl" onClick={()=>OpenAlert(item,'download')} />
+                  <MdDelete style={{color:'#b70303'}} className="mr-2 cursor-pointer sm:text-xl" onClick={()=>OpenAlert(item,'delete')} />
                 </div>
               </div>
               <div class="px-5 py-3" onClick={() => openViewModal(item)}>

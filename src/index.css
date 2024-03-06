@@ -4,19 +4,18 @@
 
 body {
   margin: 0;
-  font-family:'Poppins',
-    sans-serif;
+  font-family:'Poppins' !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-weight: 600;
+  font-weight: 600 !important;
   background-color: #eeeeee  !important;
 }
 .font{
-  font-weight: 900;
+  font-weight: 900 !important;
 }
 
 code {
-  font-family:'Poppins',
+  font-family:'Poppins' !important;
 }
 .custom-fill-available {
   width: -webkit-fill-available;

@@ -10,6 +10,7 @@ import Profile from '../Components/Pages/Profile';
 import Candidates from '../Components/Pages/Candidates';
 import NewRequest from '../Components/Pages/NewRequest';
 import AccessDeniedPage from '../Components/Pages/AccessDeniedPage';
+import Register_employee from '../Components/Pages/Register_employee';
 
 function routes() {
     return (
@@ -18,10 +19,11 @@ function routes() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signUp" element={<SignUp />} />
             <Route exact path="/dashboard" element={<ProtectedAdmin><Dashboard/></ProtectedAdmin>} />
-            <Route exact path="/profile" element={<Profile/>} />
-            <Route exact path="/candidates" element={<Candidates />} />
-            <Route exact path="/newRequest" element={<NewRequest />} />
-            <Route exact path="/accessDenied" element={<AccessDeniedPage />} />
+            <Route exact path="/profile" element={<Profile/>}/>
+            <Route exact path="/candidates" element={<Candidates/>} />
+            <Route exact path="/newRequest" element={<NewRequest/>} />
+            <Route exact path="/accessDenied" element={<AccessDeniedPage/>} />
+            <Route exact path="/register_employee" element={<Register_employee/>}/>
         </Routes>
     )
 }

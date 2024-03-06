@@ -173,8 +173,8 @@ function EditCandidateModal({ data, closeModal }) {
             className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
             onClick={handleOutsideClick}
         >
-            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 w-4/6 overflow-y-auto bg-white rounded-md'>
-                <form onSubmit={handleSubmit} className='w-full border-sky-500 w-5/6 rounded-lg'>
+            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 overflow-y-auto bg-white rounded-md'>
+                <form onSubmit={handleSubmit} className='w-full border-sky-500  rounded-lg'>
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Update Candidate Details</p>
                     <div className='grid m-2 p-5'>
 

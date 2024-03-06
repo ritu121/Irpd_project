@@ -66,14 +66,14 @@ function ListData() {
                     <input type="text" placeholder="Search..." className="ml-3 focus:outline-none w-full"  onChange={(e)=>{SearchJob(e)}}/>
                 </div>
             </div>
-             <p className='text-zinc-950 text-2xl p-4 mt-4 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>Current Openings</p>
+             <p className='text-zinc-950 text-2xl p-4 mt-4 text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>Current Openings</p>
 
             <div className="flex flex-col gap-4 items-stretch p-4 text-base sm:text-sm mt-4">
            
                 {
                     jobData?.map((item, i) => (
                        
-                        <div className="bg-white m-0 p-6  font-normal rounded-lg border border-gray-200 mb-4 shadow-md lg:w-[80%] md:w-[80%] sm:w-[100%]">
+                        <div className="bg-white m-0 p-6 rounded-lg border border-gray-200 mb-4 shadow-md lg:w-[80%] md:w-[80%] sm:w-[100%]">
 
                             <div className="flex items-center space-x-5 ">
 
@@ -104,7 +104,7 @@ function ListData() {
 
 
 
-                                    <table className='mt-3 '>
+                                    <table className='mt-3 text-bold'>
                                         <tr>
                                             <td>Description: </td>
                                             <td className='p-2'>{item?.job_description}</td>

@@ -11,7 +11,7 @@
   right: 0;
   line-height: 20px;
   border-radius: 50%;
-  font-weight: bold;
+  font-weight: bold !important;
   font-size: 22px;
   top: 55px;
   cursor: pointer;
@@ -35,7 +35,7 @@
   font-size: 20px;
   padding: 0 20px;
   color: #000;
-  font-weight: bold;
+  font-weight: bold !important;
 }
 #header .pro-sidebar-inner .pro-sidebar-layout ul {
   padding: 0 5px;
@@ -43,7 +43,7 @@
 #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
   color: #000;
   margin: 10px 0px;
-  font-weight: bold;
+  font-weight: bold !important;
 }
 #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper {
   background-color: #fbf4cd;

@@ -72,7 +72,7 @@ function RootLayout(props) {
         <NavLink to={"/newRequest"} className="link ">
           <div className={`px-4 py-3 space-x-4 mx-2 flex rounded-md text-black-500 group ${location.pathname === '/newRequest' ? 'bg-[#0a1c38] text-white' : ''} `}>
             <FaAddressCard size={23} className="min-w-max" />
-            <span>NewRequest</span>
+            <span>New Job Request</span>
           </div>
         </NavLink>
         <NavLink to={"/candidates"} className="link ">
@@ -81,12 +81,13 @@ function RootLayout(props) {
             <span>Candidates</span>
           </div>
         </NavLink>
-        {/* <NavLink to={"/storage"} className="link">
-              <div className={`px-4 py-3 space-x-4 flex rounded-md text-black-500 group ${window.location.pathname === '/storage' ? 'bg-gradient-to-r from-sky-600 to-cyan-400' : ''}`}>
-                <HiOutlineDatabase size={23} className="min-w-max" />
-                <span>Storage</span>
-              </div>
-            </NavLink> */}
+        <NavLink to={"/register_employee"} className="link ">
+          <div className={`px-4 py-3 space-x-4  mx-2 flex rounded-md text-black-500 group ${location.pathname === '/register_employee' ? 'bg-[#0a1c38] text-white' : ''} `}>
+            <BsPerson size={23} className="min-w-max" />
+            <span>Register Employee</span>
+          </div>
+        </NavLink>
+       
       </div>
       <Divider />
     </div>
