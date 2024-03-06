@@ -2,9 +2,12 @@ import React, { useRef, useEffect, useState } from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Button from '../common/Button';
-import { getAPI,patchAPI } from '../network';
-import {BASE_URL} from "../../constant/index";
+import { getAPI, patchAPI } from '../network';
+import { BASE_URL } from "../../constant/index";
 import axios from "axios";
+import { toast } from 'react-toastify';
+
+const toastObj = { position: "top-right" };
 
 function EditCandidateModal({ data, closeModal }) {
     const [prevExperience, setPrevExperience] = useState([])
@@ -12,7 +15,7 @@ function EditCandidateModal({ data, closeModal }) {
     const [file, setFile] = useState(null);
 
     const [value, setvalue] = useState({
-        candidate_id:candidate_id,
+        candidate_id: candidate_id,
         first_name: data?.first_name || '',
         middle_name: data?.middle_name || '',
         last_name: data?.last_name || '',
@@ -23,19 +26,19 @@ function EditCandidateModal({ data, closeModal }) {
         permanent_address: data?.permanent_address || '',
         current_address: data?.current_address || '',
         current_company: data?.current_company || '',
-        path:data?.path || '',
-        filename:data?.filename || '',
-        originalname:data?.originalname || '',
+        path: data?.path || '',
+        filename: data?.filename || '',
+        originalname: data?.originalname || '',
         designation: data?.designation || '',
         roles_and_responsibilities: data?.roles_and_responsibilities || '',
         current_ctc: data?.current_ctc || '',
         expected_ctc: data?.expected_ctc || '',
         notice_period: data?.notice_period || '',
-        last_work_date: data?.last_work_date? data.last_work_date.substring(0, 10) : '',
-        start_date: data?.start_date? data.start_date.substring(0, 10) : '',
+        last_work_date: data?.last_work_date ? data.last_work_date.substring(0, 10) : '',
+        start_date: data?.start_date ? data.start_date.substring(0, 10) : '',
         // last_work_date: data?.last_work_date || '',
-        user_id:data?.user_id || '',
-        previous_experience:prevExperience
+        user_id: data?.user_id || '',
+        previous_experience: prevExperience
     });
 
 
@@ -47,7 +50,7 @@ function EditCandidateModal({ data, closeModal }) {
 
         GetPrevExperience()
 
-        console.log(data,'data');
+        console.log(data, 'data');
 
     }, [data]);
 
@@ -81,7 +84,7 @@ function EditCandidateModal({ data, closeModal }) {
         list[index][name] = value;
         setPrevExperience(list);
 
-       
+
     }
 
     const AddExperience = () => {
@@ -96,7 +99,7 @@ function EditCandidateModal({ data, closeModal }) {
             candidate_id: candidate_id
         }]);
 
-        
+
     }
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -117,36 +120,36 @@ function EditCandidateModal({ data, closeModal }) {
         e.preventDefault();
 
         const data = {
-        'candidate_id':candidate_id,
-        'first_name': value?.first_name ,
-        'middle_name': value?.middle_name ,
-        'last_name': value?.last_name,
-        'key_skills': value?.key_skills,
-        'other_skills': value?.other_skills,
-        'year_of_experience': value?.year_of_experience,
-        'qualifications': value?.qualifications,
-        'permanent_address': value?.permanent_address,
-        'current_address': value?.current_address,
-        'current_company': value?.current_company,
-        'path':value?.path ||'',
-        'filename':value?.filename ||'',
-        'originalname':value?.originalname ||'',
-        'designation': value?.designation,
-        'roles_and_responsibilities': value?.roles_and_responsibilities,
-        'current_ctc': value?.current_ctc,
-        'expected_ctc': value?.expected_ctc,
-        'notice_period': value?.notice_period,
-        'start_date': value?.start_date,
-        'last_work_date': value?.last_work_date,
-        'user_id':value?.user_id,
-        'previous_experience':prevExperience
+            'candidate_id': candidate_id,
+            'first_name': value?.first_name,
+            'middle_name': value?.middle_name,
+            'last_name': value?.last_name,
+            'key_skills': value?.key_skills,
+            'other_skills': value?.other_skills,
+            'year_of_experience': value?.year_of_experience,
+            'qualifications': value?.qualifications,
+            'permanent_address': value?.permanent_address,
+            'current_address': value?.current_address,
+            'current_company': value?.current_company,
+            'path': value?.path || '',
+            'filename': value?.filename || '',
+            'originalname': value?.originalname || '',
+            'designation': value?.designation,
+            'roles_and_responsibilities': value?.roles_and_responsibilities,
+            'current_ctc': value?.current_ctc,
+            'expected_ctc': value?.expected_ctc,
+            'notice_period': value?.notice_period,
+            'start_date': value?.start_date,
+            'last_work_date': value?.last_work_date,
+            'user_id': value?.user_id,
+            'previous_experience': prevExperience
         }
 
-       
-       
+
+
         let Data = await patchAPI('/updateCandidates', data);
         if (Data) {
-            if(value?.filename && file){
+            if (value?.filename && file) {
                 const formData = new FormData();
                 formData.append('file', file);
                 formData.append('candidate_id', value.candidate_id);
@@ -155,9 +158,12 @@ function EditCandidateModal({ data, closeModal }) {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
+                if (response) {
+                    toast.success(response.data.message, toastObj);
+                }
             }
-           
-            // closeModal();
+
+            closeModal();
         }
     }
 
@@ -172,7 +178,7 @@ function EditCandidateModal({ data, closeModal }) {
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Update Candidate Details</p>
                     <div className='grid m-2 p-5'>
 
-                    <label htmlFor="resume" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
+                        <label htmlFor="resume" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
                             Update Resume
                         </label>
 
@@ -183,12 +189,12 @@ function EditCandidateModal({ data, closeModal }) {
                                     text-base sm:text-sm"
                             id="resume"
                             onChange={handleFileChange}
-                            placeholder="Select a Resume"/>
-                            {
-                                data?.originalname &&
-                                <p className='text-red-800'>selected file:- {data?.originalname}</p>
-                            }
-                           
+                            placeholder="Select a Resume" />
+                        {
+                            data?.originalname &&
+                            <p className='text-red-800'>selected file:- {data?.originalname}</p>
+                        }
+
 
 
                         {/* <label for="JobTitle" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Candidate Name</label> */}
@@ -283,7 +289,10 @@ function EditCandidateModal({ data, closeModal }) {
                                 <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " placeholder="Current Address" value={value?.current_address || ""} onChange={handleChange} ></textarea>
+                            text-base sm:text-sm " placeholder="Current Address"
+                                    name='current_address'
+                                    value={value?.current_address || ""}
+                                    onChange={handleChange} ></textarea>
                             </div>
                         </div>
                         <div className='grid grid-cols-2 gap-2 divide-x '>
@@ -292,7 +301,10 @@ function EditCandidateModal({ data, closeModal }) {
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " id="cilent" value={value?.current_company || ""} onChange={handleChange}
+                            text-base sm:text-sm " id="cilent"
+                                    name='current_company'
+                                    value={value?.current_company || ""}
+                                    onChange={handleChange}
                                     placeholder="Current Company" />
                             </div>
                             <div className='w-50'>
@@ -300,7 +312,10 @@ function EditCandidateModal({ data, closeModal }) {
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm "   value={value?.designation || ""} onChange={handleChange}
+                            text-base sm:text-sm "
+                                    name='designation'
+                                    value={value?.designation || ""}
+                                    onChange={handleChange}
                                     placeholder="Designation" />
                             </div>
                         </div>
@@ -311,15 +326,21 @@ function EditCandidateModal({ data, closeModal }) {
                                 <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " placeholder="role & Responsibility" value={value?.roles_and_responsibilities || ""} onChange={handleChange} ></textarea>
+                            text-base sm:text-sm "
+                                    placeholder="role & Responsibility"
+                                    name='roles_and_responsibilities'
+                                    value={value?.roles_and_responsibilities || ""}
+                                    onChange={handleChange} ></textarea>
                             </div>
                             <div className='w-50'>
                                 <label for="ExpCTC" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Current CTC</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm "name="currentCTC"
-                                    value={value?.current_ctc} onChange={handleChange}
+                            text-base sm:text-sm "
+                                    name='current_ctc'
+                                    value={value?.current_ctc}
+                                    onChange={handleChange}
                                     placeholder="Current CTC" />
 
                             </div>
@@ -335,7 +356,10 @@ function EditCandidateModal({ data, closeModal }) {
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " id="cilent" value={value?.expected_ctc || ""} onChange={handleChange}
+                            text-base sm:text-sm " id="cilent"
+                                    value={value?.expected_ctc || ""}
+                                    onChange={handleChange}
+                                    name='expected_ctc'
                                     placeholder="Expected CTC" />
                             </div>
 
@@ -344,7 +368,10 @@ function EditCandidateModal({ data, closeModal }) {
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm " id="location" value={value?.notice_period || ""} onChange={handleChange}
+                            text-base sm:text-sm " id="location"
+                                    value={value?.notice_period || ""}
+                                    onChange={handleChange}
+                                    name='notice_period'
                                     placeholder="notice period" />
                             </div>
 
@@ -362,13 +389,13 @@ function EditCandidateModal({ data, closeModal }) {
                                     id="datepicker"
                                     name="start_date"
                                     placeholder="Select a date"
-                                    value={value?.start_date?value.start_date.substring(0, 10) : null}
+                                    value={value?.start_date ? value.start_date.substring(0, 10) : null}
                                     onChange={handleChange}
                                     className="form-control shadow-md block  w-full px-3 py-1.5  
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 text-base sm:text-sm"
-                                   
+
                                 />
                             </div>
                             <div className='w-50'>
@@ -379,23 +406,23 @@ function EditCandidateModal({ data, closeModal }) {
                                     type="date"
                                     id="datepicker"
                                     name="last_work_date"
-                                    value={value?.last_work_date? value.last_work_date.substring(0, 10) : null}
+                                    value={value?.last_work_date ? value.last_work_date.substring(0, 10) : null}
                                     onChange={handleChange}
                                     placeholder="Select a date"
                                     className="form-control shadow-md block  w-full px-3 py-1.5  
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 text-base sm:text-sm"
-                                  
+
                                 />
                             </div>
                         </div>
                         {
-                          prevExperience.length === 0 &&
-                          <button  className='text-gray-700 ' onClick={AddExperience}>Add Previous Experience</button>
+                            prevExperience.length === 0 &&
+                            <button className='text-gray-700 ' onClick={AddExperience}>Add Previous Experience</button>
                         }
 
-                    
+
                         {prevExperience.length > 0 &&
 
                             <div className='m-5'>
