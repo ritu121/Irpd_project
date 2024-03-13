@@ -19,11 +19,12 @@ import Typography from '@mui/material/Typography';
 import Header from "./Header.js"
 import { red } from '@mui/material/colors';
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { IoHome } from "react-icons/io5";
-import { BsPerson } from "react-icons/bs";
+import { AiFillReconciliation } from "react-icons/ai";
+import { FaUsers } from "react-icons/fa6";
 import { FaAddressCard } from "react-icons/fa";
-import { HiOutlineLogout } from "react-icons/hi";
-import { CgProfile } from "react-icons/cg";
+import { MdDashboard } from "react-icons/md";
+import { PiUserSwitchFill } from "react-icons/pi";
+import { GiSkills } from "react-icons/gi";
 import logo from '../../assets/logo2.png'
 import logo2 from '../../assets/logo3.jpg'
 
@@ -65,8 +66,15 @@ function RootLayout(props) {
         <NavLink to={"/dashboard"} className="link">
           <div
             className={`relative px-4 py-3 mx-2 space-x-4 flex rounded-lg text-black-500 ${location.pathname === '/dashboard' ? 'bg-[#0a1c38] text-white' : ''}`}>
-            <IoHome size={23} className="min-w-max" />
-            <span>Home</span>
+            <MdDashboard size={23} className="min-w-max" />
+            <span>Dashboard</span>
+          </div>
+        </NavLink>
+        <NavLink to={"/openings"} className="link">
+          <div
+            className={`relative px-4 py-3 mx-2 space-x-4 flex rounded-lg text-black-500 ${location.pathname === '/openings' ? 'bg-[#0a1c38] text-white' : ''}`}>
+            <AiFillReconciliation size={23} className="min-w-max" />
+            <span>Current Openings</span>
           </div>
         </NavLink>
         <NavLink to={"/newRequest"} className="link ">
@@ -77,17 +85,23 @@ function RootLayout(props) {
         </NavLink>
         <NavLink to={"/candidates"} className="link ">
           <div className={`px-4 py-3 space-x-4  mx-2 flex rounded-md text-black-500 group ${location.pathname === '/candidates' ? 'bg-[#0a1c38] text-white' : ''} `}>
-            <BsPerson size={23} className="min-w-max" />
+            <FaUsers size={23} className="min-w-max" />
             <span>Candidates</span>
           </div>
         </NavLink>
         <NavLink to={"/register_employee"} className="link ">
           <div className={`px-4 py-3 space-x-4  mx-2 flex rounded-md text-black-500 group ${location.pathname === '/register_employee' ? 'bg-[#0a1c38] text-white' : ''} `}>
-            <BsPerson size={23} className="min-w-max" />
+            <PiUserSwitchFill size={23} className="min-w-max" />
             <span>Register Employee</span>
           </div>
         </NavLink>
-       
+        <NavLink to={"/skills"} className="link ">
+          <div className={`px-4 py-3 space-x-4  mx-2 flex rounded-md text-black-500 group ${location.pathname === '/skills' ? 'bg-[#0a1c38] text-white' : ''} `}>
+            <GiSkills size={23} className="min-w-max"/>
+            <span>Skills</span>
+          </div>
+        </NavLink>
+
       </div>
       <Divider />
     </div>
@@ -115,21 +129,21 @@ function RootLayout(props) {
           // padding:'2rem'
         }}
       >
-       <div className={'flex justify-between items-center'}>
-       <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{  display: { sm: 'none' },padding:3 }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <div class="ml-5">
-        <span><img src={logo2} alt="logo" className="h-12 w-12 " /></span><span className='text-white cursor-pointer text-xl font-medium'>IRPD</span>
+        <div className={'flex justify-between items-center'}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ display: { sm: 'none' }, padding: 3 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <div class="ml-5">
+            <span><img src={logo2} alt="logo" className="h-12 w-12 " /></span><span className='text-white cursor-pointer text-xl font-medium'>IRPD</span>
+          </div>
+          <Header />
         </div>
-       <Header/>
-       </div>
 
 
       </AppBar>
@@ -170,7 +184,7 @@ function RootLayout(props) {
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
-        <Toolbar sx={{marginTop:'2rem'}}/>
+        <Toolbar sx={{ marginTop: '2rem' }} />
         <main>{children}</main>
 
       </Box>

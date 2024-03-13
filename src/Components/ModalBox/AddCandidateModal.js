@@ -5,27 +5,27 @@ import Button from '../common/Button';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import {BASE_URL} from "../../constant/index";
-import { postAPI } from '../network';
+import { BASE_URL } from "../../constant/index";
+import { getAPI, postAPI } from '../network';
 
 
-const toastObj = {position: "top-right"};
+const toastObj = { position: "top-right" };
 
 function AddCandidateModal({ closeModal }) {
-   
+
     // const datepickerRef11 = useRef(null);
     // const datepickerRef22 = useRef(null);
 
     const userId = localStorage.getItem("user_id")
-
+    const [jobs, setjobs] = useState([]);
     const [prevExperience, setPrevExperience] = useState([
         {
             company: '',
             designation: '',
             year_of_experience: '',
             roles_and_responsibilities: '',
-            start_date: '',
-            last_work_date: ''
+            start_date: 0,
+            last_work_date: 0
         },
     ])
 
@@ -33,7 +33,7 @@ function AddCandidateModal({ closeModal }) {
 
 
     const [file, setFile] = useState(null);
-    
+
     const [value, setValue] = useState({
         firstName: "",
         middleName: "",
@@ -53,13 +53,13 @@ function AddCandidateModal({ closeModal }) {
         last_work_date: '',
         roleResponsibility: '',
         user_id: userId,
+        job_id:''
     })
 
 
 
     useEffect(() => {
-
-       
+        getJobs()
     }, []);
 
     const handleExpChange = (e, index) => {
@@ -84,8 +84,8 @@ function AddCandidateModal({ closeModal }) {
             designation: '',
             year_of_experience: '',
             roles_and_responsibilities: '',
-            start_date: null,
-            last_work_date: null
+            start_date: '',
+            last_work_date: ''
         }]);
     }
 
@@ -126,7 +126,7 @@ function AddCandidateModal({ closeModal }) {
             "key_skills": value.keySkills,
             "other_skills": value?.otherSkills,
             "year_of_experience": value?.experience,
-            "qualification": value?.qualification,
+            "qualifications": value?.qualification,
             "permanent_address": value?.pAddress,
             "current_address": value?.cAddress,
             "notice_period": value?.noticePeriod,
@@ -138,10 +138,11 @@ function AddCandidateModal({ closeModal }) {
             "last_work_date": value?.last_work_date,
             "roles_and_responsibilities": value?.roleResponsibility,
             'user_id': userId,
-            "previous_experience": prevExperience
+            "previous_experience": prevExperience,
+            "job_id":value?.job_id
         }
 
-        
+
         // formData.append('first_name', value.firstName);
         // formData.append('middle_name', value.middleName);
         // formData.append('last_name', value.lastName);
@@ -163,29 +164,36 @@ function AddCandidateModal({ closeModal }) {
         // formData.append('user_id', userId);
 
         try {
+           
 
-             let Data = await postAPI('/addCandidates',formdata)
-                if (Data) {
-                    const formData = new FormData();
+            let Data = await postAPI('/addCandidates', formdata)
+            if (Data) {
+                const formData = new FormData();
 
-                    formData.append('file', file);
-                    formData.append('candidate_id', Data.data.result.insertId);
+                formData.append('file', file);
+                formData.append('candidate_id', Data.data.result.insertId);
 
-                    const response = await axios.post(`${BASE_URL}/addCandidatesResume`, formData, {
-                      headers: {
+                const response = await axios.post(`${BASE_URL}/addCandidatesResume`, formData, {
+                    headers: {
                         'Content-Type': 'multipart/form-data'
-                      }
-                    });
-                    closeModal();
-                }
-            
-          } catch (error) {
-            toast.error("Please Try Again",toastObj);
-          }
+                    }
+                });
+                closeModal();
+            }
+
+        } catch (error) {
+            toast.error("Please Try Again", toastObj);
+        }
 
         // console.log('Form submitted:', formdata);
     };
 
+    const getJobs = async () => {
+        let Data = await getAPI('/getJobs')
+        if (Data) {
+            setjobs(Data)
+        }
+    }
     const handleOutsideClick = (event) => {
         if (event.target.classList.contains('modal-overlay')) {
             closeModal();
@@ -480,6 +488,21 @@ function AddCandidateModal({ closeModal }) {
                                 />
                             </div>
                         </div>
+                        <div>
+                            <label htmlFor="Yexp" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Job Opening</label>
+                            <select className="form-control block text-base sm:text-sm w-full px-3 shadow-md text-base py-1.5  
+                                text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600  focus:outline-none"
+                                name="job_id"
+                                placeholder="Select Job"
+                                onChange={handleInputChange}>
+                                    <option value='' disabled selected>Select Option</option>
+                                {jobs.map((option, index) => (
+                                    <option key={index} value={option.job_id}>{option.job_title}</option>
+                                ))}
+                            </select>
+
+                        </div>
 
 
                         <div className='m-5'>
@@ -524,7 +547,7 @@ function AddCandidateModal({ closeModal }) {
                                                     placeholder="Current Address"
                                                     name='designation'
                                                     onChange={e => handleExpChange(e, i)}
-                                                     ></textarea>
+                                                ></textarea>
                                             </div>
                                         </div>
 
@@ -554,7 +577,7 @@ function AddCandidateModal({ closeModal }) {
                                                     placeholder="role & Responsibility"
                                                     name='roles_and_responsibilities'
                                                     onChange={e => handleExpChange(e, i)}
-                                                    ></textarea>
+                                                ></textarea>
                                             </div>
                                         </div>
 

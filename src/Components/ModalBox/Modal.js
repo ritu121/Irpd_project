@@ -24,6 +24,7 @@ function Modal({ data, closeModal }) {
         start_date: data?.start_date || '',
         target_date: data?.target_date || '',
         status: data?.status || '',
+        user_id:data?.user_id || '',
 
     });
 
@@ -60,10 +61,6 @@ function Modal({ data, closeModal }) {
 
     const handleSubmit=async(e)=>{
         e.preventDefault(); 
-        console.log('====================================');
-        console.log(formData,"fomrData");
-        console.log('====================================');
-        
         
         let data = await  patchAPI('/updateJob',formData);
         if(data){
@@ -234,7 +231,7 @@ function Modal({ data, closeModal }) {
                                     <option value='' disabled>Select option</option>
                                     <option>Active</option>
                                     <option>Inactive</option>
-                                    <option>On Hold</option>
+                                    <option>Open</option>
                                 </select>
                             </div>
                         </div>

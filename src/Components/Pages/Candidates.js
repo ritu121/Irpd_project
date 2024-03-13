@@ -7,7 +7,7 @@ import Modal from "../ModalBox/Modal";
 import ViewCadidateModal from "../ModalBox/ViewCandidate";
 import AddCandidateModal from '../ModalBox/AddCandidateModal';
 import EditCandidateModal from '../ModalBox/EditCandidateModal';
-import { deleteAPI, getAPI ,getExportAPI} from "../network/index";
+import { deleteAPI, getAPI, getExportAPI } from "../network/index";
 import { BASE_URL } from '../../constant';
 import { FaCloudDownloadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -81,11 +81,11 @@ function Candidates() {
 
 
 
-  const OpenAlert = (item,txt) => {
-     setAction(txt)
-    if(action==='download'){
+  const OpenAlert = (item, txt) => {
+    setAction(txt)
+    if (action === 'download') {
       setmessage('Do you want to Download Resume ?')
-    }else{
+    } else {
       setmessage('Are you sure, you want to Delete Candidate ?')
     }
     setAlertOpen(true);
@@ -101,53 +101,53 @@ function Candidates() {
 
   const handleConfirm = () => {
     closeAlert();
-    if(action === 'download'){
-      downloadResume(candidate.filename,candidate.first_name+''+candidate.last_name+''+ candidate.filename.substr(candidate.filename.indexOf('.')))
-    }else{
+    if (action === 'download') {
+      downloadResume(candidate.filename, candidate.first_name + '' + candidate.last_name + '' + candidate.filename.substr(candidate.filename.indexOf('.')))
+    } else {
       deleteCandidate(candidate.candidate_id)
     }
   };
 
- 
 
-  const downloadResume = async(filename,candidate_name) => {
+
+  const downloadResume = async (filename, candidate_name) => {
     // let Data=await getExportAPI(`/download/${filename}`)
     fetch(`${BASE_URL}/download/${filename}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/pdf',
-    },
-  })
-  .then((response) => response.blob())
-  .then((blob) => {
-    // Create blob link to download
-    const url = window.URL.createObjectURL(
-      new Blob([blob]),
-    );
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute(
-      'download',
-      candidate_name,
-    );
-    
-    // Append to html link element page
-    document.body.appendChild(link);
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/pdf',
+      },
+    })
+      .then((response) => response.blob())
+      .then((blob) => {
+        // Create blob link to download
+        const url = window.URL.createObjectURL(
+          new Blob([blob]),
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute(
+          'download',
+          candidate_name,
+        );
 
-    // Start download
-    link.click();
+        // Append to html link element page
+        document.body.appendChild(link);
 
-    // Clean up and remove the link
-    link.parentNode.removeChild(link);
-  });
-    
+        // Start download
+        link.click();
+
+        // Clean up and remove the link
+        link.parentNode.removeChild(link);
+      });
+
   }
 
-  const deleteCandidate=async(id)=>{
+  const deleteCandidate = async (id) => {
     let Data = await deleteAPI(`/deleteCandidates/${id}`,)
     if (Data) {
       getCandidateData()
-    } 
+    }
   }
 
   const getCandidateData = async () => {
@@ -157,7 +157,6 @@ function Candidates() {
     }
   }
 
-  
 
   return (
     <RootLayout>
@@ -186,10 +185,10 @@ function Candidates() {
                 <div className=" flex flex-row ml-auto">
                   {
                     userId == item.user_id &&
-                    <MdEditSquare style={{color:'#04ad3c'}} className="mr-2 cursor-pointer sm:text-xl" onClick={() => openEditModal(item)} />
+                    <MdEditSquare style={{ color: '#04ad3c' }} className="mr-2 cursor-pointer sm:text-xl" onClick={() => openEditModal(item)} />
                   }
-                  <FaCloudDownloadAlt style={{color:'#0370c9'}} className="mr-2 cursor-pointer sm:text-xl" onClick={()=>OpenAlert(item,'download')} />
-                  <MdDelete style={{color:'#b70303'}} className="mr-2 cursor-pointer sm:text-xl" onClick={()=>OpenAlert(item,'delete')} />
+                  <FaCloudDownloadAlt style={{ color: '#0370c9' }} className="mr-2 cursor-pointer sm:text-xl" onClick={() => OpenAlert(item, 'download')} />
+                  <MdDelete style={{ color: '#b70303' }} className="mr-2 cursor-pointer sm:text-xl" onClick={() => OpenAlert(item, 'delete')} />
                 </div>
               </div>
               <div class="px-5 py-3" onClick={() => openViewModal(item)}>
@@ -199,14 +198,11 @@ function Candidates() {
                 <p class="text-gray-700 text-base">
                   Experience :- {item.year_of_experience}
                 </p>
-
-                
+                <p class="text-gray-700 text-base">
+                  Job Referance Id :- {item.job_id}
+                </p>
               </div>
-              {/* <div class="px-6 pt-4 pb-2">
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-          </div> */}
+
             </div>
 
           ))
@@ -220,9 +216,7 @@ function Candidates() {
       ) : isAddCModalOpen ? (
         <AddCandidateModal closeModal={closeAddCandidateModal} />
       ) : null}
-
-      
-    <ConfirmationModal show={alertOpen} onClose={closeAlert} onConfirm={handleConfirm} message={message}/>
+      <ConfirmationModal show={alertOpen} onClose={closeAlert} onConfirm={handleConfirm} message={message} />
 
     </RootLayout>
   )

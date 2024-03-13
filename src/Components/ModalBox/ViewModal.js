@@ -1,14 +1,16 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Button from '../common/Button';
+import { getAPI } from '../network';
 
 function ViewModal({ data, closeModal }) {
     const datepickerRef1 = useRef(null);
     const datepickerRef2 = useRef(null);
+    const [candidates, setCandidates] = useState([])
 
     useEffect(() => {
-
+        getCandidateByJob()
 
         const datepicker1 = flatpickr(datepickerRef1.current, {
             dateFormat: 'Y-m-d',
@@ -32,6 +34,16 @@ function ViewModal({ data, closeModal }) {
     const handleCancelClick = () => {
         closeModal();
     };
+
+    const getCandidateByJob = async () => {
+        let Data = await getAPI(`/getCandidateByJob/${data.job_id}`)
+        if (Data) {
+            setCandidates(Data.data)
+        }
+
+
+    }
+
     return (
         <div
             className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
@@ -158,7 +170,7 @@ function ViewModal({ data, closeModal }) {
                                     value={data?.status || ""} disabled>
                                     <option>Active</option>
                                     <option>Inactive</option>
-                                    <option>On Hold</option>
+                                    <option>Open</option>
                                 </select>
                             </div>
                         </div>
@@ -174,7 +186,7 @@ function ViewModal({ data, closeModal }) {
                                     name="datepicker"
                                     placeholder="Select a date"
                                     disabled
-                                    value={data?.start_date || ""}
+                                    value={data?.start_date ? data.start_date.substring(0, 10) : null}
                                     className="form-control shadow-md block  w-full px-3 py-1.5  
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
@@ -191,7 +203,7 @@ function ViewModal({ data, closeModal }) {
                                     id="datepicker"
                                     name="datepicker"
                                     disabled
-                                    value={data?.target_date || ""}
+                                    value={data?.target_date ? data.target_date.substring(0, 10) : null}
                                     placeholder="Select a date"
                                     className="form-control shadow-md block  w-full px-3 py-1.5  
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
@@ -201,9 +213,29 @@ function ViewModal({ data, closeModal }) {
                                 />
                             </div>
                         </div>
-                        {/* <div className='flex justify-center mt-3'>
-                           <div className='w-5/12'> <Button title={'Submit'}></Button></div>
-                        </div> */}
+                        <div className='flex mt-3'>
+
+                            <div className='flex mt-3'>
+                                <label htmlFor="candidate" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
+                                    Candidates for Reference
+                                </label>
+
+                                {
+                                    candidates.length >= 1 ? (
+
+                                        candidates?.map((item) => (
+                                            <div key={item.id} className='m-2 p-1 border rounded bg-fuchsia-100 text-sm drop-shadow-md'>
+                                                {item.first_name} {item.last_name}
+                                            </div> 
+                                        ))
+                                    ) : (
+                                        <div className='m-2 p-1 border rounded bg-fuchsia-100 text-sm drop-shadow-md'>No Candidates Referred</div>
+                                    )
+                                }
+                            </div>
+
+
+                        </div>
                         <div className='flex justify-center mt-3'>
                             <div className='w-5/12' onClick={handleCancelClick}> <Button title={'Cancel'} ></Button></div>
                         </div>

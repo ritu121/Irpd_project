@@ -301,7 +301,7 @@ function NewRequest() {
                                     <option value='' disabled >Select Option</option>
                                     <option>Active</option>
                                     <option>Inactive</option>
-                                    <option>On Hold</option>
+                                    <option>Open</option>
                                 </select>
                             </div>
                         </div>

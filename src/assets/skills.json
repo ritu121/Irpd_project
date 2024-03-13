@@ -1,0 +1,52 @@
+
+    [
+        {
+            "skill_id":"1",
+            "skill_name":"ReactJs"
+        },
+        {
+            "skill_id":"2",
+            "skill_name":".Net"
+        },
+        {
+            "skill_id":"3",
+            "skill_name":"C#"
+            
+        },
+        {
+            "skill_id":"4",
+            "skill_name":"NodeJs"
+            
+        },
+        {
+            "skill_id":"5",
+            "skill_name":"Azure"
+            
+        },
+        {
+            "skill_id":"6",
+            "skill_name":"Devops"
+            
+        },{
+            "skill_id":"7",
+            "skill_name":"HTML/CSS"
+        },
+        {
+            "skill_id":"8",
+            "skill_name":"JavaScript"
+        },
+        {
+            "skill_id":"9",
+            "skill_name":"React Native"
+        },
+        {
+            "skill_id":"10",
+            "skill_name":"Fluter"
+        },
+        {
+            "skill_id":"11",
+            "skill_name":"Android"
+        }
+        
+
+    ]

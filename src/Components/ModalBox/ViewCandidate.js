@@ -1,4 +1,4 @@
-import React, { useRef,useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Button from '../common/Button';
@@ -11,11 +11,14 @@ function ViewModal({ data, closeModal }) {
 
     const [prevExperience, setPrevExperience] = useState([])
     const [candidate_id, setCandidate_id] = useState(data?.candidate_id);
+    const [jobs, setjobs] = useState([]);
+    const [jobsTitle, setjobsTitle] = useState('');
 
 
     useEffect(() => {
         setCandidate_id(data?.candidate_id)
         GetPrevExperience()
+        getJobs()
         const datepicker1 = flatpickr(datepickerRef1.current, {
             dateFormat: 'Y-m-d',
         });
@@ -26,6 +29,7 @@ function ViewModal({ data, closeModal }) {
             datepicker1.destroy();
             datepicker2.destroy();
         };
+
 
 
     }, [data]);
@@ -46,6 +50,20 @@ function ViewModal({ data, closeModal }) {
             setPrevExperience(data)
         }
 
+    }
+    const getJobs = async () => {
+        let Data = await getAPI('/getJobs')
+        if (Data) {
+            setjobs(Data)
+            jobs.map((item) => {
+                if (item.job_id === data.job_id) {
+                    console.log(item.job_id, "item----");
+                    const title = item.job_title
+                    setjobsTitle(title)
+                    console.log(item.job_title, "jobsTitle");
+                }
+            })
+        }
     }
 
     return (
@@ -83,7 +101,6 @@ function ViewModal({ data, closeModal }) {
                                     placeholder="Middle Name"
                                     value={data?.middle_name}
                                     disabled
-
                                 />
                             </div>
                             <div>
@@ -164,7 +181,7 @@ function ViewModal({ data, closeModal }) {
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm "   value={data?.designation || ""} disabled
+                            text-base sm:text-sm"   value={data?.designation || ""} disabled
                                     placeholder="Designation" />
                             </div>
                         </div>
@@ -245,6 +262,17 @@ function ViewModal({ data, closeModal }) {
                                 />
                             </div>
                         </div>
+                        <div>
+                            <label for="jobId" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Job Referance Id</label>
+                            <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
+                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                            text-base sm:text-sm "
+                                name='jobId'
+                                value={data.job_id}
+                                disabled
+                            />
+                        </div>
 
                         {prevExperience.length > 0 &&
 
@@ -261,7 +289,6 @@ function ViewModal({ data, closeModal }) {
 
                                             <div className='flex justify-between'>
                                                 <p>Experience {i + 1}</p>
-                                                
                                             </div>
 
                                             <div className='grid grid-cols-2 gap-2 divide-x'>
@@ -270,7 +297,7 @@ function ViewModal({ data, closeModal }) {
                                                     <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                                                         text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                                         ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                                        text-base sm:text-sm "      
+                                                        text-base sm:text-sm "
                                                         value={item?.company || ''}
                                                         placeholder="Company"
                                                         name='company'
@@ -279,10 +306,10 @@ function ViewModal({ data, closeModal }) {
                                                 </div>
                                                 <div className='w-50'>
                                                     <label for="cAddress" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Designation</label>
-                                                                                                        <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
+                                                    <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                                                         text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                                         ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                                        text-base sm:text-sm "      
+                                                        text-base sm:text-sm "
                                                         value={item?.designation || ''}
                                                         placeholder="Designation"
                                                         name='designation'
@@ -301,7 +328,7 @@ function ViewModal({ data, closeModal }) {
                                                         name="year_of_experience"
                                                         placeholder="Year of Experience"
                                                         disabled>
-                                                        <option value='' disabled>Select Option</option>
+                                                        <option value='' disabled>{item.year_of_experience}</option>
                                                         <option>Fresher</option>
                                                         <option>1+</option>
                                                         <option>2+</option>
@@ -339,7 +366,7 @@ function ViewModal({ data, closeModal }) {
                                                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                                                 text-base sm:text-sm"
-                                                       // ref={datepickerRef11}
+                                                    // ref={datepickerRef11}
                                                     />
                                                 </div>
                                                 <div className='w-50'>

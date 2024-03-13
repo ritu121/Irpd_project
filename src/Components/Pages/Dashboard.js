@@ -1,18 +1,12 @@
-import { React } from 'react';
-import RootLayout from '../Layout/RootLayout';
+import React from 'react'
+import RootLayout from '../Layout/RootLayout'
+import BarChart from '../common/BarChart'
 
-
-import ListData from '../common/ListData';
-
-
-
-const Dashboard = () => {
-  
+function Dashboard() {
   return (
-    <RootLayout>
-    <ListData/>
-    </RootLayout>
-
+   <RootLayout>
+    <BarChart></BarChart>
+   </RootLayout>
   )
 }
 

@@ -13,6 +13,8 @@ function EditCandidateModal({ data, closeModal }) {
     const [prevExperience, setPrevExperience] = useState([])
     const [candidate_id, setCandidate_id] = useState(data?.candidate_id);
     const [file, setFile] = useState(null);
+    const [jobs, setjobs] = useState([]);
+    const [jobsTitle, setjobsTitle] = useState('');
 
     const [value, setvalue] = useState({
         candidate_id: candidate_id,
@@ -36,7 +38,7 @@ function EditCandidateModal({ data, closeModal }) {
         notice_period: data?.notice_period || '',
         last_work_date: data?.last_work_date ? data.last_work_date.substring(0, 10) : '',
         start_date: data?.start_date ? data.start_date.substring(0, 10) : '',
-        // last_work_date: data?.last_work_date || '',
+        job_id: data?.job_id || 0,
         user_id: data?.user_id || '',
         previous_experience: prevExperience
     });
@@ -50,7 +52,7 @@ function EditCandidateModal({ data, closeModal }) {
 
         GetPrevExperience()
 
-        console.log(data, 'data');
+        getJobs()
 
     }, [data]);
 
@@ -115,6 +117,32 @@ function EditCandidateModal({ data, closeModal }) {
         }
 
     }
+    const getJobs = async () => {
+
+        let Data = await getAPI('/getJobs')
+
+        if (Data) {
+            setjobs(Data)
+
+           
+
+
+            Data.map((item) => {
+                
+                if (item.job_id === data.job_id) {
+                   
+                    const title = item.job_title
+
+                   
+                    setjobsTitle(title)
+
+
+                }
+            })
+        }
+    }
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -141,6 +169,7 @@ function EditCandidateModal({ data, closeModal }) {
             'notice_period': value?.notice_period,
             'start_date': value?.start_date,
             'last_work_date': value?.last_work_date,
+            'job_id': parseInt(value?.job_id),
             'user_id': value?.user_id,
             'previous_experience': prevExperience
         }
@@ -160,7 +189,7 @@ function EditCandidateModal({ data, closeModal }) {
                 });
                 if (response) {
                     toast.success(response.data.message, toastObj);
-                }
+                } 
             }
 
             closeModal();
@@ -173,8 +202,8 @@ function EditCandidateModal({ data, closeModal }) {
             className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
             onClick={handleOutsideClick}
         >
-            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 overflow-y-auto bg-white rounded-md'>
-                <form onSubmit={handleSubmit} className='w-full border-sky-500  rounded-lg'>
+            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 w-4/6 overflow-y-auto bg-white rounded-md'>
+                <form onSubmit={handleSubmit} className='w-full border-sky-500  rounded-lg '>
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Update Candidate Details</p>
                     <div className='grid m-2 p-5'>
 
@@ -416,6 +445,21 @@ function EditCandidateModal({ data, closeModal }) {
 
                                 />
                             </div>
+                            <div>
+                                <label htmlFor="Yexp" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Job Opening</label>
+                                <select className="form-control block text-base sm:text-sm w-full px-3 shadow-md text-base py-1.5  
+                                text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600  focus:outline-none"
+                                    name="job_id"
+                                    placeholder="Select Job"
+                                    onChange={handleChange}>
+                                    <option value='' disabled selected>{jobsTitle}</option>
+                                    {jobs.map((option, index) => (
+                                        <option key={index} value={option?.job_id}>{option.job_title}</option>
+                                    ))}
+                                </select>
+
+                            </div>
                         </div>
                         {
                             prevExperience.length === 0 &&
@@ -546,7 +590,7 @@ function EditCandidateModal({ data, closeModal }) {
 
                                             {prevExperience.length - 1 === i &&
                                                 <button className="shadow-md rounded-lg text-white bg-[#152C4F] w-50 px-6 py-2.5
-                                text-white  text-xs text-[14px]  leading-tight uppercase rounded shadow-md hover:bg-[#3D5890] hover:shadow-lg focus:bg-[#3D5890]
+                                                    text-white  text-xs text-[14px]  leading-tight uppercase rounded shadow-md hover:bg-[#3D5890] hover:shadow-lg focus:bg-[#3D5890]
                                                     focus:shadow-lg focus:outline-none focus:ring-0  active:bg-[#3D5890] active:shadow-lg  transition  duration-150 ease-in-out mt-2" onClick={AddExperience}>Add More</button>
                                             }
                                         </div>

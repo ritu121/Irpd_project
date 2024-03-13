@@ -2,19 +2,22 @@ import { React, useEffect, useState } from 'react';
 import Modal from "../ModalBox/Modal";
 import ViewModal from "../ModalBox/ViewModal";
 import { getAPI } from "../network/index";
-import { FaSearch } from "react-icons/fa";
+
 import { MdEditSquare, MdPreview } from "react-icons/md";
 
 
 
 
-function ListData() {
+function ListData({jobData,status}) {
 
-    const [jobData, setJobData] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+    
     const userId =localStorage.getItem("user_id")
+
+    useEffect(()=>{
+    },[])
    
 
     const openModal = (data) => {
@@ -29,44 +32,21 @@ function ListData() {
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedData(null);
-        getJobData()
     };
     const closeViewModal = () => {
         setIsViewModalOpen(false);
         setSelectedData(null);
-        getJobData()
     };
 
-    useEffect(() => {
-        getJobData()
-    }, []);
+   
 
-    const getJobData = async () => {
-        let Data = await getAPI('/getJobs')
-        if (Data) {
-            setJobData(Data)
-        }
-    }
     
-    const SearchJob=async(e)=>{
-        
-        const input=e.target.value
-
-        let Data = await getAPI(`/search?name=${input}`)
-        if (Data) {
-             setJobData(Data.data)
-        }
-    }
+   
 
     return (
         <>
-            <div className="bg-white rounded-full border-none p-3 m-4 shadow-md  z-1 ">
-                <div className="flex items-center ">
-                    <FaSearch />
-                    <input type="text" placeholder="Search..." className="ml-3 focus:outline-none w-full"  onChange={(e)=>{SearchJob(e)}}/>
-                </div>
-            </div>
-             <p className='text-zinc-950 text-2xl p-4 mt-4 text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>Current Openings</p>
+            
+             <p className='text-zinc-950 text-2xl p-4 mt-4 text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>{status} Openings</p>
 
             <div className="flex flex-col gap-4 items-stretch p-4 text-base sm:text-sm mt-4">
            
@@ -83,13 +63,11 @@ function ListData() {
                                         <div>
                                             <h1>
                                                 <b className="text-cyan-700 font-bold p-2">
-                                                    {item?.job_title}
+                                                    {item?.job_title} (Job Id:{item.job_id})
                                                 </b>
                                             </h1>
                                         </div>
                                         <div className=" flex flex-row ml-auto">
-
-
 
                                             {
                                                
@@ -139,11 +117,6 @@ function ListData() {
                                             <td>Qualification: </td>
                                             <td className='p-2'>{item?.edu_qualification}</td>
                                         </tr>
-                                        <hr></hr>
-                                        {/* <tr>
-                                            <td>Certification: </td>
-                                            <td className='p-2'>{item?.certifications}</td>
-                                        </tr> */}
                                         <hr></hr>
                                     </table>
                                 </div>
