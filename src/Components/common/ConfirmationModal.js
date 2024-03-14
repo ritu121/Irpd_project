@@ -15,11 +15,12 @@ const ConfirmationModal = ({ show, onClose, onConfirm, message }) => {
               </svg>
             </button>
           </div>
+          
           <div className="p-4">
             <p className="text-gray-800">{message}</p>
           </div>
+
           <div className="flex justify-between p-4">
-            
             <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onClick={onConfirm}>Yes</button>
             <button className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 mr-2" onClick={onClose}>Cancel</button>
           </div>

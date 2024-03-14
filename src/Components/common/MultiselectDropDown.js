@@ -11,15 +11,15 @@ function MultiselectDropDown({ formFieldName, options }) {
         <ul>
           {options.map((option, i) => {
             return (
-              <li key={option}>
-                <label className="flex whitespace-nowrap cursor-pointer px-2 py-1 transition-colors hover:bg-blue-100 [&:has(input:checked)]:bg-blue-200">
+              <li key={i}>
+                <label className="flex whitespace-nowrap cursor-pointer px-2 py-1 transition-colors hover:bg-blue-100">
                   <input
-                    type="checkbox"
+                    type="text"
                     name={formFieldName}
-                    value={option}
+                    value={option.skill_name}
                     className="cursor-pointer"
                   />
-                  <span className="ml-1">{option}</span>
+                  <span className="ml-1">{option.skill_name}</span>
                 </label>
               </li>
             );

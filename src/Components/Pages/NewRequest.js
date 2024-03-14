@@ -2,16 +2,17 @@ import React, { useRef, useEffect, useState } from 'react';
 import RootLayout from '../Layout/RootLayout';
 import Header from '../Layout/Header';
 import { toast } from 'react-toastify';
-import { postAPI } from '../network';
+import { getAPI, postAPI } from '../network';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css'; // Import the CSS file
 import Button from '../common/Button';
+import MultiselectDropDown from './../common/MultiselectDropDown'
 
 
 function NewRequest() {
 
     const userId = localStorage.getItem("user_id")
-
+    const [skills, setSkills] = useState([]);
     const datepickerRef1 = useRef(null);
     const datepickerRef2 = useRef(null);
 
@@ -32,6 +33,23 @@ function NewRequest() {
         sDate: '',
         eDate: ''
     })
+
+    useEffect(() => {
+        getSkillsData()
+        const datepicker1 = flatpickr(datepickerRef1.current, {
+            dateFormat: 'Y-m-d', // Customize the date format
+            // Add more options as needed
+        });
+        const datepicker2 = flatpickr(datepickerRef2.current, {
+            dateFormat: 'Y-m-d', // Customize the date format
+            // Add more options as needed
+        });
+        return () => {
+            datepicker1.destroy();
+            datepicker2.destroy();
+        };
+    }, []);
+
 
 
     const handleInputChange = (e) => {
@@ -100,21 +118,14 @@ function NewRequest() {
 
     }
 
-    useEffect(() => {
 
-        const datepicker1 = flatpickr(datepickerRef1.current, {
-            dateFormat: 'Y-m-d', // Customize the date format
-            // Add more options as needed
-        });
-        const datepicker2 = flatpickr(datepickerRef2.current, {
-            dateFormat: 'Y-m-d', // Customize the date format
-            // Add more options as needed
-        });
-        return () => {
-            datepicker1.destroy();
-            datepicker2.destroy();
-        };
-    }, []);
+
+    const getSkillsData = async () => {
+        let Data = await getAPI('/getSkills')
+        if (Data) {
+            setSkills(Data)
+        }
+    }
     return (
         <RootLayout>
             <div className='flex justify-center min-h-full p-5 mt-4 '>
@@ -158,6 +169,7 @@ function NewRequest() {
                             value={value.skills}
                             required
                             onChange={handleInputChange}></textarea>
+                        {/* <MultiselectDropDown formFieldName={'skills'} options={skills}></MultiselectDropDown>    */}
 
                         <label for="certification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Certification</label>
                         <textarea

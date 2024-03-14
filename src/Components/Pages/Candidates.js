@@ -101,7 +101,7 @@ function Candidates() {
 
   const handleConfirm = () => {
     closeAlert();
-    if (action === 'download') {
+    if (action === 'download'){
       downloadResume(candidate.filename, candidate.first_name + '' + candidate.last_name + '' + candidate.filename.substr(candidate.filename.indexOf('.')))
     } else {
       deleteCandidate(candidate.candidate_id)
