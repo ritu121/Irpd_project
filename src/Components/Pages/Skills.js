@@ -158,7 +158,7 @@ function Skills() {
                 <div
                     className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
                     onClick={handleOutsideClick}>
-                    <div className='flex justify-center min-w-screen p-4 mt-6 h-3/6 w-2/6 overflow-y-auto bg-white rounded-md'>
+                    <div className='flex justify-center min-w-screen p-4 mt-6 h-3/6  overflow-y-auto bg-white rounded-md sm:w-90 md:w-2/5 lg:w-2/5'>
                         <form className='w-full border-sky-500  rounded-lg' onSubmit={handleSubmit}>
                             <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Add New Skill</p>
                             <div className='grid m-2 p-5'>
