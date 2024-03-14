@@ -45,22 +45,25 @@ function Skills() {
     }
 
     const handleSubmit = async (e) => {
-
-        const data = {
-            skill_name: skillName
-        }
-
         e.preventDefault();
-        try {
-
-            let Data = await postAPI('/addSkills', data)
-            if (Data) {
-                closeSkillModal();
-                getSkillsData()
+        if (skillName == '') {
+            toast.error("Please Enter Skill Name", toastObj);
+            return;
+        } else {
+            const data = {
+                skill_name: skillName
             }
+            try {
 
-        } catch (error) {
-            toast.error("Please Try Again", toastObj);
+                let Data = await postAPI('/addSkills', data)
+                if (Data) {
+                    closeSkillModal();
+                    getSkillsData()
+                }
+
+            } catch (error) {
+                toast.error("Please Try Again", toastObj);
+            }
         }
 
     }
@@ -163,7 +166,7 @@ function Skills() {
                             <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Add New Skill</p>
                             <div className='grid m-2 p-5'>
                                 {/* <label for="JobTitle" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Candidate Name</label> */}
-                                <div className='grid divide-x'>
+                                <div className='grid '>
                                     <div>
                                         <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Skill Name</label>
                                         <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  

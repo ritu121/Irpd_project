@@ -129,7 +129,7 @@ function NewRequest() {
     return (
         <RootLayout>
             <div className='flex justify-center min-h-full p-5 mt-4 '>
-                <div className='w-11/12 border-sky-500 shadow-md rounded-lg  bg-white'>
+                <div className='sm:w-90 md:w-4/5 lg:w-4/5 border-sky-500 shadow-md rounded-lg  bg-white'>
                     <p className='text-zinc-950 text-2xl p-4 mt-4 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>Register New Request</p>
                     <form className='grid m-2 p-5' onSubmit={handleSubmit}>
                         <label for="JobTitle" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Job Title</label>
@@ -182,7 +182,7 @@ function NewRequest() {
                             value={value.certification}
                             onChange={handleInputChange} required ></textarea>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2 '>
                             <div className='w-50'>
                                 <label for="Yexp" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Year of Experience</label>
                                 <select className="form-control block text-base sm:text-sm w-full px-3 shadow-md text-base py-1.5  
@@ -215,7 +215,7 @@ function NewRequest() {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2'>
                             <div className='w-50'>
                                 <label for="qualification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Qualification</label>
                                 <input
@@ -260,7 +260,7 @@ function NewRequest() {
                         </div>
 
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2 '>
                             <div className='w-50'>
                                 <label for="location" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Location</label>
                                 <input type="text"
@@ -287,7 +287,7 @@ function NewRequest() {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2 '>
                             <div className='w-50'>
                                 <label for="hireType" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Hire Type</label>
                                 <select className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid 
@@ -318,7 +318,7 @@ function NewRequest() {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2 '>
                             <div className='w-50'>
                                 <label htmlFor="datepicker" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
                                     Pick a Start Date:

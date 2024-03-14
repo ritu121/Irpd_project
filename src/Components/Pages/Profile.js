@@ -43,7 +43,7 @@ function Profile() {
             <div className='flex justify-center min-h-full p-5'>
                 <div className='lg:w-[80%] border-sky-500 shadow-md rounded-lg z-1 bg-white'>
                     <p className='text-zinc-950 text-2xl p-5  font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>Personal Details</p>
-                    <div className='grid grid-cols-2 gap-2 divide-x m-2 p-5'>
+                    <div className='grid grid-cols-2 gap-2  m-2 p-5'>
                         <div className='w-50'>
                             <label for="FirstName" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm">First Name </label><span style={{ color: "red" }}> &nbsp; *</span>
                             <input type="text" value={userData?.first_name} className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -58,7 +58,7 @@ function Profile() {
                                 aria-describedby="emailHelp" placeholder="Enter Last Name" />
                         </div>
                     </div>
-                    <div className='grid grid-cols-2 gap-2 divide-x m-2 p-5'>
+                    <div className='grid grid-cols-2 gap-2  m-2 p-5'>
                         <div className='w-50'>
                             <label for="UserType" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm">User Type</label><span style={{ color: "red" }}> &nbsp; *</span>
                             <select value={''} className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="User type">
@@ -76,7 +76,7 @@ function Profile() {
                             </select>
                         </div>
                     </div>
-                    <div className='grid grid-cols-2 gap-2 divide-x m-2 p-5'>
+                    <div className='grid grid-cols-2 gap-2  m-2 p-5'>
                         <div className='w-50'>
                             <label for="Phone" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm">Phone </label><span style={{ color: "red" }}> &nbsp; *</span>
                             <input type="text" value={userData?.mobile} className="form-control shadow-md block text-base sm:text-sm w-full px-3 py-1.5  text-base  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="Phone"

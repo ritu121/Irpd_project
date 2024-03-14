@@ -207,8 +207,8 @@ function AddCandidateModal({ closeModal }) {
             className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
             onClick={handleOutsideClick}
         >
-            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 w-4/6 overflow-y-auto bg-white rounded-md'>
-                <form className='w-full border-sky-500 w-5/6 rounded-lg ' onSubmit={handleSubmit}>
+            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 sm:w-90 md:w-3/5 lg:w-3/5 overflow-y-auto bg-white rounded-md'>
+                <form className='w-full border-sky-500 rounded-lg ' onSubmit={handleSubmit}>
 
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Add Candidate</p>
                     <div className='grid m-2 p-5'>
@@ -229,7 +229,7 @@ function AddCandidateModal({ closeModal }) {
                             placeholder="Select a Resume" />
 
 
-                        <div className='grid grid-cols-3 gap-2 divide-x'>
+                        <div className='grid grid-cols-3 gap-2 '>
                             <div>
                                 <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">First Name</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -299,7 +299,7 @@ function AddCandidateModal({ closeModal }) {
                             onChange={handleInputChange}
                             required ></textarea>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x'>
+                        <div className='grid grid-cols-2 gap-2 '>
                             <div className='w-50'>
                                 <label for="Yexp" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Year of Experience</label>
                                 <select className="form-control block text-base sm:text-sm w-full px-3 shadow-md text-base py-1.5  
@@ -332,7 +332,7 @@ function AddCandidateModal({ closeModal }) {
 
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x'>
+                        <div className='grid grid-cols-2 gap-2 '>
 
 
                             <div className='w-50'>
@@ -362,7 +362,7 @@ function AddCandidateModal({ closeModal }) {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2  '>
                             <div className='w-50'>
                                 <label for="cCompany" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Current Company</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -389,7 +389,7 @@ function AddCandidateModal({ closeModal }) {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2  '>
                             <div className='w-50'>
                                 <label for="Role&Responsibilities" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Role & Responsibilities</label>
                                 <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -418,7 +418,7 @@ function AddCandidateModal({ closeModal }) {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2  '>
 
                             <div className='w-50'>
                                 <label for="currentctc" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Current CTC</label>
@@ -450,7 +450,7 @@ function AddCandidateModal({ closeModal }) {
 
 
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2  '>
                             <div className='w-50'>
                                 <label htmlFor="startDate" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
                                     Start Date:
@@ -526,7 +526,7 @@ function AddCandidateModal({ closeModal }) {
                                             }
                                         </div>
 
-                                        <div className='grid grid-cols-2 gap-2 divide-x'>
+                                        <div className='grid grid-cols-2 gap-2 '>
                                             <div className='w-50'>
                                                 <label for="pAddress" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Company Name</label>
                                                 <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -551,7 +551,7 @@ function AddCandidateModal({ closeModal }) {
                                             </div>
                                         </div>
 
-                                        <div className='grid grid-cols-2 gap-2 divide-x'>
+                                        <div className='grid grid-cols-2 gap-2 '>
                                             <div className='w-50'>
                                                 <label for="pAddress" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Year of Experience</label>
                                                 <select className="form-control block text-base sm:text-sm w-full px-3 shadow-md text-base py-1.5  
@@ -581,7 +581,7 @@ function AddCandidateModal({ closeModal }) {
                                             </div>
                                         </div>
 
-                                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                                        <div className='grid grid-cols-2 gap-2  '>
                                             <div className='w-50'>
                                                 <label htmlFor="startDate" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
                                                     Start Date:

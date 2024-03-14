@@ -71,12 +71,12 @@ function ViewModal({ data, closeModal }) {
             className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
             onClick={handleOutsideClick}
         >
-            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 w-4/6 overflow-y-auto bg-white rounded-md'>
+            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 sm:w-90 md:w-2/5 lg:w-2/5 overflow-y-auto bg-white rounded-md'>
                 <div className='w-full border-sky-500 w-5/6 rounded-lg'>
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Candidate Details</p>
                     <div className='grid m-2 p-5'>
                         {/* <label for="JobTitle" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Candidate Name</label> */}
-                        <div className='grid grid-cols-3 gap-2 divide-x'>
+                        <div className='grid grid-cols-3 gap-2 '>
                             <div>
                                 <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">First Name</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -129,7 +129,7 @@ function ViewModal({ data, closeModal }) {
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             text-base sm:text-sm "name='other_skills' placeholder="Please Enter all Require Skills" value={data?.other_skills || ""} disabled ></textarea>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x'>
+                        <div className='grid grid-cols-2 gap-2 '>
                             <div className='w-50'>
                                 <label for="Yexp" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Year of Experience</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -149,7 +149,7 @@ function ViewModal({ data, closeModal }) {
 
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x'>
+                        <div className='grid grid-cols-2 gap-2 '>
 
 
                             <div className='w-50'>
@@ -167,7 +167,7 @@ function ViewModal({ data, closeModal }) {
                             text-base sm:text-sm " placeholder="Current Address" value={data?.current_address || ""} disabled ></textarea>
                             </div>
                         </div>
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2  '>
                             <div className='w-50'>
                                 <label for="cCompany" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Current Company</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -186,7 +186,7 @@ function ViewModal({ data, closeModal }) {
                             </div>
                         </div>
 
-                        < div className='grid grid-cols-2 gap-2 divide-x '>
+                        < div className='grid grid-cols-2 gap-2  '>
                             <div className='w-50'>
                                 <label for="Role&Responsibilities" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Role & Responsibilities</label>
                                 <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -205,7 +205,7 @@ function ViewModal({ data, closeModal }) {
 
                             </div>
                         </div>
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2  '>
                             <div className='w-50'>
                                 <label for="ExpCTC" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Expected CTC</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -224,7 +224,7 @@ function ViewModal({ data, closeModal }) {
                                     placeholder="notice period" disabled />
                             </div>
                         </div>
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2  '>
                             <div className='w-50'>
                                 <label htmlFor="datepicker" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
                                     Start Date:
@@ -291,7 +291,7 @@ function ViewModal({ data, closeModal }) {
                                                 <p>Experience {i + 1}</p>
                                             </div>
 
-                                            <div className='grid grid-cols-2 gap-2 divide-x'>
+                                            <div className='grid grid-cols-2 gap-2 '>
                                                 <div className='w-50'>
                                                     <label for="pAddress" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Company Name</label>
                                                     <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -318,7 +318,7 @@ function ViewModal({ data, closeModal }) {
                                                 </div>
                                             </div>
 
-                                            <div className='grid grid-cols-2 gap-2 divide-x'>
+                                            <div className='grid grid-cols-2 gap-2 '>
                                                 <div className='w-50'>
                                                     <label for="pAddress" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Year of Experience</label>
                                                     <select className="form-control block text-base sm:text-sm w-full px-3 shadow-md text-base py-1.5  
@@ -350,7 +350,7 @@ function ViewModal({ data, closeModal }) {
                                                 </div>
                                             </div>
 
-                                            <div className='grid grid-cols-2 gap-2 divide-x '>
+                                            <div className='grid grid-cols-2 gap-2  '>
                                                 <div className='w-50'>
                                                     <label htmlFor="startDate" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
                                                         Start Date:
