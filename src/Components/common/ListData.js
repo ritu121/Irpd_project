@@ -48,12 +48,12 @@ function ListData({jobData,status}) {
             
              <p className='text-zinc-950 text-2xl p-4 mt-4 text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'>{status} Openings</p>
 
-            <div className="flex flex-col gap-4 items-stretch p-4 text-base sm:text-sm mt-4">
+             <div className='flex flex-wrap w-auto flex-col'>
            
                 {
                     jobData?.map((item, i) => (
                        
-                        <div className="bg-white m-0 p-6 rounded-lg border border-gray-200 mb-4 shadow-md lg:w-[80%] md:w-[80%] sm:w-[100%]">
+                        <div className="bg-white m-0 p-2 rounded-lg border border-gray-200 mb-4 shadow-md ">
 
                             <div className="flex items-center space-x-5 ">
 
@@ -82,9 +82,9 @@ function ListData({jobData,status}) {
 
 
 
-                                    <table className='mt-3 text-bold'>
+                                    <table className='mt-3 text-bold sm:w-90 md:w-4/5 lg:w-4/5'>
                                         <tr>
-                                            <td>Description: </td>
+                                            <td className='w-36'>Description: </td>
                                             <td className='p-2'>{item?.job_description}</td>
                                         </tr>
                                         <hr></hr>
@@ -117,7 +117,6 @@ function ListData({jobData,status}) {
                                             <td>Qualification: </td>
                                             <td className='p-2'>{item?.edu_qualification}</td>
                                         </tr>
-                                        <hr></hr>
                                     </table>
                                 </div>
 

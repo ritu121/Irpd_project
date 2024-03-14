@@ -158,7 +158,7 @@ function Candidates() {
   }
 
 
-  return (
+  return ( 
     <RootLayout>
       <div className='flex item-center justify-between'>
         <p className='text-zinc-950 text-2xl p-4 mt-4 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'

@@ -52,7 +52,7 @@ function ViewModal({ data, closeModal }) {
             <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 w-4/6 overflow-y-auto bg-white rounded-md'>
                 <div className='w-full border-sky-500 w-5/6 rounded-lg'>
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>View Job Request</p>
-                    <div className='grid m-2 p-5'>
+                    <div className='grid m-2 p-5 w-full'>
                         <label for="JobTitle" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Job Title</label>
                         <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
@@ -175,7 +175,7 @@ function ViewModal({ data, closeModal }) {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2  '>
+                        <div className='grid grid-cols-2 gap-2 divide-x '>
                             <div className='w-50'>
                                 <label htmlFor="datepicker" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
                                     Pick a Start Date:

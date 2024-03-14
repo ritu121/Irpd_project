@@ -74,7 +74,7 @@ function ViewModal({ data, closeModal }) {
             <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 sm:w-90 md:w-2/5 lg:w-2/5 overflow-y-auto bg-white rounded-md'>
                 <div className='w-full border-sky-500 w-5/6 rounded-lg'>
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Candidate Details</p>
-                    <div className='grid m-2 p-5'>
+                    <div className='grid m-2 p-5 w-full'>
                         {/* <label for="JobTitle" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Candidate Name</label> */}
                         <div className='grid grid-cols-3 gap-2 '>
                             <div>

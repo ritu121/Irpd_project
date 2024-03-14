@@ -6,3 +6,11 @@
     }
     
   }
+
+  .css-heg063-MuiTabs-flexContainer {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-around !important;
+}

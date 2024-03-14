@@ -13,6 +13,8 @@ import { FaSearch } from "react-icons/fa";
 import ListData from '../common/ListData';
 import { getAPI } from '../network';
 
+import './index.css'
+
 function CustomTabPanel(props) {
   const { children, value, index, tab, ...other } = props;
 
@@ -89,14 +91,14 @@ const Openings = () => {
         </div>
       </div>
 
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ display: 'flex',justifyContent: 'space-around' }}>
-            <Tab sx={{ marginRight: '50px', marginLeft: "50px", color: 'green',borderRadius:'5px'  }} label="Open" value={'Open'}    {...a11yProps(0)} />
-            <Tab sx={{ marginRight: '50px', marginLeft: "50px", color: 'red',borderRadius:'5px'}} label="Active" value={'Active'}   {...a11yProps(1)} />
-            <Tab sx={{ marginRight: '50px', marginLeft: "50px", color: '#ad04cf',borderRadius:'5px' }} label="InActive" value={'InActive'}{...a11yProps(2)} />
+      {/* <Box sx={{ width: '100%' }}> */}
+        
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tab sx={{ color: 'green',borderRadius:'5px'  }} label="Open" value={'Open'}    {...a11yProps(0)} />
+            <Tab sx={{ color: 'red',borderRadius:'5px'}} label="Active" value={'Active'}   {...a11yProps(1)} />
+            <Tab sx={{  color: '#ad04cf',borderRadius:'5px' }} label="InActive" value={'InActive'}{...a11yProps(2)} />
           </Tabs>
-        </Box>
+        
         <CustomTabPanel value={value} index={0} tab={'Open'}>
 
           <ListData jobData={jobData} status={'Current'} />
@@ -109,7 +111,7 @@ const Openings = () => {
 
           <ListData jobData={jobData} status={'InActive'}/>
         </CustomTabPanel>
-      </Box>
+      {/* </Box> */}
     </RootLayout>
 
   )
