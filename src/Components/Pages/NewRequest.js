@@ -6,7 +6,15 @@ import { getAPI, postAPI } from '../network';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css'; // Import the CSS file
 import Button from '../common/Button';
-import MultiselectDropDown from './../common/MultiselectDropDown'
+import Multiselect from "multiselect-react-dropdown";
+import { MultiSelect } from "react-multi-select-component";
+
+
+const options = [
+    { label: "Grapes 🍇", value: "grapes" },
+    { label: "Mango 🥭", value: "mango" },
+    { label: "Strawberry 🍓", value: "strawberry", disabled: true },
+];
 
 
 function NewRequest() {
@@ -15,6 +23,9 @@ function NewRequest() {
     const [skills, setSkills] = useState([]);
     const datepickerRef1 = useRef(null);
     const datepickerRef2 = useRef(null);
+    const [selected, setSelected] = useState([]);
+
+
 
 
     const [value, setValue] = useState({
@@ -51,6 +62,12 @@ function NewRequest() {
     }, []);
 
 
+    function handleInputSkillChange(target) {
+        const selectedOptions = Array.from(target.selectedOptions).map(option => option.value);
+        setValue({ ...value, yexp: selectedOptions });
+    }
+
+
 
     const handleInputChange = (e) => {
         const { name, value, type } = e.target;
@@ -71,12 +88,14 @@ function NewRequest() {
             return;
         }
 
+        const selectedSkills=selected.map((item)=>item.value).join(',')
+
         const formdata = {
             "job_title": value?.title,
             "job_description": value?.description,
             "edu_qualification": value?.qualification,
             "budget": value?.buget,
-            "skills": value?.skills,
+            "skills": selectedSkills,
             "year_of_experience": value?.yexp,
             "certifications": value?.certification,
             "status": value?.status,
@@ -89,7 +108,9 @@ function NewRequest() {
             "location": value?.location,
             'user_id': userId
         }
-        console.log('Form submitted:', formdata);
+
+
+        // console.log('Form submitted:--------------------------', formdata);
 
         let data = await postAPI('/addJob', formdata);
         if (data) {
@@ -126,6 +147,9 @@ function NewRequest() {
             setSkills(Data)
         }
     }
+
+
+
     return (
         <RootLayout>
             <div className='flex justify-center min-h-full p-5 mt-4 '>
@@ -159,7 +183,7 @@ function NewRequest() {
                             required>
                         </textarea>
                         <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Skills</label>
-                        <textarea
+                        {/* <textarea
                             className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
@@ -168,8 +192,16 @@ function NewRequest() {
                             name='skills'
                             value={value.skills}
                             required
-                            onChange={handleInputChange}></textarea>
-                        {/* <MultiselectDropDown formFieldName={'skills'} options={skills}></MultiselectDropDown>    */}
+                            onChange={handleInputChange}></textarea> */}
+
+                        <MultiSelect
+                            // options={skills}
+                            options={skills.map(skill => ({ value: skill.skill_name, label: skill.skill_name, id:skill.skill_id }))}
+                            value={selected}
+                            onChange={setSelected}
+                            labelledBy="Select"
+                        />
+
 
                         <label for="certification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Certification</label>
                         <textarea

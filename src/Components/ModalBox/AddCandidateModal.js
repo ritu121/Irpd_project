@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { BASE_URL } from "../../constant/index";
+import { MultiSelect } from "react-multi-select-component";
 import { getAPI, postAPI } from '../network';
 
 
@@ -18,6 +19,9 @@ function AddCandidateModal({ closeModal }) {
 
     const userId = localStorage.getItem("user_id")
     const [jobs, setjobs] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [selected, setSelected] = useState([]);
+
     const [prevExperience, setPrevExperience] = useState([
         {
             company: '',
@@ -60,6 +64,7 @@ function AddCandidateModal({ closeModal }) {
 
     useEffect(() => {
         getJobs()
+        getSkillsData()
     }, []);
 
     const handleExpChange = (e, index) => {
@@ -98,7 +103,7 @@ function AddCandidateModal({ closeModal }) {
     //     }));
 
     //     console.log(temp, "prevExperience");
-    // };
+    // }; 
 
 
     const handleInputChange = (e) => {
@@ -114,16 +119,25 @@ function AddCandidateModal({ closeModal }) {
         setFile(file);
     };
 
+    const getSkillsData = async () => {
+        let Data = await getAPI('/getSkills')
+        if (Data) {
+            setSkills(Data)
+        }
+    }
+
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const selectedSkills=selected.map((item)=>item.value).join(',')
+
         const formdata = {
             "first_name": value?.firstName,
             "middle_name": value?.middleName,
             "last_name": value?.lastName,
-            "key_skills": value.keySkills,
+            "key_skills": selectedSkills,
             "other_skills": value?.otherSkills,
             "year_of_experience": value?.experience,
             "qualifications": value?.qualification,
@@ -276,7 +290,14 @@ function AddCandidateModal({ closeModal }) {
                         </div>
 
                         <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Key Skills</label>
-                        <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
+                        <MultiSelect
+                            // options={skills}
+                            options={skills.map(skill => ({ value: skill.skill_name, label: skill.skill_name, id:skill.skill_id }))}
+                            value={selected}
+                            onChange={setSelected}
+                            labelledBy="Select"
+                        />
+                        {/* <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             text-base sm:text-sm "
@@ -285,7 +306,7 @@ function AddCandidateModal({ closeModal }) {
                             name='keySkills'
                             onChange={handleInputChange}
                             required
-                        ></textarea>
+                        ></textarea> */}
 
 
                         <label for="otherskills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Other Skills</label>

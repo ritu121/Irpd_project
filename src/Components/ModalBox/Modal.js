@@ -107,7 +107,7 @@ function Modal({ data, closeModal }) {
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                              text-base sm:text-sm " placeholder="Please Enter Certification Name" name="certifications" value={formData?.certifications || ""} onChange={handleChange} ></textarea>
 
-                        <div className='grid grid-cols-2 gap-2 '>
+                        <div className='grid grid-cols-2 gap-2'>
                             <div className='w-50'>
                                 <label for="Yexp" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Year of Experience</label>
                                 <select className="form-control block text-base sm:text-sm w-full px-3 shadow-md text-base py-1.5  

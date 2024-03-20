@@ -121,7 +121,7 @@ function RootLayout(props) {
           backgroundColor: '#0a1c38',
           height: "6rem",
           borderBottomRightRadius: '80px',
-          zIndex: 0,
+          zIndex:1,
           // justifyContent:'space-between',
           // display: 'flex',
           // flexDirection:'row',

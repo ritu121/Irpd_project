@@ -54,18 +54,27 @@ const Openings = () => {
   const [jobData, setJobData] = useState([])
 
 
+
   useEffect(() => {
     OpeningData()
   }, [value])
 
 
+
   const handleChange = async (event, newValue) => {
     setValue(newValue);
   };
+
+
   const OpeningData = async () => {
     let Data = await getAPI(`/getJobByStatus?status=${value}`)
     if (Data) {
-      setJobData(Data.data)
+
+
+      const Array= Data.data.map(data=>{
+        return {...data, skills : data.skills.split( `,` )}
+      } )
+      setJobData(Array)
     }
   }
   const SearchJob = async (e) => {
@@ -78,8 +87,8 @@ const Openings = () => {
     }
   }
 
-  
- 
+
+
 
 
   return (
@@ -92,25 +101,22 @@ const Openings = () => {
       </div>
 
       {/* <Box sx={{ width: '100%' }}> */}
-        
-          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab sx={{ color: 'green',borderRadius:'5px'  }} label="Open" value={'Open'}    {...a11yProps(0)} />
-            <Tab sx={{ color: 'red',borderRadius:'5px'}} label="Active" value={'Active'}   {...a11yProps(1)} />
-            <Tab sx={{  color: '#ad04cf',borderRadius:'5px' }} label="InActive" value={'InActive'}{...a11yProps(2)} />
-          </Tabs>
-        
-        <CustomTabPanel value={value} index={0} tab={'Open'}>
 
-          <ListData jobData={jobData} status={'Current'} />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1} tab={'Active'}>
+      <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tab sx={{ color: 'green', borderRadius: '5px' }} label="Open" value={'Open'}    {...a11yProps(0)} />
+        <Tab sx={{ color: 'red', borderRadius: '5px' }} label="Active" value={'Active'}   {...a11yProps(1)} />
+        <Tab sx={{ color: '#ad04cf', borderRadius: '5px' }} label="InActive" value={'InActive'}{...a11yProps(2)} />
+      </Tabs>
 
-          <ListData jobData={jobData} status={'Active'}/>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2} tab={'InActive'}>
-
-          <ListData jobData={jobData} status={'InActive'}/>
-        </CustomTabPanel>
+      <CustomTabPanel value={value} index={0} tab={'Open'}>
+        <ListData jobData={jobData} status={'Current'} OpeningData={OpeningData} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1} tab={'Active'}>
+        <ListData jobData={jobData} status={'Active'}  OpeningData={OpeningData} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2} tab={'InActive'}>
+        <ListData jobData={jobData} status={'InActive'}  OpeningData={OpeningData}/>
+      </CustomTabPanel>
       {/* </Box> */}
     </RootLayout>
 

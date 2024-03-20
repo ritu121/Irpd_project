@@ -101,7 +101,7 @@ function Candidates() {
 
   const handleConfirm = () => {
     closeAlert();
-    if (action === 'download'){
+    if (action === 'download') {
       downloadResume(candidate.filename, candidate.first_name + '' + candidate.last_name + '' + candidate.filename.substr(candidate.filename.indexOf('.')))
     } else {
       deleteCandidate(candidate.candidate_id)
@@ -153,12 +153,23 @@ function Candidates() {
   const getCandidateData = async () => {
     let Data = await getAPI('/getCandidates')
     if (Data) {
-      setCandidates(Data)
+
+
+      console.log(Data, "data  ");
+
+      const Array = Data.map(data => {
+        return { ...data, key_skills: data.key_skills.split(`,`) }
+      })
+      console.log(Array, "array");
+
+      setCandidates(Array)
     }
   }
 
 
-  return ( 
+
+
+  return (
     <RootLayout>
       <div className='flex item-center justify-between'>
         <p className='text-zinc-950 text-2xl p-4 mt-4 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl'
@@ -172,7 +183,6 @@ function Candidates() {
       <div className='flex flex-wrap w-auto'>
         {
           candidates.map((item) => (
-
             <div class="max-w-sm rounded overflow-hidden shadow-lg grow m-3" >
               <div className="flex">
                 <div>
@@ -193,7 +203,14 @@ function Candidates() {
               </div>
               <div class="px-5 py-3" onClick={() => openViewModal(item)}>
                 <p class="text-gray-700 text-base">
-                  Key Skills :- {item.key_skills}
+                  Key Skills :-
+                  <div className='flex'>
+                    {
+                      item?.key_skills.map((t) => (
+                        <div key={item.id} className='m-2 p-1 border rounded bg-[#dce7f8] text-[12px] text-bold drop-shadow-md'>{t}</div>
+                      ))
+                    }
+                  </div>
                 </p>
                 <p class="text-gray-700 text-base">
                   Experience :- {item.year_of_experience}
