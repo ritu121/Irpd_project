@@ -224,9 +224,19 @@ function ViewModal({ data, closeModal }) {
                                     candidates.length >= 1 ? (
 
                                         candidates?.map((item) => (
-                                            <div key={item.id} className='m-2 p-1 border rounded bg-fuchsia-100 text-sm drop-shadow-md'>
-                                                {item.first_name} {item.last_name}
-                                            </div> 
+                                            // <div key={item.id} className='m-2 p-1 border rounded bg-fuchsia-100 text-sm drop-shadow-md'>
+                                            //     {item.first_name} {item.last_name}
+                                            // </div> 
+                                            <table>
+                                                <th>
+                                                    <td>Candidate Name</td>
+                                                    <td>Status</td> 
+                                                    <td>Comment</td>
+                                                </th>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
                                         ))
                                     ) : (
                                         <div className='m-2 p-1 border rounded bg-fuchsia-100 text-sm drop-shadow-md'>No Candidates Referred</div>

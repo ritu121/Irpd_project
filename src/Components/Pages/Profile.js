@@ -12,29 +12,29 @@ function Profile() {
         const Id = localStorage.getItem("user_id")
 
         const parseId = JSON.parse(Id)
-        if(parseId){
+        if (parseId) {
             setUserId(parseId)
         }
-        
+
         getUserDetails()
-        
+
     }, [userId])
 
     // useEffect(() => {
-       
+
 
     // }, [userId]);
 
     const getUserDetails = async () => {
-        if(userId){
+        if (userId) {
             console.log(userId, "userId");
             let Data = await getAPI(`/getUser/${userId}`)
             if (Data) {
                 setUserData(Data.data)
             }
         }
-       
-      
+
+
     }
 
 
@@ -50,30 +50,26 @@ function Profile() {
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                              text-base sm:text-sm " id="fName"
-                                aria-describedby="emailHelp" placeholder="Enter First Name" />
+                                aria-describedby="emailHelp" />
                         </div>
                         <div className='w-50'>
                             <label for="LastName" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm">Last Name </label><span style={{ color: "red" }}> &nbsp; *</span>
                             <input type="text" value={userData?.last_name} className="form-control shadow-md block text-base sm:text-sm w-full px-3 py-1.5  text-base  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="lName"
-                                aria-describedby="emailHelp" placeholder="Enter Last Name" />
+                                aria-describedby="emailHelp"/>
                         </div>
                     </div>
                     <div className='grid grid-cols-2 gap-2  m-2 p-5'>
                         <div className='w-50'>
-                            <label for="UserType" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm">User Type</label><span style={{ color: "red" }}> &nbsp; *</span>
-                            <select value={''} className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="User type">
-                                <option>User</option>
-                                <option>Admin</option>
-                            </select>
+                            <label for="UserType" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm">User Role</label><span style={{ color: "red" }}> &nbsp; *</span>
+
+                            <input type="text" value={userData?.role} className="form-control shadow-md block text-base sm:text-sm w-full px-3 py-1.5  text-base  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="lName"
+                                aria-describedby="emailHelp"/>
                         </div>
                         <div className='w-50'>
                             <label for="Gender" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm">Gender</label><span style={{ color: "red" }}> &nbsp; *</span>
-                            <select value="" className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Gender">
-                                <option value={''} disabled>Select option</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Transgender</option>
-                            </select>
+
+                            <input type="text" value={userData?.gender} className="form-control shadow-md block text-base sm:text-sm w-full px-3 py-1.5  text-base  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="lName"
+                                aria-describedby="emailHelp" />
                         </div>
                     </div>
                     <div className='grid grid-cols-2 gap-2  m-2 p-5'>

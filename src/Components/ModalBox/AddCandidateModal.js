@@ -65,6 +65,7 @@ function AddCandidateModal({ closeModal }) {
     useEffect(() => {
         getJobs()
         getSkillsData()
+        
     }, []);
 
     const handleExpChange = (e, index) => {
@@ -297,18 +298,7 @@ function AddCandidateModal({ closeModal }) {
                             onChange={setSelected}
                             labelledBy="Select"
                         />
-                        {/* <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
-                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
-                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm "
-                            placeholder="Please Enter all key Skills"
-                            value={value.keySkills}
-                            name='keySkills'
-                            onChange={handleInputChange}
-                            required
-                        ></textarea> */}
-
-
+                      
                         <label for="otherskills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Other Skills</label>
                         <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 

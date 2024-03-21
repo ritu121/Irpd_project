@@ -43,10 +43,6 @@ function ListData({ jobData, status, OpeningData }) {
     };
 
 
-    console.log(jobData, "jobData")
-
-
-
     return (
         <>
 
@@ -102,11 +98,11 @@ function ListData({ jobData, status, OpeningData }) {
                                             <td>Skills: </td>
                                             <td className='p-2'>
                                                 <div className='flex'>
-                                                    {/* {
-                                                        item?.skills.map((t) => (
+                                                    {
+                                                        item?.skills?.map((t) => (
                                                             <div key={item.id} className='m-2 p-1 border rounded bg-[#dce7f8] text-sm  drop-shadow-md'>{t}</div>
                                                         ))
-                                                    } */}
+                                                    }
                                                 </div>
                                             </td>
                                         </tr>

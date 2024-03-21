@@ -4,6 +4,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 import Button from '../common/Button';
 import { getAPI, patchAPI } from '../network';
 import { BASE_URL } from "../../constant/index";
+import { MultiSelect } from "react-multi-select-component";
 import axios from "axios";
 import { toast } from 'react-toastify';
 
@@ -15,6 +16,8 @@ function EditCandidateModal({ data, closeModal }) {
     const [file, setFile] = useState(null);
     const [jobs, setjobs] = useState([]);
     const [jobsTitle, setjobsTitle] = useState('');
+    const [skills, setSkills] = useState([]);
+    const [selected, setSelected] = useState([]);
 
     const [value, setvalue] = useState({
         candidate_id: candidate_id,
@@ -47,16 +50,28 @@ function EditCandidateModal({ data, closeModal }) {
 
 
     useEffect(() => {
-
         setCandidate_id(data?.candidate_id)
 
-        GetPrevExperience()
 
+        if(data && data.key_skills){
+            const Items= data.key_skills.map(item=> ({value:item,label:item}))  
+            setSelected(Items)
+        }
+        
+        
+
+        GetPrevExperience()
         getJobs()
+        getSkillsData()
 
     }, [data]);
 
-
+    const getSkillsData = async () => {
+        let Data = await getAPI('/getSkills')
+        if (Data) {
+            setSkills(Data)
+        }
+    }
 
     const handleOutsideClick = (event) => {
         if (event.target.classList.contains('modal-overlay')) {
@@ -124,16 +139,16 @@ function EditCandidateModal({ data, closeModal }) {
         if (Data) {
             setjobs(Data)
 
-           
+
 
 
             Data.map((item) => {
-                
+
                 if (item.job_id === data.job_id) {
-                   
+
                     const title = item.job_title
 
-                   
+
                     setjobsTitle(title)
 
 
@@ -147,12 +162,15 @@ function EditCandidateModal({ data, closeModal }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+
+        const selectedSkills=selected.map((item)=>item.value).join(',')
+        
         const data = {
             'candidate_id': candidate_id,
             'first_name': value?.first_name,
             'middle_name': value?.middle_name,
             'last_name': value?.last_name,
-            'key_skills': value?.key_skills,
+            'key_skills': selectedSkills,
             'other_skills': value?.other_skills,
             'year_of_experience': value?.year_of_experience,
             'qualifications': value?.qualifications,
@@ -189,7 +207,7 @@ function EditCandidateModal({ data, closeModal }) {
                 });
                 if (response) {
                     toast.success(response.data.message, toastObj);
-                } 
+                }
             }
 
             closeModal();
@@ -202,7 +220,7 @@ function EditCandidateModal({ data, closeModal }) {
             className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
             onClick={handleOutsideClick}
         >
-            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 sm:w-90 md:w-2/5 lg:w-2/5 overflow-y-auto bg-white rounded-md'>
+            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 sm:w-90 md:w-3/5 lg:w-3/5 overflow-y-auto bg-white rounded-md'>
                 <form onSubmit={handleSubmit} className='w-full border-sky-500  rounded-lg '>
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Update Candidate Details</p>
                     <div className='grid m-2 p-5'>
@@ -272,18 +290,28 @@ function EditCandidateModal({ data, closeModal }) {
                             </div>
                         </div>
 
-                        <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Key Skills</label>
+                        {/* <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Key Skills</label>
                         <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm "name='key_skills' placeholder="Please Enter all Require Skills" value={value?.key_skills || ""} onChange={handleChange}  ></textarea>
+                            text-base sm:text-sm "name='key_skills' placeholder="Please Enter all Require Skills" value={value?.key_skills || ""} onChange={handleChange}  ></textarea> */}
+                         <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Key Skills</label>
+                        <MultiSelect
+                            // options={skills}
+                            options={skills.map(skill => ({ value: skill.skill_name, label: skill.skill_name, id: skill.skill_id }))}
+                            value={selected}
+                            onChange={setSelected}
+                            labelledBy="Select"
+                        />
+
                         <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Other Skills</label>
                         <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                            text-base sm:text-sm "name='other_skills' placeholder="Please Enter all Require Skills" value={value?.other_skills || ""} onChange={handleChange}  ></textarea>
+                            text-base sm:text-sm "name='other_skills' placeholder="Please Enter all Require Skills"
+                             value={value?.other_skills || ""} onChange={handleChange}  ></textarea>
 
-                        <div className='grid grid-cols-2 gap-2 '>
+                        <div className='grid grid-cols-2 gap-2'>
                             <div className='w-50'>
                                 <label for="Yexp" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Year of Experience</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  

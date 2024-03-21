@@ -153,17 +153,14 @@ function Candidates() {
   const getCandidateData = async () => {
     let Data = await getAPI('/getCandidates')
     if (Data) {
-
-
-      console.log(Data, "data  ");
-
-      const Array = Data.map(data => {
-        return { ...data, key_skills: data.key_skills.split(`,`) }
+      const Array = Data[0].map(data => {
+        return { ...data, key_skills: data.key_skills.split( `,` ) }
       })
-      console.log(Array, "array");
 
       setCandidates(Array)
     }
+
+   
   }
 
 

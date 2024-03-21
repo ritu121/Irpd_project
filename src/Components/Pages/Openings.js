@@ -77,13 +77,17 @@ const Openings = () => {
       setJobData(Array)
     }
   }
-  const SearchJob = async (e) => {
 
+
+  const SearchJob = async (e) => {
     const input = e.target.value
 
     let Data = await getAPI(`/search?name=${input}`)
     if (Data) {
-      setJobData(Data.data)
+      const Array= Data.data.map(data=>{
+        return {...data, skills : data.skills.split( `,` )}
+      } )
+      setJobData(Array)
     }
   }
 

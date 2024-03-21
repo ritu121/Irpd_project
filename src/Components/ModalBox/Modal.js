@@ -1,12 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import { MultiSelect } from "react-multi-select-component";     
 import Button from '../common/Button';
-import { patchAPI } from '../network';
+import { patchAPI ,getAPI} from '../network';
 
 function Modal({ data, closeModal }) {
     const datepickerRef1 = useRef(null);
     const datepickerRef2 = useRef(null);
+    const [selected, setSelected] = useState([]);
+    const [skills, setSkills] = useState([]);
 
     const [formData, setFormData] = useState({
         job_id:data?.job_id || '',
@@ -29,6 +32,13 @@ function Modal({ data, closeModal }) {
     });
 
     useEffect(() => {
+        getSkillsData()
+
+        if(data && data?.skills){
+            const Items= data.skills.map(item=> ({value:item,label:item}))  
+            setSelected(Items)
+        }
+
         const datepicker1 = flatpickr(datepickerRef1.current, {
             dateFormat: 'Y-m-d',
         });
@@ -57,12 +67,38 @@ function Modal({ data, closeModal }) {
         }));
 
     };
-    
+    const getSkillsData = async () => {
+        let Data = await getAPI('/getSkills')
+        if (Data) {
+            setSkills(Data)
+        }
+    }
 
     const handleSubmit=async(e)=>{
         e.preventDefault(); 
+
+        const selectedSkills=selected.map((item)=>item.value).join(',')
+
+        const updatedValues={
+        'job_id':formData?.job_id,
+        'job_title': formData?.job_title ,
+        'job_description': formData?.job_description ,
+        'skills': selectedSkills,
+        'certifications': formData?.certifications,
+        'year_of_experience': formData?.year_of_experience,
+        'no_of_positions': formData?.no_of_positions,
+        'budget': formData?.budget,
+        'edu_qualification': formData?.edu_qualification,
+        'location': formData?.location,
+        'client_name': formData?.client_name,
+        'hire_type': formData?.hire_type,
+        'start_date': formData?.start_date,
+        'target_date': formData?.target_date,
+        'status': formData?.status,
+        'user_id':formData?.user_id,
+        }
         
-        let data = await  patchAPI('/updateJob',formData);
+        let data = await  patchAPI('/updateJob',updatedValues);
         if(data){
             closeModal();
         }
@@ -94,12 +130,14 @@ function Modal({ data, closeModal }) {
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                              text-base sm:text-sm " placeholder="Please Enter Job Description" id="Descriptions" rows={5} name="job_description" value={formData?.job_description || ""} onChange={handleChange}
                         ></textarea>
-                        <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Skills</label>
-                        <textarea class="caret-pink-500 ..." className="form-control shadow-md block  w-full px-3 py-1.5  
-                            text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
-                            ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                             text-base sm:text-sm " placeholder="Please Enter all Require Skills" name="skills" value={formData?.skills || ""} onChange={handleChange}
-                        ></textarea>
+                       <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Key Skills</label>
+                        <MultiSelect
+                            // options={skills}
+                            options={skills.map(skill => ({ value: skill.skill_name, label: skill.skill_name, id: skill.skill_id }))}
+                            value={selected}
+                            onChange={setSelected}
+                            labelledBy="Select"
+                        />
 
                         <label for="certification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Certification</label>
                         <textarea class="caret-pink-500 ..." className="form-control shadow-md block  w-full px-3 py-1.5  
