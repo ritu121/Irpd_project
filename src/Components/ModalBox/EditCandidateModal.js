@@ -43,7 +43,9 @@ function EditCandidateModal({ data, closeModal }) {
         start_date: data?.start_date ? data.start_date.substring(0, 10) : '',
         job_id: data?.job_id || 0,
         user_id: data?.user_id || '',
-        previous_experience: prevExperience
+        previous_experience: prevExperience,
+        status: 'Not Interviewd',
+        comment: ''
     });
 
 
@@ -58,8 +60,6 @@ function EditCandidateModal({ data, closeModal }) {
             setSelected(Items)
         }
         
-        
-
         GetPrevExperience()
         getJobs()
         getSkillsData()
@@ -189,7 +189,9 @@ function EditCandidateModal({ data, closeModal }) {
             'last_work_date': value?.last_work_date,
             'job_id': parseInt(value?.job_id),
             'user_id': value?.user_id,
-            'previous_experience': prevExperience
+            'previous_experience': prevExperience,
+            'status': 'Not Interviewd',
+            'comment': ''
         }
 
 
@@ -634,6 +636,7 @@ function EditCandidateModal({ data, closeModal }) {
                         <div className='flex justify-center mt-3'>
                             <div className='w-5/12'> <Button title={'Submit'} type="submit"></Button></div>
                         </div>
+                        
                         <div className='flex justify-center mt-3'>
                             <div className='w-5/12' onClick={handleCancelClick}> <Button title={'Cancel'}></Button></div>
                         </div>

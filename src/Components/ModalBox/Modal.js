@@ -1,18 +1,20 @@
 import React, { useRef, useEffect, useState } from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import { MultiSelect } from "react-multi-select-component";     
+import { MultiSelect } from "react-multi-select-component";
 import Button from '../common/Button';
-import { patchAPI ,getAPI} from '../network';
+import { patchAPI, getAPI } from '../network';
 
 function Modal({ data, closeModal }) {
-    const datepickerRef1 = useRef(null);
-    const datepickerRef2 = useRef(null);
     const [selected, setSelected] = useState([]);
     const [skills, setSkills] = useState([]);
+    const [candidates, setCandidates] = useState([])
+    const [prevExperience, setPrevExperience] = useState([])
+
+    const [candidateInfo, setCandidateInfo] = useState([])
 
     const [formData, setFormData] = useState({
-        job_id:data?.job_id || '',
+        job_id: data?.job_id || '',
         job_title: data?.job_title || '',
         job_description: data?.job_description || '',
         skills: data?.skills || '',
@@ -27,28 +29,28 @@ function Modal({ data, closeModal }) {
         start_date: data?.start_date || '',
         target_date: data?.target_date || '',
         status: data?.status || '',
-        user_id:data?.user_id || '',
+        user_id: data?.user_id || '',
 
     });
 
     useEffect(() => {
         getSkillsData()
+        getCandidateByJob()
 
-        if(data && data?.skills){
-            const Items= data.skills.map(item=> ({value:item,label:item}))  
+        // candidates.map(item => {
+        //     setCandidateInfo.push(
+        //         {
+        //             candidate_id: '',
+        //             status: '',
+        //             comments: ''
+        //         }
+        //     )
+        // })
+
+        if (data && data?.skills) {
+            const Items = data.skills.map(item => ({ value: item, label: item }))
             setSelected(Items)
         }
-
-        const datepicker1 = flatpickr(datepickerRef1.current, {
-            dateFormat: 'Y-m-d',
-        });
-        const datepicker2 = flatpickr(datepickerRef2.current, {
-            dateFormat: 'Y-m-d',
-        });
-        return () => {
-            datepicker1.destroy();
-            datepicker2.destroy();
-        };
     }, []);
 
     const handleOutsideClick = (event) => {
@@ -67,6 +69,30 @@ function Modal({ data, closeModal }) {
         }));
 
     };
+
+    const handleChangeCandidate = async (e,index) => {
+        // const { name, value, id } = e.target;
+        const { name, value ,id} = e.target;
+        const list = [...candidateInfo];
+        list[index][name] = value;
+        setCandidateInfo(list);
+        // candidates.map(async (item) => {
+        //     if (item.candidate_id == id) {
+        //         item[name] = value
+        //         GetPrevExperience(item.candidate_id);
+        //         item['previous_experience'] = prevExperience
+        //     }
+        // })
+
+        // console.log('====================================');
+        // console.log(candidates,'candidate');
+        // console.log('====================================');
+
+        console.log('====================================');
+        console.log(candidateInfo,'candidateInfo');
+        console.log('====================================');
+    };
+
     const getSkillsData = async () => {
         let Data = await getAPI('/getSkills')
         if (Data) {
@@ -74,32 +100,55 @@ function Modal({ data, closeModal }) {
         }
     }
 
-    const handleSubmit=async(e)=>{
-        e.preventDefault(); 
-
-        const selectedSkills=selected.map((item)=>item.value).join(',')
-
-        const updatedValues={
-        'job_id':formData?.job_id,
-        'job_title': formData?.job_title ,
-        'job_description': formData?.job_description ,
-        'skills': selectedSkills,
-        'certifications': formData?.certifications,
-        'year_of_experience': formData?.year_of_experience,
-        'no_of_positions': formData?.no_of_positions,
-        'budget': formData?.budget,
-        'edu_qualification': formData?.edu_qualification,
-        'location': formData?.location,
-        'client_name': formData?.client_name,
-        'hire_type': formData?.hire_type,
-        'start_date': formData?.start_date,
-        'target_date': formData?.target_date,
-        'status': formData?.status,
-        'user_id':formData?.user_id,
+    const getCandidateByJob = async () => {
+        let Data = await getAPI(`/getCandidateByJob/${data.job_id}`)
+        if (Data) {
+            setCandidates(Data.data)
         }
-        
-        let data = await  patchAPI('/updateJob',updatedValues);
-        if(data){
+    }
+    const updateCandidates = async (item) => {
+
+        // let data = await patchAPI('/updateCandidates', item);
+        // if (data) {
+        // }
+
+
+    }
+
+    const GetPrevExperience = async (candidate_id) => {
+        let Data = await getAPI(`/getPrevious_Exp/${candidate_id}`)
+        if (Data) {
+            const data = Data.data
+            setPrevExperience(data)
+        }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const selectedSkills = selected.map((item) => item.value).join(',')
+
+        const updatedValues = {
+            'job_id': formData?.job_id,
+            'job_title': formData?.job_title,
+            'job_description': formData?.job_description,
+            'skills': selectedSkills,
+            'certifications': formData?.certifications,
+            'year_of_experience': formData?.year_of_experience,
+            'no_of_positions': formData?.no_of_positions,
+            'budget': formData?.budget,
+            'edu_qualification': formData?.edu_qualification,
+            'location': formData?.location,
+            'client_name': formData?.client_name,
+            'hire_type': formData?.hire_type,
+            'start_date': formData?.start_date,
+            'target_date': formData?.target_date,
+            'status': formData?.status,
+            'user_id': formData?.user_id,
+        }
+
+        let data = await patchAPI('/updateJob', updatedValues);
+        if (data) {
             closeModal();
         }
     }
@@ -109,10 +158,10 @@ function Modal({ data, closeModal }) {
             className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
             onClick={handleOutsideClick}
         >
-            <div className='flex justify-center min-w-screen p-4 h-[90%] w-4/6  overflow-y-auto bg-white rounded-md'>
+            <div className='flex justify-center min-w-screen p-4 h-[80%] w-4/6  overflow-y-auto bg-white rounded-md'>
                 <div className='w-full border-sky-500 w-5/6  rounded-lg'>
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>Update Job Request</p>
-                    <form className='grid m-2 p-5 w-full' onSubmit={handleSubmit}> 
+                    <form className='grid m-2 p-5 w-full' onSubmit={handleSubmit}>
 
                         <label for="JobTitle" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Job Title</label>
                         <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -130,7 +179,7 @@ function Modal({ data, closeModal }) {
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                              text-base sm:text-sm " placeholder="Please Enter Job Description" id="Descriptions" rows={5} name="job_description" value={formData?.job_description || ""} onChange={handleChange}
                         ></textarea>
-                       <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Key Skills</label>
+                        <label for="skills" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Key Skills</label>
                         <MultiSelect
                             // options={skills}
                             options={skills.map(skill => ({ value: skill.skill_name, label: skill.skill_name, id: skill.skill_id }))}
@@ -170,7 +219,7 @@ function Modal({ data, closeModal }) {
                         </div>
 
                         {/* <div className='grid grid-cols-2 gap-2  '> */}
-                            {/* <div className='w-50'>
+                        {/* <div className='w-50'>
                                 <label for="Gender" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Gender</label>
                                 <select value={formData?.gender || ""} className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                     placeholder="Gender" name='gender' onChange={handleChange}>
@@ -179,7 +228,7 @@ function Modal({ data, closeModal }) {
                                     <option>Female</option>
                                 </select>
                             </div> */}
-                            
+
                         {/* </div> */}
 
                         <div className='grid grid-cols-2 gap-2  '>
@@ -214,7 +263,7 @@ function Modal({ data, closeModal }) {
                                         </select>
                                     </div> */}
                                 </div>
-                            </div> 
+                            </div>
                         </div>
 
                         <div className='grid grid-cols-2 gap-2  '>
@@ -236,7 +285,7 @@ function Modal({ data, closeModal }) {
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             text-base sm:text-sm " id="cilent"
-                            name='client_name'
+                                    name='client_name'
                                     placeholder="Client Name"
                                     value={formData?.client_name || ""}
                                     onChange={handleChange} />
@@ -248,11 +297,11 @@ function Modal({ data, closeModal }) {
                                 <label for="hireType" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Hire Type</label>
                                 <select className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid 
                                 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                 name='hire_type'
-                                 placeholder="hireType"
-                                 value ={formData?.hire_type || ""} 
-                                 onChange={handleChange}
-                                 >
+                                    name='hire_type'
+                                    placeholder="hireType"
+                                    value={formData?.hire_type || ""}
+                                    onChange={handleChange}
+                                >
                                     <option value='' disabled>Select option</option>
                                     <option>Online</option>
                                     <option>Ofline</option>
@@ -261,11 +310,11 @@ function Modal({ data, closeModal }) {
                             <div className='w-50'>
                                 <label for="status" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Status</label>
                                 <select className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid 
-                                border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
-                                placeholder="Status"
-                                name='status'
-                                value ={formData?.status || ""} 
-                                 onChange={handleChange}>
+                                border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                    placeholder="Status"
+                                    name='status'
+                                    value={formData?.status || ""}
+                                    onChange={handleChange}>
                                     <option value='' disabled>Select option</option>
                                     <option>Active</option>
                                     <option>Inactive</option>
@@ -280,16 +329,17 @@ function Modal({ data, closeModal }) {
                                     Pick a Start Date:
                                 </label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="datepicker"
-                                    name="datepicker"
+                                    name="start_date"
                                     placeholder="Select a date"
-                                    value ={data?.start_date || ""}
+                                    value={formData?.start_date ? formData.start_date.substring(0, 10) : null}
+                                    onChange={handleChange}
                                     className="form-control shadow-md block  w-full px-3 py-1.5  
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 text-base sm:text-sm"
-                                    ref={datepickerRef1}
+                                    // ref={datepickerRef1}
                                 />
                             </div>
                             <div className='w-50'>
@@ -297,17 +347,90 @@ function Modal({ data, closeModal }) {
                                     Pick a Close Date:
                                 </label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     id="datepicker"
-                                    name="datepicker"
+                                    name="target_date"
                                     placeholder="Select a date"
-                                    value ={formData?.target_date || ""}
+                                    value={formData?.target_date ? formData.target_date.substring(0, 10) : null}
+                                    onChange={handleChange}
                                     className="form-control shadow-md block  w-full px-3 py-1.5  
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 text-base sm:text-sm"
-                                    ref={datepickerRef2}
+                                    // ref={datepickerRef2}
                                 />
+                            </div>
+                        </div>
+
+                        <div className='flex w-[100%] mt-3 justify-center'>
+                            <div className='w-[90%] h-4/5'>
+
+                                {/* <label htmlFor="candidate" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
+                                    Candidates for Reference
+                                </label> */}
+
+                                {
+                                    candidates[0]?.candidate_id != null ? (
+
+                                        <table className="border-collapse border-black w-full">
+                                            <caption className="caption-top font-bold text-orange-800 p-8">
+                                                Candidates For Reference
+                                            </caption>
+                                            <thead>
+                                                <tr className='border-2 border-black'>
+                                                    <th className='border-2 border-black p-2 m-2 w-1/5'>Candidate Name</th>
+                                                    <th className='border-2 border-black p-2 m-2 w-1/6'>Status</th>
+                                                    <th className='border-2 border-black p-2 m-2 w-1/2'>Comment</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className='border-2 p-5'>
+
+                                                {
+                                                    candidates.map((candidate,i) => (
+                                                        <tr key={candidate.candidate_id} className='border-2 border-amber-900 '>
+                                                            <td className='border-2 border-black p-2 m-2 w-1/5 text-center'>{candidate.first_name} {candidate.last_name}</td>
+                                                            <td className='border-2 border-black p-2 m-10 w-1/6 text-center' style={{ color: candidate.status === 'Selected' ? 'Green' : candidate.status === 'Rejected' ? 'Red' : 'blue', fontSize: '16px' }}>
+                                                                <select className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid 
+                                                                 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                                                    placeholder="Status"
+                                                                    name='status'
+                                                                    value={candidate?.status || ""}
+                                                                    id={candidate.candidate_id}
+                                                                    onChange={e => handleChangeCandidate(e, i)}
+                                                                >
+                                                                    <option value='' disabled>Select option</option>
+                                                                    <option>Selected</option>
+                                                                    <option>Rejected</option>
+                                                                    <option>Onhold</option>
+                                                                    <option>Not Interviewd</option>
+                                                                </select>
+                                                            </td>
+                                                            <td className='border-2 border-black p-2 m-2 w-1/2' style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}>
+
+                                                                {/* {candidate.comments} */}
+                                                                <textarea class="caret-pink-500 ..." className="form-control shadow-md block  w-full px-3 py-1.5  
+                                                                    text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                                                                    ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                                                    text-base sm:text-sm " placeholder="Please Enter Comments"
+                                                                    name="comments"
+                                                                    value={candidate?.comments || ""}
+                                                                    id={candidate.candidate_id}
+                                                                    onChange={e => handleChangeCandidate(e, i)}
+
+                                                                ></textarea>
+
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className='m-2 p-1 border rounded bg-fuchsia-100 text-sm drop-shadow-md'>No Candidates Referred</div>
+                                    )
+                                }
+
                             </div>
                         </div>
                         <div className='flex justify-center mt-3'>

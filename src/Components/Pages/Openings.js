@@ -9,6 +9,8 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { FaSearch } from "react-icons/fa";
+import Datepicker from "react-tailwindcss-datepicker";
+
 
 import ListData from '../common/ListData';
 import { getAPI } from '../network';
@@ -53,7 +55,25 @@ const Openings = () => {
   const [value, setValue] = useState('Open');
   const [jobData, setJobData] = useState([])
 
+  const [values, setValues] = useState({
+    start_date: new Date(),
+    target_date: new Date().setMonth(11)
+});
 
+const handleValueChange = async(newValue) => {
+    setValues(newValue);
+
+    // console.log("newValue:", newValue.startDate,newValue.endDate);
+    let Data = await getAPI(`/searchbydate?startDate=${newValue.startDate}&endDate=${newValue.endDate}`)
+    if (Data) {
+      const Array = Data.data.map(data => {
+        return { ...data, skills: data.skills.split(`,`) }
+      })
+      setJobData(Array)
+    }
+
+
+};
 
   useEffect(() => {
     OpeningData()
@@ -71,9 +91,9 @@ const Openings = () => {
     if (Data) {
 
 
-      const Array= Data.data.map(data=>{
-        return {...data, skills : data.skills.split( `,` )}
-      } )
+      const Array = Data.data.map(data => {
+        return { ...data, skills: data.skills.split(`,`) }
+      })
       setJobData(Array)
     }
   }
@@ -84,9 +104,9 @@ const Openings = () => {
 
     let Data = await getAPI(`/search?name=${input}`)
     if (Data) {
-      const Array= Data.data.map(data=>{
-        return {...data, skills : data.skills.split( `,` )}
-      } )
+      const Array = Data.data.map(data => {
+        return { ...data, skills: data.skills.split(`,`) }
+      })
       setJobData(Array)
     }
   }
@@ -97,11 +117,15 @@ const Openings = () => {
 
   return (
     <RootLayout>
-      <div className="bg-white rounded-full border-none p-3 m-4 shadow-md  z-1 ">
-        <div className="flex items-center ">
+      <div className='flex justify-around w-full items-center'>
+      <div className="w-7/12 bg-white rounded-full border-none p-3 m-4 shadow-md  z-1 ">
+        <div className="flex items-center  ">
           <FaSearch />
-          <input type="text" placeholder="Search..." className="ml-3 focus:outline-none w-full" onChange={(e) => { SearchJob(e) }} />
+          <input type="text" placeholder="Search..." className="ml-3 focus:outline-none" onChange={(e) => { SearchJob(e) }} />
         </div>
+      </div>
+      <div className='w-2/5'><Datepicker value={values} onChange={handleValueChange} placeholder='Please Select Date Range'/>  </div>
+      
       </div>
 
       {/* <Box sx={{ width: '100%' }}> */}
@@ -116,10 +140,10 @@ const Openings = () => {
         <ListData jobData={jobData} status={'Current'} OpeningData={OpeningData} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1} tab={'Active'}>
-        <ListData jobData={jobData} status={'Active'}  OpeningData={OpeningData} />
+        <ListData jobData={jobData} status={'Active'} OpeningData={OpeningData} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2} tab={'InActive'}>
-        <ListData jobData={jobData} status={'InActive'}  OpeningData={OpeningData}/>
+        <ListData jobData={jobData} status={'InActive'} OpeningData={OpeningData} />
       </CustomTabPanel>
       {/* </Box> */}
     </RootLayout>

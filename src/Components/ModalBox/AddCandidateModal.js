@@ -57,7 +57,10 @@ function AddCandidateModal({ closeModal }) {
         last_work_date: '',
         roleResponsibility: '',
         user_id: userId,
-        job_id:''
+        job_id:'',
+        status:'Not Interviewd',
+        comments:''
+
     })
 
 
@@ -73,8 +76,6 @@ function AddCandidateModal({ closeModal }) {
         const list = [...prevExperience];
         list[index][name] = value;
         setPrevExperience(list);
-
-
     }
     const handleremove = index => {
         const list = [...prevExperience];
@@ -154,7 +155,9 @@ function AddCandidateModal({ closeModal }) {
             "roles_and_responsibilities": value?.roleResponsibility,
             'user_id': userId,
             "previous_experience": prevExperience,
-            "job_id":value?.job_id
+            "job_id":value?.job_id,
+            "status":"Not Interviewd",
+            "comments":""
         }
 
 

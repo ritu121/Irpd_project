@@ -3,6 +3,7 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Button from '../common/Button';
 import { getAPI } from '../network';
+import { TbPointFilled } from "react-icons/tb";
 
 function ViewModal({ data, closeModal }) {
     const datepickerRef1 = useRef(null);
@@ -40,8 +41,6 @@ function ViewModal({ data, closeModal }) {
         if (Data) {
             setCandidates(Data.data)
         }
-
-
     }
 
     return (
@@ -49,7 +48,7 @@ function ViewModal({ data, closeModal }) {
             className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
             onClick={handleOutsideClick}
         >
-            <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 w-4/6 overflow-y-auto bg-white rounded-md'>
+            <div className='flex justify-center min-w-screen p-4 mt-6 h-[80%] w-4/6 overflow-y-auto bg-white rounded-md'>
                 <div className='w-full border-sky-500 w-5/6 rounded-lg'>
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>View Job Request</p>
                     <div className='grid m-2 p-5 w-full'>
@@ -175,7 +174,7 @@ function ViewModal({ data, closeModal }) {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2 divide-x '>
+                        <div className='grid grid-cols-2 gap-2 '>
                             <div className='w-50'>
                                 <label htmlFor="datepicker" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
                                     Pick a Start Date:
@@ -213,38 +212,48 @@ function ViewModal({ data, closeModal }) {
                                 />
                             </div>
                         </div>
-                        <div className='flex mt-3'>
 
-                            <div className='flex mt-3'>
-                                <label htmlFor="candidate" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
+                        <div className='flex w-[100%] mt-3 justify-center'>
+                            <div className='w-[90%] h-4/5'>
+                               
+                                {/* <label htmlFor="candidate" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
                                     Candidates for Reference
-                                </label>
+                                </label> */}
 
                                 {
-                                    candidates.length >= 1 ? (
+                                    candidates[0]?.candidate_id!=null? (
 
-                                        candidates?.map((item) => (
-                                            // <div key={item.id} className='m-2 p-1 border rounded bg-fuchsia-100 text-sm drop-shadow-md'>
-                                            //     {item.first_name} {item.last_name}
-                                            // </div> 
-                                            <table>
-                                                <th>
-                                                    <td>Candidate Name</td>
-                                                    <td>Status</td> 
-                                                    <td>Comment</td>
-                                                </th>
-                                                <tr>
-                                                    <td></td>
+                                        <table className="border-collapse border-black w-full">
+                                            <caption className="caption-top font-bold text-orange-800 p-8">
+                                                Candidates For Reference
+                                            </caption>
+                                            <thead>
+                                                <tr className='border-2 border-black'>
+                                                    <th className='border-2 border-black p-2 m-2 w-1/5'>Candidate Name</th>
+                                                    <th className='border-2 border-black p-2 m-2 w-1/6'>Status</th>
+                                                    <th className='border-2 border-black p-2 m-2 w-1/2'>Comment</th>
                                                 </tr>
-                                            </table>
-                                        ))
+                                            </thead>
+                                            <tbody className='border-2 p-5'>
+
+                                                {
+                                                    candidates.map(candidate => (
+                                                        <tr key={candidate.candidate_id} className='border-2 border-amber-900 '>
+                                                            <td className='border-2 border-black p-2 m-2 w-1/5 text-center'>{candidate.first_name} {candidate.last_name}</td>
+                                                            <td className='border-2 border-black p-2 m-10 w-1/6 text-center' style={{color: candidate.status==='Selected'?'Green':candidate.status==='Rejected'?'Red':'blue', fontSize:'16px'}}>{candidate.status}</td>
+                                                            <td className='border-2 border-black p-2 m-2 w-1/2' style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}>{candidate.comments}</td>
+                                                        </tr>
+                                                    ))
+                                                }
+
+                                            </tbody>
+                                        </table>
                                     ) : (
                                         <div className='m-2 p-1 border rounded bg-fuchsia-100 text-sm drop-shadow-md'>No Candidates Referred</div>
                                     )
                                 }
+
                             </div>
-
-
                         </div>
                         <div className='flex justify-center mt-3'>
                             <div className='w-5/12' onClick={handleCancelClick}> <Button title={'Cancel'} ></Button></div>
