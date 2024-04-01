@@ -97,7 +97,7 @@ function ListData({ jobData, status, OpeningData }) {
                                         <tr>
                                             <td>Skills: </td>
                                             <td className='p-2'>
-                                                <div className='flex'>
+                                                <div className='flex flex-wrap'>
                                                     {
                                                         item?.skills?.map((t) => (
                                                             <div key={item.id} className='m-2 p-1 border rounded bg-[#dce7f8] text-sm  drop-shadow-md'>{t}</div>

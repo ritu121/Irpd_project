@@ -124,7 +124,7 @@ const handleValueChange = async(newValue) => {
           <input type="text" placeholder="Search..." className="ml-3 focus:outline-none" onChange={(e) => { SearchJob(e) }} />
         </div>
       </div>
-      <div className='w-2/5'><Datepicker value={values} onChange={handleValueChange} placeholder='Please Select Date Range'/>  </div>
+      <div className='w-2/5 shadow'><Datepicker value={values} onChange={handleValueChange} placeholder='Please Select Date Range' />  </div>
       
       </div>
 

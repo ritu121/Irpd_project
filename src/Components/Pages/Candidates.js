@@ -201,7 +201,7 @@ function Candidates() {
               <div class="px-5 py-3" onClick={() => openViewModal(item)}>
                 <p class="text-gray-700 text-base">
                   Key Skills :-
-                  <div className='flex'>
+                  <div className='flex flex-wrap'>
                     {
                       item?.key_skills.map((t) => (
                         <div key={item.id} className='m-2 p-1 border rounded bg-[#dce7f8] text-[12px] text-bold drop-shadow-md'>{t}</div>

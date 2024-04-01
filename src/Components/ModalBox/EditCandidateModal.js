@@ -39,14 +39,15 @@ function EditCandidateModal({ data, closeModal }) {
         current_ctc: data?.current_ctc || '',
         expected_ctc: data?.expected_ctc || '',
         notice_period: data?.notice_period || '',
-        last_work_date: data?.last_work_date ? data.last_work_date.substring(0, 10) : '',
-        start_date: data?.start_date ? data.start_date.substring(0, 10) : '',
+        last_work_date: data?.last_work_date.substring(0, 10) || '',
+        start_date: data?.start_date.substring(0, 10)||'',
         job_id: data?.job_id || 0,
         user_id: data?.user_id || '',
         previous_experience: prevExperience,
         status: 'Not Interviewd',
-        comment: ''
+        comments: ''
     });
+
 
 
 
@@ -191,7 +192,7 @@ function EditCandidateModal({ data, closeModal }) {
             'user_id': value?.user_id,
             'previous_experience': prevExperience,
             'status': 'Not Interviewd',
-            'comment': ''
+            'comments': ''
         }
 
 
@@ -232,7 +233,7 @@ function EditCandidateModal({ data, closeModal }) {
                         </label>
 
                         <input type='file'
-                            className="form-control shadow-md block  w-full px-3 py-1.5  
+                            className="form-control shadow-md block w-full px-3 py-1.5  
                                     text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                     ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                     text-base sm:text-sm"
@@ -249,7 +250,7 @@ function EditCandidateModal({ data, closeModal }) {
                         {/* <label for="JobTitle" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Candidate Name</label> */}
                         <div className='grid grid-cols-3 gap-2 '>
                             <div>
-                                <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">First Name</label>
+                                <label for="name" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">First Name</label>
                                 <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
@@ -277,8 +278,8 @@ function EditCandidateModal({ data, closeModal }) {
                                 />
                             </div>
                             <div>
-                                <label for="name" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">Last Name</label>
-                                <input type="text" className="form-control shadow-md block  w-full px-3 py-1.5  
+                                <label for="name" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Last Name</label>
+                                <input type="text" className="form-control shadow-md block w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                             text-base sm:text-sm "
@@ -334,8 +335,6 @@ function EditCandidateModal({ data, closeModal }) {
                         </div>
 
                         <div className='grid grid-cols-2 gap-2 '>
-
-
                             <div className='w-50'>
                                 <label for="pAddress" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Permanent Address</label>
                                 <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -379,7 +378,7 @@ function EditCandidateModal({ data, closeModal }) {
                             </div>
                         </div>
 
-                        < div className='grid grid-cols-2 gap-2  '>
+                        <div className='grid grid-cols-2 gap-2'>
                             <div className='w-50'>
                                 <label for="Role&Responsibilities" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Role & Responsibilities</label>
                                 <textarea className="form-control shadow-md block  w-full px-3 py-1.5  
@@ -580,7 +579,7 @@ function EditCandidateModal({ data, closeModal }) {
 
                                             <div className='grid grid-cols-2 gap-2  '>
                                                 <div className='w-50'>
-                                                    <label htmlFor="startDate" className="form-label inline-block mb-2  text-gray-700 text-base sm:text-sm mt-3">
+                                                    <label htmlFor="startDate" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">
                                                         Start Date:
                                                     </label>
                                                     <input

@@ -4,6 +4,10 @@ import 'flatpickr/dist/flatpickr.min.css';
 import { MultiSelect } from "react-multi-select-component";
 import Button from '../common/Button';
 import { patchAPI, getAPI } from '../network';
+import { useSelector,useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../state";
+import JobCandidate from "../common/jobCandidate"
 
 function Modal({ data, closeModal }) {
     const [selected, setSelected] = useState([]);
@@ -11,7 +15,11 @@ function Modal({ data, closeModal }) {
     const [candidates, setCandidates] = useState([])
     const [prevExperience, setPrevExperience] = useState([])
 
-    const [candidateInfo, setCandidateInfo] = useState([])
+    const allcandidate = useSelector((state) => state.candidateReducer);
+    const dispatch = useDispatch()
+    
+    const {clear_candidates, init_candidates} = bindActionCreators(actionCreators,dispatch)
+    
 
     const [formData, setFormData] = useState({
         job_id: data?.job_id || '',
@@ -32,26 +40,26 @@ function Modal({ data, closeModal }) {
         user_id: data?.user_id || '',
 
     });
+    
 
     useEffect(() => {
         getSkillsData()
         getCandidateByJob()
-
-        // candidates.map(item => {
-        //     setCandidateInfo.push(
-        //         {
-        //             candidate_id: '',
-        //             status: '',
-        //             comments: ''
-        //         }
-        //     )
-        // })
-
         if (data && data?.skills) {
             const Items = data.skills.map(item => ({ value: item, label: item }))
             setSelected(Items)
         }
     }, []);
+
+    // useEffect(()=>{
+    //     const tempObj ={
+    //         "candidate_id":candidateId,
+    //         "status":candidateStatus,
+    //         "comments":candidateComment
+    //     }
+    //     setCandidateInfo([...candidateInfo,tempObj])
+
+    // },[candidateId])
 
     const handleOutsideClick = (event) => {
         if (event.target.classList.contains('modal-overlay')) {
@@ -70,28 +78,39 @@ function Modal({ data, closeModal }) {
 
     };
 
-    const handleChangeCandidate = async (e,index) => {
-        // const { name, value, id } = e.target;
-        const { name, value ,id} = e.target;
-        const list = [...candidateInfo];
-        list[index][name] = value;
-        setCandidateInfo(list);
-        // candidates.map(async (item) => {
-        //     if (item.candidate_id == id) {
-        //         item[name] = value
-        //         GetPrevExperience(item.candidate_id);
-        //         item['previous_experience'] = prevExperience
-        //     }
-        // })
+    // const handleStatus = async(e,index) =>{
+    //     setCandidateStatus(e.target.value)
+    //     setCandidateId(e.target.id);
+    // }
 
-        // console.log('====================================');
-        // console.log(candidates,'candidate');
-        // console.log('====================================');
+    // const handleComment = async(e,index) =>{
+    //     console.log(e.target.value);
+    //     setCandidateComment(e.target.value)
+    //     setCandidateId(e.target.id);
+    // }
 
-        console.log('====================================');
-        console.log(candidateInfo,'candidateInfo');
-        console.log('====================================');
-    };
+    // const handleChangeCandidate = async (e,index) => {
+    //     // const { name, value, id } = e.target;
+    //     const { name, value ,id} = e.target;
+    //     const list = [...candidateInfo];
+    //     list[index][name] = value;
+    //     setCandidateInfo(list);
+    //     // candidates.map(async (item) => {
+    //     //     if (item.candidate_id == id) {
+    //     //         item[name] = value
+    //     //         GetPrevExperience(item.candidate_id);
+    //     //         item['previous_experience'] = prevExperience
+    //     //     }
+    //     // })
+
+    //     // console.log('====================================');
+    //     // console.log(candidates,'candidate');
+    //     // console.log('====================================');
+
+    //     console.log('====================================');
+    //     console.log(candidateInfo,'candidateInfo');
+    //     console.log('====================================');
+    // };
 
     const getSkillsData = async () => {
         let Data = await getAPI('/getSkills')
@@ -101,19 +120,27 @@ function Modal({ data, closeModal }) {
     }
 
     const getCandidateByJob = async () => {
+        clear_candidates()
         let Data = await getAPI(`/getCandidateByJob/${data.job_id}`)
         if (Data) {
             setCandidates(Data.data)
-        }
+            Data.data.map(e=>{
+                const tempObj ={
+                    "candidate_id":e.candidate_id,
+                    "status":e.status,
+                    "comments":e.comments
+                }
+                init_candidates(tempObj)
+            })
+            
+        } 
     }
-    const updateCandidates = async (item) => {
-
-        // let data = await patchAPI('/updateCandidates', item);
-        // if (data) {
-        // }
-
-
-    }
+    // const updateCandidates = async (item) => {
+    //     // let data = await patchAPI('/updateCandidates', item);
+    //     // if (data) {
+    //     // }
+    // }
+    
 
     const GetPrevExperience = async (candidate_id) => {
         let Data = await getAPI(`/getPrevious_Exp/${candidate_id}`)
@@ -125,9 +152,8 @@ function Modal({ data, closeModal }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const selectedSkills = selected.map((item) => item.value).join(',')
-
+        
         const updatedValues = {
             'job_id': formData?.job_id,
             'job_title': formData?.job_title,
@@ -145,13 +171,16 @@ function Modal({ data, closeModal }) {
             'target_date': formData?.target_date,
             'status': formData?.status,
             'user_id': formData?.user_id,
+            'candidateInfo':allcandidate
         }
-
+        
         let data = await patchAPI('/updateJob', updatedValues);
         if (data) {
             closeModal();
+            clear_candidates()
         }
     }
+   
 
     return (
         <div
@@ -192,7 +221,7 @@ function Modal({ data, closeModal }) {
                         <textarea class="caret-pink-500 ..." className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                             text-base sm:text-sm " placeholder="Please Enter Certification Name" name="certifications" value={formData?.certifications || ""} onChange={handleChange} ></textarea>
+                             text-base sm:text-sm" placeholder="Please Enter Certification Name" name="certifications" value={formData?.certifications || ""} onChange={handleChange} ></textarea>
 
                         <div className='grid grid-cols-2 gap-2'>
                             <div className='w-50'>
@@ -370,7 +399,7 @@ function Modal({ data, closeModal }) {
                                 </label> */}
 
                                 {
-                                    candidates[0]?.candidate_id != null ? (
+                                candidates[0]?.candidate_id != null ? ( 
 
                                         <table className="border-collapse border-black w-full">
                                             <caption className="caption-top font-bold text-orange-800 p-8">
@@ -386,50 +415,53 @@ function Modal({ data, closeModal }) {
                                             <tbody className='border-2 p-5'>
 
                                                 {
-                                                    candidates.map((candidate,i) => (
-                                                        <tr key={candidate.candidate_id} className='border-2 border-amber-900 '>
-                                                            <td className='border-2 border-black p-2 m-2 w-1/5 text-center'>{candidate.first_name} {candidate.last_name}</td>
-                                                            <td className='border-2 border-black p-2 m-10 w-1/6 text-center' style={{ color: candidate.status === 'Selected' ? 'Green' : candidate.status === 'Rejected' ? 'Red' : 'blue', fontSize: '16px' }}>
-                                                                <select className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid 
-                                                                 border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                                    placeholder="Status"
-                                                                    name='status'
-                                                                    value={candidate?.status || ""}
-                                                                    id={candidate.candidate_id}
-                                                                    onChange={e => handleChangeCandidate(e, i)}
-                                                                >
-                                                                    <option value='' disabled>Select option</option>
-                                                                    <option>Selected</option>
-                                                                    <option>Rejected</option>
-                                                                    <option>Onhold</option>
-                                                                    <option>Not Interviewd</option>
-                                                                </select>
-                                                            </td>
-                                                            <td className='border-2 border-black p-2 m-2 w-1/2' style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}>
+                                                    candidates.map((candidate,i) => <JobCandidate candidate = {candidate}/>
+                                                        // <jobCandidate candidate={candidate}/>
+                                                        
+                                                        // <tr key={candidate.candidate_id} className='border-2 border-amber-900 '>
+                                                        //     <td className='border-2 border-black p-2 m-2 w-1/5 text-center'>{candidate.first_name} {candidate.last_name}</td>
+                                                        //     <td className='border-2 border-black p-2 m-10 w-1/6 text-center' style={{ color: candidate.status === 'Selected' ? 'Green' : candidate.status === 'Rejected' ? 'Red' : 'blue', fontSize: '16px' }}>
+                                                        //         <select className="form-control block text-base sm:text-sm w-full px-3  shadow-md text-base py-1.5  text-gray-700 bg-white bg-clip-padding border border-solid 
+                                                        //          border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                                        //             placeholder="Status"
+                                                        //             name='status'
+                                                        //             value={candidate?.status || ""}
+                                                        //             id={candidate.candidate_id}
+                                                        //             onChange={e => handleStatus(e,i,)}
+                                                        //             // onChange={e => handleChangeCandidate(e, i)}
+                                                        //         >
+                                                        //             <option value='' disabled>Select option</option>
+                                                        //             <option>Selected</option>
+                                                        //             <option>Rejected</option>
+                                                        //             <option>Onhold</option>
+                                                        //             <option>Not Interviewd</option>
+                                                        //         </select>
+                                                        //     </td>
+                                                        //     <td className='border-2 border-black p-2 m-2 w-1/2' style={{ overflowWrap: 'break-word', wordBreak: 'break-word' }}>
 
-                                                                {/* {candidate.comments} */}
-                                                                <textarea class="caret-pink-500 ..." className="form-control shadow-md block  w-full px-3 py-1.5  
-                                                                    text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
-                                                                    ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                                                    text-base sm:text-sm " placeholder="Please Enter Comments"
-                                                                    name="comments"
-                                                                    value={candidate?.comments || ""}
-                                                                    id={candidate.candidate_id}
-                                                                    onChange={e => handleChangeCandidate(e, i)}
+                                                        //         {/* {candidate.comments} */}
+                                                        //         <textarea class="caret-pink-500 ..." className="form-control shadow-md block  w-full px-3 py-1.5  
+                                                        //             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                                                        //             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                                        //             text-base sm:text-sm " placeholder="Please Enter Comments"
+                                                        //             name="comments"
+                                                        //             value={candidate?.comments || ""}
+                                                        //             id={candidate.candidate_id}
+                                                        //             onChange={e => handleComment(e,i)}
+                                                        //             // onChange={e => handleChangeCandidate(e, i)}
+                                                        //         ></textarea>
 
-                                                                ></textarea>
-
-                                                            </td>
-                                                        </tr>
-                                                    ))
+                                                        //     </td>
+                                                        // </tr>
+                                                    )
                                                 }
 
                                             </tbody>
                                         </table>
-                                    ) : (
+                                     ) : (
                                         <div className='m-2 p-1 border rounded bg-fuchsia-100 text-sm drop-shadow-md'>No Candidates Referred</div>
                                     )
-                                }
+                                } 
 
                             </div>
                         </div>

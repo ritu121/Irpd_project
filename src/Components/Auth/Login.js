@@ -81,8 +81,8 @@ const Login = () => {
                             <div className="p-5" >
                                 <button type="submit" className="shadow-md rounded-lg text-white bg-gradient-to-r from-sky-600 to-cyan-400 w-full px-6 py-2.5  text-white  text-xs text-[14px]  leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0  active:bg-blue-800 active:shadow-lg  transition  duration-150 ease-in-out mt-2">Log In</button>
 
-                                <button type="submit" className="shadow-md w-full px-6 py-2.5 rounded-lg 
-                                    text-[#065FD4]  text-xs border-2 leading-tight rounded shadow-md hover:bg-gradient-to-r from-sky-600 to-cyan-400 hover:text-white  hover:shadow-lg focus:bg-[#3D5890] focus:shadow-lg focus:outline-none focus:ring-0   active:shadow-lg  transition  duration-150 ease-in-out mt-5"  onClick={() => navigate("/signUp")}>Register</button>
+                                {/* <button type="submit" className="shadow-md w-full px-6 py-2.5 rounded-lg 
+                                    text-[#065FD4]  text-xs border-2 leading-tight rounded shadow-md hover:bg-gradient-to-r from-sky-600 to-cyan-400 hover:text-white  hover:shadow-lg focus:bg-[#3D5890] focus:shadow-lg focus:outline-none focus:ring-0   active:shadow-lg  transition  duration-150 ease-in-out mt-5"  onClick={() => navigate("/signUp")}>Register</button> */}
                             </div>
                         </form>
                     </div>
