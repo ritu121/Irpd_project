@@ -89,8 +89,6 @@ const handleValueChange = async(newValue) => {
   const OpeningData = async () => {
     let Data = await getAPI(`/getJobByStatus?status=${value}`)
     if (Data) {
-
-
       const Array = Data.data.map(data => {
         return { ...data, skills: data.skills.split(`,`) }
       })
@@ -129,7 +127,6 @@ const handleValueChange = async(newValue) => {
       </div>
 
       {/* <Box sx={{ width: '100%' }}> */}
-
       <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
         <Tab sx={{ color: 'green', borderRadius: '5px' }} label="Open" value={'Open'}    {...a11yProps(0)} />
         <Tab sx={{ color: 'red', borderRadius: '5px' }} label="Active" value={'Active'}   {...a11yProps(1)} />

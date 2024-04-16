@@ -4,7 +4,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 import { MultiSelect } from "react-multi-select-component";
 import Button from '../common/Button';
 import { patchAPI, getAPI } from '../network';
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../state";
 import JobCandidate from "../common/jobCandidate"
@@ -17,9 +17,9 @@ function Modal({ data, closeModal }) {
 
     const allcandidate = useSelector((state) => state.candidateReducer);
     const dispatch = useDispatch()
-    
-    const {clear_candidates, init_candidates} = bindActionCreators(actionCreators,dispatch)
-    
+
+    const { clear_candidates, init_candidates } = bindActionCreators(actionCreators, dispatch)
+
 
     const [formData, setFormData] = useState({
         job_id: data?.job_id || '',
@@ -40,7 +40,7 @@ function Modal({ data, closeModal }) {
         user_id: data?.user_id || '',
 
     });
-    
+
 
     useEffect(() => {
         getSkillsData()
@@ -124,23 +124,23 @@ function Modal({ data, closeModal }) {
         let Data = await getAPI(`/getCandidateByJob/${data.job_id}`)
         if (Data) {
             setCandidates(Data.data)
-            Data.data.map(e=>{
-                const tempObj ={
-                    "candidate_id":e.candidate_id,
-                    "status":e.status,
-                    "comments":e.comments
+            Data.data.map(e => {
+                const tempObj = {
+                    "candidate_id": e.candidate_id,
+                    "status": e.status,
+                    "comments": e.comments
                 }
                 init_candidates(tempObj)
             })
-            
-        } 
+
+        }
     }
     // const updateCandidates = async (item) => {
     //     // let data = await patchAPI('/updateCandidates', item);
     //     // if (data) {
     //     // }
     // }
-    
+
 
     const GetPrevExperience = async (candidate_id) => {
         let Data = await getAPI(`/getPrevious_Exp/${candidate_id}`)
@@ -153,7 +153,7 @@ function Modal({ data, closeModal }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const selectedSkills = selected.map((item) => item.value).join(',')
-        
+
         const updatedValues = {
             'job_id': formData?.job_id,
             'job_title': formData?.job_title,
@@ -171,16 +171,16 @@ function Modal({ data, closeModal }) {
             'target_date': formData?.target_date,
             'status': formData?.status,
             'user_id': formData?.user_id,
-            'candidateInfo':allcandidate
+            'candidateInfo': allcandidate
         }
-        
+
         let data = await patchAPI('/updateJob', updatedValues);
         if (data) {
             closeModal();
             clear_candidates()
         }
     }
-   
+
 
     return (
         <div
@@ -368,7 +368,7 @@ function Modal({ data, closeModal }) {
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 text-base sm:text-sm"
-                                    // ref={datepickerRef1}
+                                // ref={datepickerRef1}
                                 />
                             </div>
                             <div className='w-50'>
@@ -386,7 +386,7 @@ function Modal({ data, closeModal }) {
                                 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                                 ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 text-base sm:text-sm"
-                                    // ref={datepickerRef2}
+                                // ref={datepickerRef2}
                                 />
                             </div>
                         </div>
@@ -399,7 +399,7 @@ function Modal({ data, closeModal }) {
                                 </label> */}
 
                                 {
-                                candidates[0]?.candidate_id != null ? ( 
+                                    candidates[0]?.candidate_id != null ? (
 
                                         <table className="border-collapse border-black w-full">
                                             <caption className="caption-top font-bold text-orange-800 p-8">
@@ -415,9 +415,9 @@ function Modal({ data, closeModal }) {
                                             <tbody className='border-2 p-5'>
 
                                                 {
-                                                    candidates.map((candidate,i) => <JobCandidate candidate = {candidate}/>
+                                                    candidates.map((candidate, i) => <JobCandidate candidate={candidate} />
                                                         // <jobCandidate candidate={candidate}/>
-                                                        
+
                                                         // <tr key={candidate.candidate_id} className='border-2 border-amber-900 '>
                                                         //     <td className='border-2 border-black p-2 m-2 w-1/5 text-center'>{candidate.first_name} {candidate.last_name}</td>
                                                         //     <td className='border-2 border-black p-2 m-10 w-1/6 text-center' style={{ color: candidate.status === 'Selected' ? 'Green' : candidate.status === 'Rejected' ? 'Red' : 'blue', fontSize: '16px' }}>
@@ -458,10 +458,10 @@ function Modal({ data, closeModal }) {
 
                                             </tbody>
                                         </table>
-                                     ) : (
+                                    ) : (
                                         <div className='m-2 p-1 border rounded bg-fuchsia-100 text-sm drop-shadow-md'>No Candidates Referred</div>
                                     )
-                                } 
+                                }
 
                             </div>
                         </div>

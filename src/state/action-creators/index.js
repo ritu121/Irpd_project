@@ -38,4 +38,22 @@ export const clear_candidates = ()=>{
     }
 }
 
+export const get_skills=(skills)=>{
+    return (dispatch)=>{
+        dispatch({
+            type:'all_skills',
+            payload:skills
+        })
+    }
+}
+export const  clear_skills =()=>{
+    return (dispatch)=>{
+        dispatch({
+            type:'clear_skills'
+        })
+    }
+}
+
+
+
 

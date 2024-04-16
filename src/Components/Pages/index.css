@@ -1,3 +1,5 @@
+
+
 @media only screen and (max-width: 720px) {
     html {
       font-size: 12px !important;
@@ -13,4 +15,16 @@
     display: -ms-flexbox;
     display: flex;
     justify-content: space-around !important;
+}
+
+.grid-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Define your grid columns */
+  gap: 10px; /* Adjust the gap between grid items */
+}
+
+@media only screen and (max-width: 600px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* Make the column take up full width on mobile */
+  }
 }

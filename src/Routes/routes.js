@@ -13,6 +13,7 @@ import NewRequest from '../Components/Pages/NewRequest';
 import AccessDeniedPage from '../Components/Pages/AccessDeniedPage';
 import Register_employee from '../Components/Pages/Register_employee';
 import Skills from '../Components/Pages/Skills';
+import Scheduler from '../Components/Pages/Scheduler';
 
 function routes() {
     return (
@@ -28,6 +29,7 @@ function routes() {
             <Route exact path="/accessDenied" element={<AccessDeniedPage/>} />
             <Route exact path="/register_employee" element={<Register_employee/>}/>
             <Route exact path="/skills" element={<Skills/>}/>
+            <Route exact path="/scheduler" element={<Scheduler/>}/>
         </Routes>
     )
 }

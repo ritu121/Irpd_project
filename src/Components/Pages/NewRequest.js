@@ -197,7 +197,7 @@ function NewRequest() {
 
 
                         <label for="certification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Certification</label>
-                        <textarea
+                        <textarea 
                             className="form-control shadow-md block  w-full px-3 py-1.5  
                             text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
                             ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
@@ -205,7 +205,8 @@ function NewRequest() {
                             placeholder="Please Enter Certification Name"
                             name='certification'
                             value={value.certification}
-                            onChange={handleInputChange} required ></textarea>
+                            onChange={handleInputChange} required >
+                        </textarea>
 
                         <div className='grid grid-cols-2 gap-2 '>
                             <div className='w-50'>
@@ -240,37 +241,58 @@ function NewRequest() {
                             </div>
                         </div>
 
-                        <div className='grid grid-cols-2 gap-2'>
-                            <div className='w-50'>
-                                <label for="qualification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Qualification</label>
-                                <input
-                                    type="text"
-                                    className="form-control shadow-md block  w-full px-3 py-1.5  
-                                    text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
-                                    ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                    text-base sm:text-sm "
-                                    id="qualification"
-                                    placeholder="Enter Qualification"
-                                    name='qualification'
-                                    value={value.qualification}
-                                    onChange={handleInputChange} required />
-                            </div>
-                            <div className='w-50'>
-                                <label for="buget" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Buget</label>
-                                <div className="relative  rounded-md shadow-sm">
-
-                                    <input type="text"
-                                        id="price" className="block w-full rounded-md border-0 py-1.5 pl-12 pr-10 text-gray-900 ring-1 sm:w-50
-                                        ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        placeholder="0.00"
-                                        name="buget"
-                                        value={value.buget}
+                        <div className='grid-container'>
+                            <div className=''>
+                                <div className="rounded-md shadow-sm">
+                                    <label for="qualification" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Qualification</label>
+                                    <input
+                                        type="text"
+                                        className=" w-full form-control shadow-md block  w-full px-3 py-1.5  
+                                        text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition 
+                                        ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                        text-base sm:text-sm "
+                                        id="qualification"
+                                        placeholder="Enter Qualification"
+                                        name='qualification'
+                                        value={value.qualification}
                                         onChange={handleInputChange} required />
-
-                                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                        <span className="text-gray-500 sm:text-sm">LPA</span>
+                                </div> 
+                            </div>
+                            <div className=''>
+                                <div className="rounded-md shadow-sm">
+                                    <label for="buget" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Buget</label>
+                                        <input type="number"
+                                            id="price" className="block w-full rounded-md border-0 py-1.5 pl-12 pr-10 text-gray-900 ring-1 sm:w-50
+                                            ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            placeholder="0.00"
+                                            name="buget"
+                                            value={value.buget}
+                                            onChange={handleInputChange} required />
+                                </div> 
+                            </div>
+                            <div className=''>
+                                <div className="rounded-md shadow-sm ">
+                                <label for="buget" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">currency</label>
+                                    <div class=" inset-y-0 right-0 flex items-center">
+                                        <label for="currency" className="sr-only">Currency</label>
+                                        <select id="currency" name="currency" className="block w-full rounded-md border-0 py-1.5 pl-12 pr-10 text-gray-900 ring-1 sm:w-50
+                                            ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                                        <option value="" disabled>Select Currency</option>
+                                            <option>RUP</option>
+                                            <option>USD</option>
+                                            <option>CAD</option>
+                                            <option>EUR</option>
+                                        </select>
                                     </div>
-                                    {/* <div class="absolute inset-y-0 right-0 flex items-center">
+                                </div> 
+                            </div>
+                        </div>
+
+
+                        {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3  w-25">
+                                <label for="buget" className="form-label inline-block mb-2 text-gray-700 text-base sm:text-sm mt-3">Curre</label>
+                                    </div>
+                                    <div class=" inset-y-0 right-0 flex items-center">
                                         <label for="currency" className="sr-only">Currency</label>
                                         <select id="currency" name="currency" className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" required>
                                         <option value="" disabled>Select Currency</option>
@@ -280,9 +302,6 @@ function NewRequest() {
                                             <option>EUR</option>
                                         </select>
                                     </div> */}
-                                </div>
-                            </div>
-                        </div>
 
 
                         <div className='grid grid-cols-2 gap-2 '>

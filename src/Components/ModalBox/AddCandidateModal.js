@@ -222,7 +222,7 @@ function AddCandidateModal({ closeModal }) {
     };
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
+            className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay z-40"
             onClick={handleOutsideClick}
         >
             <div className='flex justify-center min-w-screen p-4 mt-6 h-5/6 sm:w-90 md:w-3/5 lg:w-3/5 overflow-y-auto bg-white rounded-md'>

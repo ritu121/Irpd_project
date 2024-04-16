@@ -4,6 +4,11 @@ import {store} from './state/store';
 import PageRoutes from './Routes/routes';
 import { Provider } from 'react-redux';
 
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
+
+
+
 
 
 function App() {

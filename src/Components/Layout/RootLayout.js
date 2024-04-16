@@ -24,6 +24,7 @@ import { FaUsers } from "react-icons/fa6";
 import { FaAddressCard } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { PiUserSwitchFill } from "react-icons/pi";
+import { AiOutlineSchedule } from "react-icons/ai";
 import { GiSkills } from "react-icons/gi";
 import logo from '../../assets/logo2.png'
 import logo2 from '../../assets/logo3.jpg'
@@ -99,6 +100,12 @@ function RootLayout(props) {
           <div className={`px-4 py-3 space-x-4  mx-2 flex rounded-md text-black-500 group ${location.pathname === '/skills' ? 'bg-[#0a1c38] text-white' : ''} `}>
             <GiSkills size={23} className="min-w-max"/>
             <span>Skills</span>
+          </div>
+        </NavLink>
+        <NavLink to={"/scheduler"} className="link ">
+          <div className={`px-4 py-3 space-x-4  mx-2 flex rounded-md text-black-500 group ${location.pathname === '/scheduler' ? 'bg-[#0a1c38] text-white' : ''} `}>
+            <AiOutlineSchedule size={23} className="min-w-max"/>
+            <span>Scheduler</span>
           </div>
         </NavLink>
 
