@@ -48,7 +48,7 @@ function ViewModal({ data, closeModal }) {
             className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center overflow-auto modal-overlay"
             onClick={handleOutsideClick}
         >
-            <div className='flex justify-center min-w-screen p-4 mt-6 h-[80%] w-4/6 overflow-y-auto bg-white rounded-md'>
+            <div className='flex justify-center min-w-screen p-4 mt-20 h-[80%] w-4/6 overflow-y-auto bg-white rounded-md'>
                 <div className='w-full border-sky-500 w-5/6 rounded-lg'>
                     <p className='text-zinc-950 text-2xl p-5 font-extrabold text-base sm:text-sm md:text-base lg:text-lg xl:text-xl text-center'>View Job Request</p>
                     <div className='grid m-2 p-5 w-full'>

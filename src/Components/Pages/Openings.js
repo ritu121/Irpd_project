@@ -132,6 +132,7 @@ const handleValueChange = async(newValue) => {
         <Tab sx={{ color: 'red', borderRadius: '5px' }} label="Active" value={'Active'}   {...a11yProps(1)} />
         <Tab sx={{ color: '#ad04cf', borderRadius: '5px' }} label="InActive" value={'InActive'}{...a11yProps(2)} />
       </Tabs>
+      
 
       <CustomTabPanel value={value} index={0} tab={'Open'}>
         <ListData jobData={jobData} status={'Current'} OpeningData={OpeningData} />

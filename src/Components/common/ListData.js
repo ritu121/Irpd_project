@@ -54,7 +54,7 @@ function ListData({ jobData, status, OpeningData }) {
 
                     jobData?.map((item, i) => (
 
-                        <div className="bg-white m-0 p-2 rounded-lg border border-gray-200 mb-4 shadow-md ">
+                        <div className="bg-white m-0 p-2 rounded-lg border border-gray-200 mb-4 shadow-md w-4/5">
 
                             <div className="flex items-center space-x-5 ">
 

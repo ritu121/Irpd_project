@@ -80,7 +80,6 @@ function Candidates() {
   }
 
 
-
   const OpenAlert = (item, txt) => {
     setAction(txt)
     if (action === 'download') {
@@ -159,11 +158,7 @@ function Candidates() {
 
       setCandidates(Array)
     }
-
-   
   }
-
-
 
 
   return (
@@ -176,7 +171,7 @@ function Candidates() {
           <Button title={'Add Candidate'} ></Button>
         </div>
       </div>
-
+     
       <div className='flex flex-wrap w-auto'>
         {
           candidates.map((item) => (
