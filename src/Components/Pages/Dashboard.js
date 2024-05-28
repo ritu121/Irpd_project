@@ -90,9 +90,6 @@ function Dashboard() {
             candidateCountsMap.set(jobId, 1);
           }
         });
-
-        console.log(candidateCountsMap, "candidateCountsMap");
-
         // Convert the map to an array where each element corresponds to a job's candidate count
         const counts = jobsData.map((job) => candidateCountsMap.get(job.job_id) || 0);
         setCandidateCount(counts);
@@ -103,8 +100,6 @@ function Dashboard() {
     }
 
   }
-
-  console.log(candidateCount, 'candidateCount');
 
   return (
     <RootLayout>
@@ -181,7 +176,6 @@ function Dashboard() {
               },
             ],
           }}
-        // style={{ width: '50%', margin: '0 auto', padding: '20px' }} // Example inline styles
         />
       </div>
 
